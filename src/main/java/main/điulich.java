@@ -8,12 +8,12 @@ package main;
  *
  * @author MINH NHUT
  */
-public class chupabimonhanho extends javax.swing.JFrame {
+public class điulich extends javax.swing.JFrame {
 
     /**
-     * Creates new form chupabimonhanho
+     * Creates new form điulich
      */
-    public chupabimonhanho() {
+    public điulich() {
         initComponents();
     }
 
@@ -59,20 +59,20 @@ public class chupabimonhanho extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(chupabimonhanho.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(điulich.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(chupabimonhanho.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(điulich.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(chupabimonhanho.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(điulich.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(chupabimonhanho.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(điulich.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new chupabimonhanho().setVisible(true);
+                new điulich().setVisible(true);
             }
         });
     }
