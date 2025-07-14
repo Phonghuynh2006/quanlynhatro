@@ -19,11 +19,33 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     public quanlynhatro() {
         initComponents();
         this.init();
-        ManagerButtons();
+//        ManagerButtons();
     }
     
 
-    @Override
+//    @Override
+//    public void init() {
+//        this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
+//        this.setLocationRelativeTo(null);
+//
+//        this.showWelcomeJDialog(this);
+//        this.showLoginJDialog(this);
+//
+//        // Hiển thị thông tin người dùng
+//        if (XAuth.user != null) {
+//            // Đặt ảnh đại diện
+//            XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
+//            // Đặt họ tên
+//            lblfullname.setText(XAuth.user.getFullname());
+//
+//            // Ẩn toàn bộ panel quản trị nếu không phải admin
+//            if (!XAuth.user.isVaiTro()) {
+//                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
+//            }
+//        }
+//    }
+
+@Override
     public void init() {
         this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
         this.setLocationRelativeTo(null);
@@ -31,29 +53,64 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         this.showWelcomeJDialog(this);
         this.showLoginJDialog(this);
 
-        // Hiển thị thông tin người dùng
+        // Nếu login thành công
         if (XAuth.user != null) {
-            // Đặt ảnh đại diện
+            // Hiển thị thông tin người dùng
             XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
-            // Đặt họ tên
             lblfullname.setText(XAuth.user.getFullname());
 
-            // Ẩn toàn bộ panel quản trị nếu không phải admin
+            // Nếu không phải admin thì ẩn panel quản lý
             if (!XAuth.user.isVaiTro()) {
-                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
+                jPanel1.setVisible(false);
             }
+
+            // GỌI HÀM HIỂN THỊ NÚT SAU ĐĂNG NHẬP
+            ManagerButtons();
         }
     }
 
-    private void ManagerButtons() {
-        boolean isManager = XAuth.user != null && XAuth.user.isVaiTro();
-        jButton1.setVisible(isManager);
-        jButton2.setVisible(isManager);
-        jButton3.setVisible(isManager);
-        jButton4.setVisible(isManager);
-        jButton5.setVisible(isManager);
-        jButton8.setVisible(isManager);
+    public void ManagerButtons() {
+        // Ẩn tất cả trước
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jButton4.setVisible(false);
+        jButton5.setVisible(false);
+        jButton6.setVisible(false);
+        jButton7.setVisible(false);
+        jButton8.setVisible(false);
+        jButton9.setVisible(false);
+        jButton10.setVisible(false);
+        jButton11.setVisible(false);
+        jButton12.setVisible(false);
+
+        if (!XAuth.isLogin()) return;
+
+        // Nút dùng chung
+        jButton6.setVisible(true);
+        jButton7.setVisible(true);
+        jButton9.setVisible(true);
+
+        if (XAuth.user.isVaiTro()) {
+            // Admin
+            jButton1.setVisible(true);
+            jButton2.setVisible(true);
+            jButton3.setVisible(true);
+            jButton4.setVisible(true);
+            jButton5.setVisible(true);
+            jButton8.setVisible(true);
+        } else {
+            // User
+            jButton10.setVisible(true);
+            jButton11.setVisible(true);
+            jButton12.setVisible(true);
+        }
     }
+
+
+
+
+
 
 
 

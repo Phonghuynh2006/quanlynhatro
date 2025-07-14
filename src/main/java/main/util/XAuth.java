@@ -25,15 +25,15 @@ public class XAuth {
     public static TaiKhoan user;
 
     // Gán tạm giá trị test (có thể xóa đi khi có login thực tế)
-    static {
-        user = TaiKhoan.builder()
-                .tenDangNhap("admin1")
-                .matKhau("123456")
-                .vaiTro(true) // true = Admin, false = Người thuê
-                .fullname("Nguyễn Văn Tèo")
-                .photo("admin.png")
-                .build();
-    }
+//    static {
+//        user = TaiKhoan.builder()
+//                .tenDangNhap("admin1")
+//                .matKhau("123456")
+//                .vaiTro(true) // true = Admin, false = Người thuê
+//                .fullname("Nguyễn Văn Tèo")
+//                .photo("admin.png")
+//                .build();
+//    }
 
     // Kiểm tra đã đăng nhập hay chưa
     public static boolean isLogin() {
