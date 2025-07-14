@@ -95,6 +95,11 @@ public void login() {
         jLabel4.setText("Mật Khẩu");
 
         jButton1.setText("Đăng Nhập");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Quên Mật Khẩu");
 
@@ -171,6 +176,11 @@ public void login() {
         // TODO add your handling code here:
                 this.showdangkyJDialog((JFrame) this.getOwner());
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        login();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
