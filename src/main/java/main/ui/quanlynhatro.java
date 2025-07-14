@@ -25,7 +25,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
 
     @Override
     public void init() {
-        this.setIconImage(XIcon.getIcon("trump-small.png").getImage());
+        this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
         this.setLocationRelativeTo(null);
 
         this.showWelcomeJDialog(this);
@@ -34,7 +34,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         // Hiển thị thông tin người dùng
         if (XAuth.user != null) {
             // Đặt ảnh đại diện
-            XIcon.setIcon(lblphoto, "D:/polycafe/cafe/icons/" + XAuth.user.getPhoto());
+            XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
             // Đặt họ tên
             lblfullname.setText(XAuth.user.getFullname());
 

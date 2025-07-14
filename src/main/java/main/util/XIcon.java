@@ -32,7 +32,7 @@ public class XIcon {
 //    }
     public static ImageIcon getIcon(String path) {
     if (!path.contains("/") && !path.contains("\\")) { // chỉ tên file, không có dấu /
-        return XIcon.getIcon("/polycafe/cafe/icons/" + path);
+        return XIcon.getIcon("D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + path);
     }
 
     if (path.startsWith("/")) { // path dạng resource
