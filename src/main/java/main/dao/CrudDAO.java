@@ -3,15 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package main.dao;
+import java.util.List;
 
-import main.entity.TaiKhoan;
 
 /**
  *
  * @author PHONG
+ * @param <T>
+ * @param <ID>
  */
-public interface TaiKhoanDAO extends CrudDAO<TaiKhoan, String> {
-    
-    boolean isTenDangNhapTonTai(String tenDangNhap);
-    
+public interface CrudDAO<T, ID> {
+        T create(T entity); 
+    void update(T entity); 
+    void deleteById(ID id); 
+    List<T> findAll(); 
+    T findById(ID id); 
+
 }
