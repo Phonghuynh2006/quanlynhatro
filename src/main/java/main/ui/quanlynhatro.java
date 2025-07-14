@@ -4,6 +4,9 @@
  */
 package main.ui;
 
+import main.util.XAuth;
+import main.util.XIcon;
+
 /**
  *
  * @author PHONG
@@ -16,18 +19,44 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     public quanlynhatro() {
         initComponents();
         this.init();
+        ManagerButtons();
     }
     
-        @Override 
-    public void init() { 
-//        this.setIconImage(XIcon.getIcon("trump-small.png").getImage()); 
-        this.setLocationRelativeTo(null); 
 
-        this.showWelcomeJDialog(this); 
-        this.showLoginJDialog(this); 
-               
+    @Override
+    public void init() {
+        this.setIconImage(XIcon.getIcon("trump-small.png").getImage());
+        this.setLocationRelativeTo(null);
 
-}
+        this.showWelcomeJDialog(this);
+        this.showLoginJDialog(this);
+
+        // Hiển thị thông tin người dùng
+        if (XAuth.user != null) {
+            // Đặt ảnh đại diện
+            XIcon.setIcon(lblphoto, "D:/polycafe/cafe/icons/" + XAuth.user.getPhoto());
+            // Đặt họ tên
+            lblfullname.setText(XAuth.user.getFullname());
+
+            // Ẩn toàn bộ panel quản trị nếu không phải admin
+            if (!XAuth.user.isVaiTro()) {
+                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
+            }
+        }
+    }
+
+    private void ManagerButtons() {
+        boolean isManager = XAuth.user != null && XAuth.user.isVaiTro();
+        jButton1.setVisible(isManager);
+        jButton2.setVisible(isManager);
+        jButton3.setVisible(isManager);
+        jButton4.setVisible(isManager);
+        jButton5.setVisible(isManager);
+        jButton8.setVisible(isManager);
+    }
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,8 +68,8 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblphoto = new javax.swing.JLabel();
+        lblfullname = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -62,9 +91,9 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         jLabel1.setForeground(new java.awt.Color(255, 0, 255));
         jLabel1.setText("Nhà Trọ DESTINY");
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/avartar.jpg"))); // NOI18N
+        lblphoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/avartar.jpg"))); // NOI18N
 
-        jLabel3.setText("PHONG HUYNH");
+        lblfullname.setText("PHONG HUYNH");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -116,10 +145,10 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblphoto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(lblfullname)
                         .addGap(69, 69, 69)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,9 +164,9 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblphoto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3))
+                        .addComponent(lblfullname))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
@@ -197,10 +226,10 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblfullname;
+    private javax.swing.JLabel lblphoto;
     // End of variables declaration//GEN-END:variables
 
 

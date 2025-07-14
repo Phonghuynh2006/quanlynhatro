@@ -6,7 +6,9 @@ package main.ui;
 
 import javax.swing.JFrame;
 import main.dao.TaiKhoanDAO;
+import main.entity.TaiKhoan;
 import main.impl.TaiKhoanDAOImpl;
+import main.util.XAuth;
 import main.util.XDialog;
 
 /**
@@ -28,23 +30,36 @@ public void open() {
     this.setLocationRelativeTo(null); 
 } 
  
-@Override 
-public void login() { 
-    String username = txtUsername.getText(); 
-    String password = txtPassword.getText(); 
-//    TaiKhoanDAO dao = new TaiKhoanDAOImpl(); 
-//TaiKhoan user = dao.findById(username); 
-//if (user == null) { 
-//XDialog.alert("Không được để trống!"); 
-//} else if (!password.equals(user.getPassword())) { 
-//XDialog.alert("Sai mật khẩu đăng nhập!"); 
-//} else if (!user.isEnabled()) { 
-//XDialog.alert("Tài khoản của bạn đang tạm dừng!"); 
-//} else { 
-////XAuth.user = user; // duy trì user đăng nhập 
-//this.dispose(); 
-//} 
-} 
+@Override
+public void login() {
+    String username = txtUsername.getText().trim();
+    String password = txtPassword.getText().trim(); 
+
+
+    if (username.isEmpty() || password.isEmpty()) {
+        XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
+        return;
+    }
+
+    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
+    TaiKhoan user = dao.findById(username);
+
+    if (user == null) {
+        XDialog.alert("Tài khoản không tồn tại!");
+    } else if (!password.equals(user.getMatKhau())) {
+        XDialog.alert("Mật khẩu không đúng!");
+    } else {
+        // Gán user cho XAuth để sử dụng toàn hệ thống
+        XAuth.user = user;
+
+        // Thông báo hoặc log nếu cần
+        System.out.println("Đăng nhập thành công: " + user.getFullname());
+
+        // Đóng form sau khi đăng nhập thành công
+        this.dispose();
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.

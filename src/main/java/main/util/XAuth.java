@@ -19,4 +19,30 @@ public class XAuth {
 //            .fullname("Nguyễn Văn Tèo") 
 //            .photo("trump.png") 
 //            .build(); // biến user này sẽ được thay thế sau khi đăng nhập 
+
+
+    // Biến toàn cục dùng để lưu thông tin tài khoản đăng nhập hiện tại
+    public static TaiKhoan user;
+
+    // Gán tạm giá trị test (có thể xóa đi khi có login thực tế)
+    static {
+        user = TaiKhoan.builder()
+                .tenDangNhap("admin1")
+                .matKhau("123456")
+                .vaiTro(true) // true = Admin, false = Người thuê
+                .fullname("Nguyễn Văn Tèo")
+                .photo("admin.png")
+                .build();
+    }
+
+    // Kiểm tra đã đăng nhập hay chưa
+    public static boolean isLogin() {
+        return user != null;
+    }
+
+    // Đăng xuất
+    public static void logoff() {
+        user = null;
+    }
+
 }
