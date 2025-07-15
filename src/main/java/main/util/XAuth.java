@@ -11,17 +11,6 @@ import main.entity.TaiKhoan;
  * @author PHONG
  */
 public class XAuth {
-//    public static TaiKhoan user = TaiKhoan.builder() 
-//            .username("user1@") 
-//            .password("123") 
-//            .enabled(true) 
-//            .manager(true) 
-//            .fullname("Nguyễn Văn Tèo") 
-//            .photo("trump.png") 
-//            .build(); // biến user này sẽ được thay thế sau khi đăng nhập 
-
-
-    // Biến toàn cục dùng để lưu thông tin tài khoản đăng nhập hiện tại
     public static TaiKhoan user;
 
     // Gán tạm giá trị test (có thể xóa đi khi có login thực tế)

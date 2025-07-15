@@ -30,39 +30,11 @@ public void open() {
     this.setLocationRelativeTo(null); 
 } 
  
-//@Override
-//public void login() {
-//    String username = txtUsername.getText().trim();
-//    String password = txtPassword.getText().trim(); 
-//
-//
-//    if (username.isEmpty() || password.isEmpty()) {
-//        XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
-//        return;
-//    }
-//
-//    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-//    TaiKhoan user = dao.findById(username);
-//
-//    if (user == null) {
-//        XDialog.alert("Tài khoản không tồn tại!");
-//    } else if (!password.equals(user.getMatKhau())) {
-//        XDialog.alert("Mật khẩu không đúng!");
-//    } else {
-//        // Gán user cho XAuth để sử dụng toàn hệ thống
-//        XAuth.user = user;
-//
-//        // Thông báo hoặc log nếu cần
-//        System.out.println("Đăng nhập thành công: " + user.getFullname());
-//
-//        // Đóng form sau khi đăng nhập thành công
-//        this.dispose();
-//    }
-//}
 @Override
 public void login() {
     String username = txtUsername.getText().trim();
     String password = txtPassword.getText().trim(); 
+
 
     if (username.isEmpty() || password.isEmpty()) {
         XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
@@ -77,21 +49,17 @@ public void login() {
     } else if (!password.equals(user.getMatKhau())) {
         XDialog.alert("Mật khẩu không đúng!");
     } else {
-        // Gán user đăng nhập
+        // Gán user cho XAuth để sử dụng toàn hệ thống
         XAuth.user = user;
 
-        // In log (tuỳ ý)
+        // Thông báo hoặc log nếu cần
         System.out.println("Đăng nhập thành công: " + user.getFullname());
 
-        // GỌI LẠI HÀM hiển thị nút từ form chính
-        if (getOwner() instanceof quanlynhatro) {
-            ((quanlynhatro) getOwner()).ManagerButtons();
-        }
-
-        // Đóng dialog
+        // Đóng form sau khi đăng nhập thành công
         this.dispose();
     }
 }
+
 
 
     /**

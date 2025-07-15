@@ -19,33 +19,11 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     public quanlynhatro() {
         initComponents();
         this.init();
-//        ManagerButtons();
+        ManagerButtons();
     }
     
 
-//    @Override
-//    public void init() {
-//        this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
-//        this.setLocationRelativeTo(null);
-//
-//        this.showWelcomeJDialog(this);
-//        this.showLoginJDialog(this);
-//
-//        // Hiển thị thông tin người dùng
-//        if (XAuth.user != null) {
-//            // Đặt ảnh đại diện
-//            XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
-//            // Đặt họ tên
-//            lblfullname.setText(XAuth.user.getFullname());
-//
-//            // Ẩn toàn bộ panel quản trị nếu không phải admin
-//            if (!XAuth.user.isVaiTro()) {
-//                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
-//            }
-//        }
-//    }
-
-@Override
+    @Override
     public void init() {
         this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
         this.setLocationRelativeTo(null);
@@ -53,66 +31,43 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         this.showWelcomeJDialog(this);
         this.showLoginJDialog(this);
 
-        // Nếu login thành công
+        // Hiển thị thông tin người dùng
         if (XAuth.user != null) {
-            // Hiển thị thông tin người dùng
+            // Đặt ảnh đại diện
             XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
+            // Đặt họ tên
             lblfullname.setText(XAuth.user.getFullname());
 
-            // Nếu không phải admin thì ẩn panel quản lý
+            // Ẩn toàn bộ panel quản trị nếu không phải admin
             if (!XAuth.user.isVaiTro()) {
-                jPanel1.setVisible(false);
+                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
             }
-
-            // GỌI HÀM HIỂN THỊ NÚT SAU ĐĂNG NHẬP
-            ManagerButtons();
-        }
-    }
-
-    public void ManagerButtons() {
-        // Ẩn tất cả trước
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
-        jButton3.setVisible(false);
-        jButton4.setVisible(false);
-        jButton5.setVisible(false);
-        jButton6.setVisible(false);
-        jButton7.setVisible(false);
-        jButton8.setVisible(false);
-        jButton9.setVisible(false);
-        jButton10.setVisible(false);
-        jButton11.setVisible(false);
-        jButton12.setVisible(false);
-
-        if (!XAuth.isLogin()) return;
-
-        // Nút dùng chung
-        jButton6.setVisible(true);
-        jButton7.setVisible(true);
-        jButton9.setVisible(true);
-
-        if (XAuth.user.isVaiTro()) {
-            // Admin
-            jButton1.setVisible(true);
-            jButton2.setVisible(true);
-            jButton3.setVisible(true);
-            jButton4.setVisible(true);
-            jButton5.setVisible(true);
-            jButton8.setVisible(true);
-        } else {
-            // User
-            jButton10.setVisible(true);
-            jButton11.setVisible(true);
-            jButton12.setVisible(true);
         }
     }
 
 
 
+public void ManagerButtons() {
+    // Luôn hiển thị các nút dùng chung
+    jPanel2.setVisible(true);
 
+    if (!XAuth.isLogin()) {
+        // Nếu chưa đăng nhập thì ẩn hết admin & user panel
+        jPanel1.setVisible(false); // admin
+        jPanel3.setVisible(false); // user
+        return;
+    }
 
-
-
+    if (XAuth.user.isVaiTro()) {
+        // Nếu là Admin
+        jPanel1.setVisible(true);  // Hiện admin
+        jPanel3.setVisible(false); // Ẩn user
+    } else {
+        // Nếu là User
+        jPanel1.setVisible(false); // Ẩn admin
+        jPanel3.setVisible(true);  // Hiện user
+    }
+}
 
 
     /**
@@ -133,6 +88,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -170,14 +126,19 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         jButton5.setText("Quản Lý Khách Thuê");
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 140, 50));
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jButton10.setText("Thông Tin Người Thuê");
-        jPanel1.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, 50));
+        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, 50));
 
         jButton11.setText("Xem Hóa Đơn");
-        jPanel1.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
+        jPanel3.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
 
         jButton12.setText("Xem Phòng");
-        jPanel1.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
+        jPanel3.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 147));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -199,7 +160,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblphoto, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,9 +170,9 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
                         .addGap(69, 69, 69)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +189,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -285,6 +246,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblfullname;
     private javax.swing.JLabel lblphoto;
     // End of variables declaration//GEN-END:variables
