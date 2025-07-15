@@ -52,20 +52,43 @@ public void ManagerButtons() {
     jPanel2.setVisible(true);
 
     if (!XAuth.isLogin()) {
-        // Nếu chưa đăng nhập thì ẩn hết admin & user panel
-        jPanel1.setVisible(false); // admin
-        jPanel3.setVisible(false); // user
+        // Nếu chưa đăng nhập thì ẩn cả admin và user
+        jPanel1.setVisible(false);
+        jPanel3.setVisible(false);
         return;
     }
 
     if (XAuth.user.isVaiTro()) {
         // Nếu là Admin
-        jPanel1.setVisible(true);  // Hiện admin
-        jPanel3.setVisible(false); // Ẩn user
+        jPanel3.setVisible(false); // Ẩn nút người dùng
+
+        // Hiện từng nút admin cụ thể
+        jButton1.setVisible(true);
+        jButton2.setVisible(true);
+        jButton3.setVisible(true);
+        jButton4.setVisible(true);
+        jButton5.setVisible(true);
+        jButton8.setVisible(true);
+
+        jPanel1.setVisible(true); // Đảm bảo admin panel hiển thị
+
     } else {
         // Nếu là User
-        jPanel1.setVisible(false); // Ẩn admin
-        jPanel3.setVisible(true);  // Hiện user
+        jPanel1.setVisible(true); // Vẫn hiện panel, nhưng ẩn nút admin
+
+        // Ẩn toàn bộ nút admin bên trong jPanel1
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jButton4.setVisible(false);
+        jButton5.setVisible(false);
+        jButton8.setVisible(false);
+
+        // Hiện các nút user
+        jPanel3.setVisible(true);
+        jButton10.setVisible(true);
+        jButton11.setVisible(true);
+        jButton12.setVisible(true);
     }
 }
 
@@ -138,7 +161,7 @@ public void ManagerButtons() {
         jButton12.setText("Xem Phòng");
         jPanel3.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 147));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 130));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
