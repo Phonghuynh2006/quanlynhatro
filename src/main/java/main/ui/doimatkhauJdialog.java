@@ -5,7 +5,10 @@
 package main.ui;
 
 import main.util.XDialog;
-
+import main.dao.TaiKhoanDAO;
+import main.entity.TaiKhoan;
+import main.impl.TaiKhoanDAOImpl;
+import main.util.XDialog;
 /**
  *
  * @author PHONG
@@ -20,65 +23,58 @@ public class doimatkhauJdialog extends javax.swing.JDialog implements doimatkhau
         initComponents();
     }
 
-        
-//    UserDAO dao = new UserDAOImpl(); 
-     
-@Override 
-public void open() { 
-    this.setLocationRelativeTo(null); 
-} 
- 
-@Override 
-public void close() { 
-    this.dispose(); 
-} 
- 
-@Override 
-public void save() { 
-//            if (!isValidForm()) return;
-    String username = txtUsername.getText(); 
-    String password = txtPassword.getText(); 
-    String newpass = txtNewpass.getText(); 
-    String confirm = txtConfirm.getText(); 
-if (!newpass.equals(confirm)) { 
-XDialog.alert("Xác nhận mật khẩu không đúng!"); 
-//} else if (!username.equals(XAuth.user.getUsername())) { 
-//XDialog.alert("Sai tên đăng nhập!"); 
-//} else if (!password.equals(XAuth.user.getPassword())) { 
-//XDialog.alert("Sai mật khẩu!"); 
-//} else { 
-//XAuth.user.setPassword(newpass); 
-//dao.update(XAuth.user); 
-//XDialog.alert("Đổi mật khẩu thành công!"); 
-} 
-}
+    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
 
-//// lab8
-//private boolean isValidForm() {
-//    if (txtUsername.getText().trim().isEmpty()) {
-//        XDialog.alert("Vui lòng nhập tên!");
-//        txtUsername.requestFocus();
-//        return false;
-//    }
-//
-//    if (txtPassword.getText().trim().isEmpty()) {
-//        XDialog.alert("Vui lòng nhập mật khẩu!");
-//        txtPassword.requestFocus();
-//        return false;
-//    }
-//    if (txtNewpass.getText().trim().isEmpty()) {
-//        XDialog.alert("Vui lòng nhập mật khẩu mới!");
-//        txtNewpass.requestFocus();
-//        return false;
-//    }
-//
-//    if (txtConfirm.getText().trim().isEmpty()) {
-//        XDialog.alert("Vui lòng nhập lại mật khẩu mới!");
-//        txtConfirm.requestFocus();
-//        return false;
-//    }
-//    return true;
-//}
+    @Override
+    public void open() {
+        this.setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void close() {
+        this.dispose();
+    }
+
+    @Override
+    public void save() {
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
+        String newpass = txtNewpass.getText().trim();
+        String confirm = txtConfirm.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty() || newpass.isEmpty() || confirm.isEmpty()) {
+            XDialog.alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        if (!newpass.equals(confirm)) {
+            XDialog.alert("Xác nhận mật khẩu không đúng!");
+            return;
+        }
+
+        TaiKhoan user = dao.findById(username);
+        if (user == null) {
+            XDialog.alert("Không tìm thấy tài khoản!");
+            return;
+        }
+
+        if (!user.getMatKhau().equals(password)) {
+            XDialog.alert("Mật khẩu hiện tại không đúng!");
+            return;
+        }
+
+        user.setMatKhau(newpass);
+        try {
+            dao.update(user);
+            XDialog.alert("Đổi mật khẩu thành công!");
+            this.dispose();
+        } catch (Exception e) {
+            XDialog.alert("Lỗi khi đổi mật khẩu: " + e.getMessage());
+        }
+    }
+
+
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -185,7 +181,7 @@ XDialog.alert("Xác nhận mật khẩu không đúng!");
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

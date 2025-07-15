@@ -36,9 +36,9 @@ public interface quanlynhatroController {
     default void showLoginJDialog(JFrame frame){
         this.showJDialog(new dangnhapJdialog(frame, true));
     }
-//    default void showChangePasswordJDialog(JFrame frame){
-//        this.showJDialog(new ChangePasswordJDialog(frame, true));
-//    }
+    default void showChangePasswordJDialog(JFrame frame){
+        this.showJDialog(new doimatkhauJdialog(frame, true));
+    }
 //    default void showSalesJDialog(JFrame frame){
 //        this.showJDialog(new SalesJDialog(frame, true));
 //    }
