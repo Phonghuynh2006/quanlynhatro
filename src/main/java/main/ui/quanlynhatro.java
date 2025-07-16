@@ -58,12 +58,12 @@ public void ManagerButtons() {
 
     if (XAuth.user.isVaiTro()) {
         jPanel3.setVisible(false); 
-        jButton1.setVisible(true);
-        jButton2.setVisible(true);
-        jButton3.setVisible(true);
-        jButton4.setVisible(true);
-        jButton5.setVisible(true);
-        jButton8.setVisible(true);
+        btnquanlytaikhoan.setVisible(true);
+        btnquanlyphong.setVisible(true);
+        btnquanlyhoadon.setVisible(true);
+        btnquanlyhopdong.setVisible(true);
+        btnquanlykhachthue.setVisible(true);
+        btndoanhthu.setVisible(true);
 
         jPanel1.setVisible(true); 
 
@@ -71,16 +71,16 @@ public void ManagerButtons() {
         jPanel1.setVisible(true);
 
         
-        jButton1.setVisible(false);
-        jButton2.setVisible(false);
-        jButton3.setVisible(false);
-        jButton4.setVisible(false);
-        jButton5.setVisible(false);
-        jButton8.setVisible(false);
+        btnquanlytaikhoan.setVisible(false);
+        btnquanlyphong.setVisible(false);
+        btnquanlyhoadon.setVisible(false);
+        btnquanlyhopdong.setVisible(false);
+        btnquanlykhachthue.setVisible(false);
+        btndoanhthu.setVisible(false);
         jPanel3.setVisible(true);
-        jButton10.setVisible(true);
-        jButton11.setVisible(true);
-        jButton12.setVisible(true);
+        btnthongtinnguoithue.setVisible(true);
+        btnxemhoadon.setVisible(true);
+        btnxemphong.setVisible(true);
     }
 }
 
@@ -98,20 +98,20 @@ public void ManagerButtons() {
         lblphoto = new javax.swing.JLabel();
         lblfullname = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnquanlytaikhoan = new javax.swing.JButton();
+        btnquanlyphong = new javax.swing.JButton();
+        btnquanlyhoadon = new javax.swing.JButton();
+        btnquanlyhopdong = new javax.swing.JButton();
+        btnquanlykhachthue = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnthongtinnguoithue = new javax.swing.JButton();
+        btnxemhoadon = new javax.swing.JButton();
+        btnxemphong = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
+        btndoimatkhau = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btndoanhthu = new javax.swing.JButton();
+        btnketthuc = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,54 +126,109 @@ public void ManagerButtons() {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("Quản Lý Tài Khoản");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
+        btnquanlytaikhoan.setText("Quản Lý Tài Khoản");
+        btnquanlytaikhoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquanlytaikhoanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnquanlytaikhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
 
-        jButton2.setText("Quản Lý Phòng");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 50));
+        btnquanlyphong.setText("Quản Lý Phòng");
+        btnquanlyphong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquanlyphongActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnquanlyphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 50));
 
-        jButton3.setText("Quản Lý Hóa Đơn");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
+        btnquanlyhoadon.setText("Quản Lý Hóa Đơn");
+        btnquanlyhoadon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquanlyhoadonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnquanlyhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
 
-        jButton4.setText("Quản Lý Hợp Đồng");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 140, 50));
+        btnquanlyhopdong.setText("Quản Lý Hợp Đồng");
+        btnquanlyhopdong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquanlyhopdongActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnquanlyhopdong, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 140, 50));
 
-        jButton5.setText("Quản Lý Khách Thuê");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 140, 50));
+        btnquanlykhachthue.setText("Quản Lý Khách Thuê");
+        btnquanlykhachthue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquanlykhachthueActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnquanlykhachthue, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 140, 50));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton10.setText("Thông Tin Người Thuê");
-        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, 50));
+        btnthongtinnguoithue.setText("Thông Tin Người Thuê");
+        btnthongtinnguoithue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthongtinnguoithueActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnthongtinnguoithue, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, 50));
 
-        jButton11.setText("Xem Hóa Đơn");
-        jPanel3.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
+        btnxemhoadon.setText("Xem Hóa Đơn");
+        btnxemhoadon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxemhoadonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnxemhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
 
-        jButton12.setText("Xem Phòng");
-        jPanel3.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
+        btnxemphong.setText("Xem Phòng");
+        btnxemphong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxemphongActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnxemphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 130));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton6.setText("Đổi Mật Khẩu");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btndoimatkhau.setText("Đổi Mật Khẩu");
+        btndoimatkhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btndoimatkhauActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, 50));
+        jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, 50));
 
         jButton7.setText("Lịch Sử");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 100, 50));
 
-        jButton8.setText("Doanh Thu");
-        jPanel2.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 90, 50));
+        btndoanhthu.setText("Doanh Thu");
+        btndoanhthu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndoanhthuActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 90, 50));
 
-        jButton9.setText("Kết Thúc");
-        jPanel2.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 90, 50));
+        btnketthuc.setText("Kết Thúc");
+        btnketthuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnketthucActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnketthuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 90, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -215,10 +270,64 @@ public void ManagerButtons() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btndoimatkhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndoimatkhauActionPerformed
         // TODO add your handling code here:
                 new doimatkhauJdialog(this, true).setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btndoimatkhauActionPerformed
+
+    private void btnquanlytaikhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquanlytaikhoanActionPerformed
+        // TODO add your handling code here:
+        showquanlytaikhoanJdialog(this);
+    }//GEN-LAST:event_btnquanlytaikhoanActionPerformed
+
+    private void btnquanlyphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquanlyphongActionPerformed
+        // TODO add your handling code here:
+        showquanlyphongJdialog(this);
+    }//GEN-LAST:event_btnquanlyphongActionPerformed
+
+    private void btnquanlyhoadonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquanlyhoadonActionPerformed
+        // TODO add your handling code here:
+        showquanlyhoadonJdialog(this);
+    }//GEN-LAST:event_btnquanlyhoadonActionPerformed
+
+    private void btnquanlyhopdongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquanlyhopdongActionPerformed
+        // TODO add your handling code here:
+        showquanlyhopdongJdialog(this);
+    }//GEN-LAST:event_btnquanlyhopdongActionPerformed
+
+    private void btnquanlykhachthueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquanlykhachthueActionPerformed
+        // TODO add your handling code here:
+        showquanlykhachthueJdialog(this);
+    }//GEN-LAST:event_btnquanlykhachthueActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btnketthucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnketthucActionPerformed
+        // TODO add your handling code here:
+        exit(); // Gọi method exit() trong interface để thoát
+    }//GEN-LAST:event_btnketthucActionPerformed
+
+    private void btndoanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndoanhthuActionPerformed
+        // TODO add your handling code here:
+        showdoanhthuJdialog(this);
+    }//GEN-LAST:event_btndoanhthuActionPerformed
+
+    private void btnthongtinnguoithueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthongtinnguoithueActionPerformed
+        // TODO add your handling code here:
+        showthongtinnguoithueJdialog(this);
+    }//GEN-LAST:event_btnthongtinnguoithueActionPerformed
+
+    private void btnxemhoadonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxemhoadonActionPerformed
+        // TODO add your handling code here:
+         showxemhoadonJDialog(this);
+    }//GEN-LAST:event_btnxemhoadonActionPerformed
+
+    private void btnxemphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxemphongActionPerformed
+        // TODO add your handling code here:
+         showxemphongJDialog(this);
+    }//GEN-LAST:event_btnxemphongActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,18 +365,18 @@ public void ManagerButtons() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btndoanhthu;
+    private javax.swing.JButton btndoimatkhau;
+    private javax.swing.JButton btnketthuc;
+    private javax.swing.JButton btnquanlyhoadon;
+    private javax.swing.JButton btnquanlyhopdong;
+    private javax.swing.JButton btnquanlykhachthue;
+    private javax.swing.JButton btnquanlyphong;
+    private javax.swing.JButton btnquanlytaikhoan;
+    private javax.swing.JButton btnthongtinnguoithue;
+    private javax.swing.JButton btnxemhoadon;
+    private javax.swing.JButton btnxemphong;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
