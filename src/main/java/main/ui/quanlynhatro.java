@@ -48,21 +48,16 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
 
 
 public void ManagerButtons() {
-    // Luôn hiển thị các nút dùng chung
     jPanel2.setVisible(true);
 
     if (!XAuth.isLogin()) {
-        // Nếu chưa đăng nhập thì ẩn cả admin và user
         jPanel1.setVisible(false);
         jPanel3.setVisible(false);
         return;
     }
 
     if (XAuth.user.isVaiTro()) {
-        // Nếu là Admin
-        jPanel3.setVisible(false); // Ẩn nút người dùng
-
-        // Hiện từng nút admin cụ thể
+        jPanel3.setVisible(false); 
         jButton1.setVisible(true);
         jButton2.setVisible(true);
         jButton3.setVisible(true);
@@ -70,21 +65,18 @@ public void ManagerButtons() {
         jButton5.setVisible(true);
         jButton8.setVisible(true);
 
-        jPanel1.setVisible(true); // Đảm bảo admin panel hiển thị
+        jPanel1.setVisible(true); 
 
     } else {
-        // Nếu là User
-        jPanel1.setVisible(true); // Vẫn hiện panel, nhưng ẩn nút admin
+        jPanel1.setVisible(true);
 
-        // Ẩn toàn bộ nút admin bên trong jPanel1
+        
         jButton1.setVisible(false);
         jButton2.setVisible(false);
         jButton3.setVisible(false);
         jButton4.setVisible(false);
         jButton5.setVisible(false);
         jButton8.setVisible(false);
-
-        // Hiện các nút user
         jPanel3.setVisible(true);
         jButton10.setVisible(true);
         jButton11.setVisible(true);
