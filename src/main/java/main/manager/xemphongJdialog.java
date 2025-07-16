@@ -73,21 +73,18 @@ public class xemphongJdialog extends javax.swing.JDialog implements xemphongCont
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Phòng", "Trạng Thái", "Giá Thuê", "Diện Tích", "Địa Chỉ", "Liên Hệ", "Mô Tả", "Ảnh Phòng", ""
+                "Mã Phòng", "Trạng Thái", "Giá Thuê", "Diện Tích", "Địa Chỉ", "Liên Hệ", "Mô Tả", "Ảnh Phòng"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTable1);
@@ -98,7 +95,7 @@ public class xemphongJdialog extends javax.swing.JDialog implements xemphongCont
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -111,6 +108,37 @@ public class xemphongJdialog extends javax.swing.JDialog implements xemphongCont
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:                                                       
+    int selectedRow = jTable1.getSelectedRow();
+    if (selectedRow != -1) {
+        String maPhong = jTable1.getValueAt(selectedRow, 0).toString(); // Cột 0 là Mã Phòng
+
+        // Lấy dữ liệu phòng từ DAO
+        Phong selectedPhong = phongDAO.findById(maPhong);
+        if (selectedPhong != null) {
+            // Mở phongJDialog và đổ dữ liệu vào
+            phongJDialog phongDialog = new phongJDialog((java.awt.Frame) this.getParent(), true);
+//            phongDialog.setData(
+//                selectedPhong.getMaPhong(),
+//                selectedPhong.getTrangThai(),
+//                String.valueOf(selectedPhong.getGiaTien()),
+//                String.valueOf(selectedPhong.getDienTich()),
+//                selectedPhong.getDiaChi(),
+//                selectedPhong.getLienHe(),
+//                selectedPhong.getMoTa(),
+//                selectedPhong.getAnhPhong()
+
+//            );
+phongDialog.setForm(selectedPhong);
+
+            phongDialog.setLocationRelativeTo(this);
+            phongDialog.setVisible(true);
+        }
+    }
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
