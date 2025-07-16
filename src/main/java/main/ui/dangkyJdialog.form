@@ -32,7 +32,6 @@
                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jProgressBar1" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtten" alignment="0" max="32767" attributes="0"/>
-                  <Component id="txtmatkhau" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -43,8 +42,9 @@
                       <Component id="btndong" min="-2" pref="114" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel5" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
-                  <Component id="txtnhaplaimatkhau" alignment="0" max="32767" attributes="0"/>
                   <Component id="jProgressBar2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtmatkhau" max="32767" attributes="0"/>
+                  <Component id="txtnhaplaimatkhau" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -64,13 +64,13 @@
                       <Component id="txtten" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtmatkhau" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Component id="txtnhaplaimatkhau" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jProgressBar2" min="-2" pref="12" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -113,8 +113,6 @@
         <Property name="text" type="java.lang.String" value="M&#x1ead;t Kh&#x1ea9;u"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtmatkhau">
-    </Component>
     <Component class="javax.swing.JProgressBar" name="jProgressBar2">
     </Component>
     <Component class="javax.swing.JButton" name="btndangky">
@@ -139,8 +137,6 @@
         <Property name="text" type="java.lang.String" value="Nh&#x1ead;p l&#x1ea1;i M&#x1ead;t Kh&#x1ea9;u"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtnhaplaimatkhau">
-    </Component>
     <Component class="javax.swing.JButton" name="btndong">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x110;&#xf3;ng"/>
@@ -148,6 +144,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btndongActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtmatkhau">
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtnhaplaimatkhau">
     </Component>
   </SubComponents>
 </Form>

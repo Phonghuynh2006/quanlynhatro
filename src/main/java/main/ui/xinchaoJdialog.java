@@ -20,6 +20,7 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
     
         @Override 
 public void waiting() { 
+
 this.setLocationRelativeTo(null); 
 new Thread(() -> { 
 try { 

@@ -23,6 +23,44 @@ public class dangkyJdialog extends javax.swing.JDialog {
         initComponents();
     }
 
+    private void dangKyTaiKhoan() {
+    String tenDangNhap = txtten.getText().trim();
+    String matKhau = new String(txtmatkhau.getPassword()).trim();
+    String nhapLaiMatKhau = new String(txtnhaplaimatkhau.getPassword()).trim();
+
+    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
+
+    if (tenDangNhap.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE
+);
+        return;
+    }
+
+    if (!matKhau.equals(nhapLaiMatKhau)) {
+        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!", "Thông báo", JOptionPane.WARNING_MESSAGE
+);
+        return;
+    }
+
+    if (dao.isTenDangNhapTonTai(tenDangNhap)) {
+        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE
+);
+        return;
+    }
+
+    TaiKhoan taiKhoan = TaiKhoan.builder()
+        .tenDangNhap(tenDangNhap)
+        .matKhau(matKhau)
+        .vaiTro(false)
+        .fullname("Người dùng mới")
+        .build();
+
+    dao.create(taiKhoan);
+
+    JOptionPane.showMessageDialog(this, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    this.dispose();
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,15 +73,15 @@ public class dangkyJdialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtmatkhau = new javax.swing.JTextField();
         jProgressBar2 = new javax.swing.JProgressBar();
         btndangky = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel3 = new javax.swing.JLabel();
         txtten = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtnhaplaimatkhau = new javax.swing.JTextField();
         btndong = new javax.swing.JButton();
+        txtmatkhau = new javax.swing.JPasswordField();
+        txtnhaplaimatkhau = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,7 +124,6 @@ public class dangkyJdialog extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtten)
-                    .addComponent(txtmatkhau)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jLabel1))
@@ -95,8 +132,9 @@ public class dangkyJdialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtnhaplaimatkhau)
-                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jProgressBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtmatkhau)
+                    .addComponent(txtnhaplaimatkhau))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -113,13 +151,13 @@ public class dangkyJdialog extends javax.swing.JDialog {
                         .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtmatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(7, 7, 7)
                         .addComponent(txtnhaplaimatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
+                        .addGap(18, 18, 18)
                         .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -137,42 +175,7 @@ public class dangkyJdialog extends javax.swing.JDialog {
 
     private void btndangkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangkyActionPerformed
         // TODO add your handling code here:                                         
-    String tenDangNhap = txtten.getText().trim();
-    String matKhau = txtmatkhau.getText();
-    String nhapLaiMatKhau = txtnhaplaimatkhau.getText();
-
-    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-
-    // Kiểm tra rỗng
-    if (tenDangNhap.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-        return;
-    }
-
-    // Kiểm tra mật khẩu khớp
-    if (!matKhau.equals(nhapLaiMatKhau)) {
-        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!");
-        return;
-    }
-
-    // Kiểm tra tên đăng nhập đã tồn tại
-    if (dao.isTenDangNhapTonTai(tenDangNhap)) {
-        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!");
-        return;
-    }
-
-    // Tạo tài khoản mới
-    TaiKhoan taiKhoan = TaiKhoan.builder()
-        .tenDangNhap(tenDangNhap)
-        .matKhau(matKhau)
-        .vaiTro(false)  // Mặc định là người dùng (user)
-        .fullname("Người dùng mới") // Có thể cho người dùng nhập nếu bạn muốn
-        .build();
-
-    dao.create(taiKhoan);
-
-    JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
-    this.dispose(); // Đóng form sau khi đăng ký
+    dangKyTaiKhoan();
     }//GEN-LAST:event_btndangkyActionPerformed
 
     private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
@@ -232,8 +235,8 @@ public class dangkyJdialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JProgressBar jProgressBar2;
-    private javax.swing.JTextField txtmatkhau;
-    private javax.swing.JTextField txtnhaplaimatkhau;
+    private javax.swing.JPasswordField txtmatkhau;
+    private javax.swing.JPasswordField txtnhaplaimatkhau;
     private javax.swing.JTextField txtten;
     // End of variables declaration//GEN-END:variables
 }

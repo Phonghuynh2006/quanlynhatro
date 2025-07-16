@@ -6,6 +6,17 @@ package main.ui;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import main.manager.doanhthuJdialog;
+import main.manager.lichsuadminJdialog;
+import main.manager.lichsunguoithueJdialog;
+import main.manager.quanlyhoadonJdialog;
+import main.manager.quanlyhopdongJdialog;
+import main.manager.quanlykhachthueJdialog;
+import main.manager.quanlyphongJdialog;
+import main.manager.quanlytaikhoanJdialog;
+import main.manager.thongtinnguoithueJdialog;
+import main.manager.xemhoadonJdialog;
+import main.manager.xemphongJdialog;
 import main.util.XDialog;
 
 /**
@@ -36,33 +47,46 @@ public interface quanlynhatroController {
     default void showLoginJDialog(JFrame frame){
         this.showJDialog(new dangnhapJdialog(frame, true));
     }
+        default void showdangkyJDialog(JFrame frame){
+        this.showJDialog(new dangkyJdialog(frame, true));
+    }
     default void showChangePasswordJDialog(JFrame frame){
         this.showJDialog(new doimatkhauJdialog(frame, true));
     }
-//    default void showSalesJDialog(JFrame frame){
-//        this.showJDialog(new SalesJDialog(frame, true));
-//    }
-//    default void showHistoryJDialog(JFrame frame){
-//        this.showJDialog(new HistoryJDialog(frame, true));
-//    }
-//    
-//    default void showDrinkManagerJDialog(JFrame frame){
-//        this.showJDialog(new DrinkManagerJDialog(frame, true));
-//    }
-//    default void showCategoryManagerJDialog(JFrame frame){
-//        this.showJDialog(new CategoryManagerJDialog(frame, true));
-//    }
-//    default void showCardManagerJDialog(JFrame frame){
-//        this.showJDialog(new CardManagerJDialog(frame, true));
-//    }
-//    default void showBillManagerJDialog(JFrame frame){
-//        this.showJDialog(new BillManagerJDialog(frame, true));
-//    }
-//    default void showUserManagerJDialog(JFrame frame){
-//        this.showJDialog(new UserManagerJDialog(frame, true));
-//    }
-//    default void showRevenueManagerJDialog(JFrame frame){
-//        this.showJDialog(new RevenueManagerJDialog(frame, true));
-//    }
+    default void showxemphongJDialog(JFrame frame){
+        this.showJDialog(new xemphongJdialog(frame, true));
+    }
+    default void showxemhoadonJDialog(JFrame frame){
+        this.showJDialog(new xemhoadonJdialog(frame, true));
+    }
+    
+    default void showthongtinnguoithueJdialog(JFrame frame){
+        this.showJDialog(new thongtinnguoithueJdialog(frame, true));
+    }
+    default void showquanlytaikhoanJdialog(JFrame frame){
+        this.showJDialog(new quanlytaikhoanJdialog(frame, true));
+    }
+    default void showquanlyphongJdialog(JFrame frame){
+        this.showJDialog(new quanlyphongJdialog(frame, true));
+    }
+    default void showquanlykhachthueJdialog(JFrame frame){
+        this.showJDialog(new quanlykhachthueJdialog(frame, true));
+    }
+    default void showquanlyhopdongJdialog(JFrame frame){
+        this.showJDialog(new quanlyhopdongJdialog(frame, true));
+    }
+    default void showquanlyhoadonJdialog(JFrame frame){
+        this.showJDialog(new quanlyhoadonJdialog(frame, true));
+    }
+    
+        default void showdoanhthuJdialog(JFrame frame){
+        this.showJDialog(new doanhthuJdialog(frame, true));
+    }
+    default void showlichsuadminJdialog(JFrame frame){
+        this.showJDialog(new lichsuadminJdialog(frame, true));
+    }
+    default void showlichsunguoithueJdialog(JFrame frame){
+        this.showJDialog(new lichsunguoithueJdialog(frame, true));
+    }
 
 }
