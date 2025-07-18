@@ -65,8 +65,10 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
 
         jToggleButton2.setText("Sửa");
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Nam");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Nữ");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
