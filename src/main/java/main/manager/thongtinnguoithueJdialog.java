@@ -13,10 +13,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import main.dao.ThongTinNguoiThueDAO;
+import main.entity.ThongTinNguoiThue;
 import main.impl.ThongTinNguoiThueDAOImpl;
 import main.util.XAuth;
 
@@ -25,7 +27,9 @@ import main.util.XAuth;
  * @author PHONG
  */
 public class thongtinnguoithueJdialog extends javax.swing.JDialog {
-
+    private ThongTinNguoiThueDAO dao = new ThongTinNguoiThueDAOImpl();
+    private ThongTinNguoiThue nguoiThue;
+    private File selectedImageFile = null;
     /**
 
      * Creates new form thongtinnguoithueJdialog
@@ -33,9 +37,86 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
     public thongtinnguoithueJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+                loadThongTinNguoiThue();
 
     }
+    private void loadThongTinNguoiThue() {
+        String tenDangNhap = XAuth.user.getTenDangNhap();
+        nguoiThue = dao.findByTenDangNhap(tenDangNhap);
 
+        if (nguoiThue != null) {
+            txtHoVaTen.setText(nguoiThue.getHoVaTen());
+            txtCCCD.setText(nguoiThue.getCccd());
+            txtDiaChi.setText(nguoiThue.getDiaChi());
+            txtSoDienThoai.setText(nguoiThue.getSoDienThoai());
+            txtEmail.setText(nguoiThue.getEmail());
+            txtNgaySinh.setText(nguoiThue.getNgaySinh().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+            if (nguoiThue.isGioiTinh()) {
+                rbNam.setSelected(true);
+            } else {
+                rbNu.setSelected(true);
+            }
+
+            if (nguoiThue.getPhoto() != null && !nguoiThue.getPhoto().isBlank()) {
+                showImage("src/main/resources/images/" + nguoiThue.getPhoto());
+            }
+        }
+    }
+        private void showImage(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            ImageIcon icon = new ImageIcon(file.getAbsolutePath());
+            Image img = icon.getImage().getScaledInstance(lblAnh.getWidth(), lblAnh.getHeight(), Image.SCALE_SMOOTH);
+            lblAnh.setIcon(new ImageIcon(img));
+        } else {
+            System.err.println("Không tìm thấy ảnh: " + file.getAbsolutePath());
+        }
+    }
+        
+        private void saveThongTinNguoiThue() {
+        if (nguoiThue == null) {
+            nguoiThue = new ThongTinNguoiThue();
+            nguoiThue.setTenDangNhap(XAuth.user.getTenDangNhap());
+        }
+
+        nguoiThue.setHoVaTen(txtHoVaTen.getText());
+        nguoiThue.setCccd(txtCCCD.getText());
+        nguoiThue.setDiaChi(txtDiaChi.getText());
+        nguoiThue.setSoDienThoai(txtSoDienThoai.getText());
+        nguoiThue.setEmail(txtEmail.getText());
+        nguoiThue.setGioiTinh(rbNam.isSelected());
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            nguoiThue.setNgaySinh(java.time.LocalDate.parse(txtNgaySinh.getText(), formatter));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ. Định dạng: dd/MM/yyyy");
+            return;
+        }
+
+        if (selectedImageFile != null) {
+            try {
+                String fileName = selectedImageFile.getName();
+                File dest = new File("src/main/resources/images/" + fileName);
+                Files.copy(selectedImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                nguoiThue.setPhoto(fileName);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi lưu ảnh.");
+                e.printStackTrace();
+            }
+        }
+
+        if (dao.findByTenDangNhap(nguoiThue.getTenDangNhap()) != null) {
+            dao.update(nguoiThue);
+            JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công.");
+        } else {
+            dao.insert(nguoiThue);
+            JOptionPane.showMessageDialog(this, "Thêm mới thông tin thành công.");
+        }
+    }
+
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,7 +286,7 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-
+saveThongTinNguoiThue();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
@@ -216,7 +297,11 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
 
     private void lblAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAnhMouseClicked
         // TODO add your handling code here:
-
+       JFileChooser chooser = new JFileChooser();
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            selectedImageFile = chooser.getSelectedFile();
+            showImage(selectedImageFile.getAbsolutePath());
+        }
     }//GEN-LAST:event_lblAnhMouseClicked
 
     /**

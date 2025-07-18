@@ -54,7 +54,7 @@ if (!XAuth.user.isVaiTro()) {
 } else {
     // Nếu là admin
     lblfullname.setText("Quản trị viên");
-    XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/admin.png");
+    XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/admin.jpg");
 }
 
 
