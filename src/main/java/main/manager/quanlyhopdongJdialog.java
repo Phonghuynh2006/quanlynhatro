@@ -30,7 +30,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblHopDong = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         txtMaHopDong = new javax.swing.JTextField();
         txtMaPhong = new javax.swing.JTextField();
@@ -53,7 +53,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblHopDong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -64,7 +64,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
                 "MÃ HỢP ĐỒNG", "MÃ PHÒNG", "TÊN KHÁCH THUÊ", "NGÀY BẮT ĐẦU", "NGÀY KẾT THÚC", "GIÁ THUÊ", "TRẠNG THÁI"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblHopDong);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,11 +168,11 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
                             .addComponent(txtTenKhachThue, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnGiaHan)
                 .addGap(18, 18, 18)
                 .addComponent(btnHuy)
-                .addGap(27, 27, 27))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,7 +309,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblHopDong;
     private javax.swing.JTextField txtGiaThue;
     private javax.swing.JTextField txtMaHopDong;
     private javax.swing.JTextField txtMaPhong;
