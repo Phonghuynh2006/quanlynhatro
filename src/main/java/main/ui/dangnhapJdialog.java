@@ -6,8 +6,11 @@ package main.ui;
 
 import javax.swing.JFrame;
 import main.dao.TaiKhoanDAO;
+import main.dao.ThongTinNguoiThueDAO;
 import main.entity.TaiKhoan;
+import main.entity.ThongTinNguoiThue;
 import main.impl.TaiKhoanDAOImpl;
+import main.impl.ThongTinNguoiThueDAOImpl;
 import main.util.XAuth;
 import main.util.XDialog;
 
@@ -30,11 +33,12 @@ public void open() {
     this.setLocationRelativeTo(null); 
 } 
  
+ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
+
 @Override
 public void login() {
     String username = txtUsername.getText().trim();
     String password = txtPassword.getText().trim(); 
-
 
     if (username.isEmpty() || password.isEmpty()) {
         XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
@@ -52,13 +56,28 @@ public void login() {
         // Gán user cho XAuth để sử dụng toàn hệ thống
         XAuth.user = user;
 
-        // Thông báo hoặc log nếu cần
-        System.out.println("Đăng nhập thành công: " + user.getFullname());
+        // Nếu là người thuê thì lấy thêm thông tin người thuê
+        if (!user.isVaiTro()) { // false = người thuê
+            ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
+            ThongTinNguoiThue thongTin = thongTinDAO.findByTenDangNhap(username);
 
-        // Đóng form sau khi đăng nhập thành công
+            if (thongTin != null) {
+                System.out.println("Đăng nhập thành công: " + thongTin.getHoVaTen());
+                System.out.println("Ảnh đại diện: " + thongTin.getPhoto());
+                // bạn có thể gán vào MainForm nếu cần
+            } else {
+                System.out.println("Đăng nhập thành công, nhưng chưa có thông tin người thuê!");
+            }
+        } else {
+            // Admin
+            System.out.println("Đăng nhập thành công: Quản trị viên");
+        }
+
+        // Đóng form
         this.dispose();
     }
 }
+
 
 
 

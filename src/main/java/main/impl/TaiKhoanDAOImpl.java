@@ -11,14 +11,15 @@ import main.dao.TaiKhoanDAO;
 import main.entity.TaiKhoan;
 import main.util.XJdbc;
 import main.util.XQuery;
+
 /**
  *
  * @author PHONG
  */
 public class TaiKhoanDAOImpl implements TaiKhoanDAO{
 
-    String createSql = "INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, Fullname, Photo) VALUES (?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE TaiKhoan SET MatKhau = ?, VaiTro = ?, Fullname = ?, Photo = ? WHERE TenDangNhap = ?";
+    String createSql = "INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro) VALUES (?, ?, ?)";
+    String updateSql = "UPDATE TaiKhoan SET MatKhau = ?, VaiTro = ? WHERE TenDangNhap = ?";
     String deleteSql = "DELETE FROM TaiKhoan WHERE TenDangNhap = ?";
     String findAllSql = "SELECT * FROM TaiKhoan";
     String findByIdSql = "SELECT * FROM TaiKhoan WHERE TenDangNhap = ?";
@@ -28,9 +29,7 @@ public class TaiKhoanDAOImpl implements TaiKhoanDAO{
         Object[] values = {
             entity.getTenDangNhap(),
             entity.getMatKhau(),
-            entity.isVaiTro(),
-            entity.getFullname(),
-            entity.getPhoto()
+            entity.isVaiTro()
         };
         XJdbc.executeUpdate(createSql, values);
         return entity;
@@ -41,8 +40,6 @@ public class TaiKhoanDAOImpl implements TaiKhoanDAO{
         Object[] values = {
             entity.getMatKhau(),
             entity.isVaiTro(),
-            entity.getFullname(),
-            entity.getPhoto(),
             entity.getTenDangNhap()
         };
         XJdbc.executeUpdate(updateSql, values);
@@ -66,13 +63,12 @@ public class TaiKhoanDAOImpl implements TaiKhoanDAO{
     @Override
     public boolean isTenDangNhapTonTai(String tenDangNhap) {
         String sql = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap = ?";
-        try {
-            ResultSet rs = XJdbc.executeQuery(sql, tenDangNhap);
+        try (ResultSet rs = XJdbc.executeQuery(sql, tenDangNhap)) {
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Lỗi khi kiểm tra tên đăng nhập: " + e.getMessage());
+            throw new RuntimeException("Lỗi kiểm tra tên đăng nhập: " + e.getMessage(), e);
         }
         return false;
     }

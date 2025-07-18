@@ -23,7 +23,7 @@ public class dangkyJdialog extends javax.swing.JDialog {
         initComponents();
     }
 
-    private void dangKyTaiKhoan() {
+private void dangKyTaiKhoan() {
     String tenDangNhap = txtten.getText().trim();
     String matKhau = new String(txtmatkhau.getPassword()).trim();
     String nhapLaiMatKhau = new String(txtnhaplaimatkhau.getPassword()).trim();
@@ -31,35 +31,32 @@ public class dangkyJdialog extends javax.swing.JDialog {
     TaiKhoanDAO dao = new TaiKhoanDAOImpl();
 
     if (tenDangNhap.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE
-);
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
     if (!matKhau.equals(nhapLaiMatKhau)) {
-        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!", "Thông báo", JOptionPane.WARNING_MESSAGE
-);
+        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
     if (dao.isTenDangNhapTonTai(tenDangNhap)) {
-        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE
-);
+        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         return;
     }
 
     TaiKhoan taiKhoan = TaiKhoan.builder()
         .tenDangNhap(tenDangNhap)
         .matKhau(matKhau)
-        .vaiTro(false)
-        .fullname("Người dùng mới")
+        .vaiTro(false) // false = người thuê
         .build();
 
     dao.create(taiKhoan);
 
-    JOptionPane.showMessageDialog(this, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(this, "Đăng ký thành công! Vui lòng cập nhật thông tin cá nhân.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     this.dispose();
 }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

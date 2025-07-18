@@ -4,6 +4,9 @@
  */
 package main.ui;
 
+import main.dao.ThongTinNguoiThueDAO;
+import main.entity.ThongTinNguoiThue;
+import main.impl.ThongTinNguoiThueDAOImpl;
 import main.util.XAuth;
 import main.util.XIcon;
 
@@ -33,10 +36,27 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
 
         // Hiển thị thông tin người dùng
         if (XAuth.user != null) {
-            // Đặt ảnh đại diện
-            XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + XAuth.user.getPhoto());
-            // Đặt họ tên
-            lblfullname.setText(XAuth.user.getFullname());
+if (!XAuth.user.isVaiTro()) {
+    // Nếu là người thuê thì lấy thêm thông tin từ bảng ThongTinNguoiThue
+    ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
+    ThongTinNguoiThue thongTin = thongTinDAO.findByTenDangNhap(XAuth.user.getTenDangNhap());
+
+    if (thongTin != null) {
+        lblfullname.setText(thongTin.getHoVaTen());
+        XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + thongTin.getPhoto());
+    } else {
+        lblfullname.setText("Người dùng");
+        XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/photo.png");
+    }
+
+    // Ẩn các chức năng của admin
+    jPanel1.setVisible(false);
+} else {
+    // Nếu là admin
+    lblfullname.setText("Quản trị viên");
+    XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/admin.png");
+}
+
 
             // Ẩn toàn bộ panel quản trị nếu không phải admin
             if (!XAuth.user.isVaiTro()) {

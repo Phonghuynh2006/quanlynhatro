@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,10 +18,20 @@ import lombok.NoArgsConstructor;
  *
  * @author PHONG
  */
-public class TaiKhoan {
+public class ThongTinNguoiThue {
 
 
-    private String tenDangNhap;      // TenDangNhap
-    private String matKhau;          // MatKhau
-    private boolean vaiTro;          // true = Admin, false = Người thuê
+
+
+    private String tenDangNhap;      // Khóa ngoại đến TaiKhoan
+    private String hoVaTen;
+    private String cccd;
+    private boolean gioiTinh;
+    private LocalDate ngaySinh;
+    private String diaChi;
+    private String soDienThoai;
+    private String email;
+    private String photo;
+
+
 }
