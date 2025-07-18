@@ -17,11 +17,7 @@ public class HopDong {
     private String giaThue;
     private String trangThai;
 
-    // Constructor không tham số (bắt buộc khi làm việc với JTable/form)
-    public HopDong() {
-    }
 
-    // Constructor đầy đủ
     public HopDong(String maHopDong, String maPhong, String tenKhachThue,
                    String ngayBatDau, String ngayKetThuc, String giaThue, String trangThai) {
         this.maHopDong = maHopDong;
@@ -33,7 +29,6 @@ public class HopDong {
         this.trangThai = trangThai;
     }
 
-    // Getters & Setters
     public String getMaHopDong() {
         return maHopDong;
     }
