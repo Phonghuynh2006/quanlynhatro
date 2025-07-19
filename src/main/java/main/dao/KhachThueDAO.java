@@ -4,10 +4,17 @@
  */
 package main.dao;
 
+import java.util.List;
+import main.entity.KhachThue;
+
 /**
  *
  * @author PHONG
  */
-public interface KhachThueDAO {
-    
+public interface KhachThueDAO extends CrudDAO<CrudDAO, String>{
+    void insert(KhachThue kt);
+    void update(KhachThue kt);
+    void delete(String maKhach);
+    KhachThue selectById(String maKhach);
+    List<KhachThue> selectAll();
 }

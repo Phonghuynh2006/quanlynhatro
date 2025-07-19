@@ -6,7 +6,7 @@ package main.manager;
 
 /**
  *
- * @author PHONG
+ * @author OMEN PC
  */
 public class quanlykhachthueJdialog extends javax.swing.JDialog {
 
@@ -27,34 +27,172 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtten = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtten1 = new javax.swing.JTextField();
+        txtten2 = new javax.swing.JTextField();
+        txtten3 = new javax.swing.JTextField();
+        txtten4 = new javax.swing.JTextField();
+        btnthem = new javax.swing.JButton();
+        btndangky1 = new javax.swing.JButton();
+        btndangky2 = new javax.swing.JButton();
+        btndangky3 = new javax.swing.JButton();
+        btndangky4 = new javax.swing.JButton();
+        txtten6 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Mã khách", "Họ tên", "CMND/CCCD", "Số điện thoại", "Tên đăng nhập"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 823, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 823, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel1);
+
+        jLabel3.setText("Mã khách");
+
+        jLabel4.setText("Họ tên");
+
+        jLabel5.setText("CMND/CCCD");
+
+        jLabel6.setText("Số điện thoại");
+
+        jLabel7.setText("Tên đăng nhập");
+
+        btnthem.setText("Thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthemActionPerformed(evt);
+            }
+        });
+
+        btndangky1.setText("Sửa");
+        btndangky1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangky1ActionPerformed(evt);
+            }
+        });
+
+        btndangky2.setText("Xóa");
+        btndangky2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangky2ActionPerformed(evt);
+            }
+        });
+
+        btndangky3.setText("Mới");
+        btndangky3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangky3ActionPerformed(evt);
+            }
+        });
+
+        btndangky4.setText("Tìm kiếm");
+        btndangky4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangky4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 823, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(84, 84, 84)
+                        .addComponent(txtten1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(99, 99, 99)
+                        .addComponent(txtten2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnthem)
+                        .addGap(18, 18, 18)
+                        .addComponent(btndangky1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btndangky2)
+                        .addGap(18, 18, 18)
+                        .addComponent(btndangky3)
+                        .addGap(18, 18, 18)
+                        .addComponent(btndangky4)
+                        .addGap(0, 35, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6))
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtten4)
+                            .addComponent(txtten3)
+                            .addComponent(txtten6))))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtten1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtten2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtten3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtten4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtten6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnthem)
+                    .addComponent(btndangky1)
+                    .addComponent(btndangky2)
+                    .addComponent(btndangky3)
+                    .addComponent(btndangky4))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -78,6 +216,27 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_btnthemActionPerformed
+
+    private void btndangky1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangky1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btndangky1ActionPerformed
+
+    private void btndangky2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangky2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btndangky2ActionPerformed
+
+    private void btndangky3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangky3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btndangky3ActionPerformed
+
+    private void btndangky4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangky4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btndangky4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,8 +281,26 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btndangky1;
+    private javax.swing.JButton btndangky2;
+    private javax.swing.JButton btndangky3;
+    private javax.swing.JButton btndangky4;
+    private javax.swing.JButton btnthem;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtten;
+    private javax.swing.JTextField txtten1;
+    private javax.swing.JTextField txtten2;
+    private javax.swing.JTextField txtten3;
+    private javax.swing.JTextField txtten4;
+    private javax.swing.JTextField txtten6;
     // End of variables declaration//GEN-END:variables
 }
