@@ -4,10 +4,11 @@
  */
 package main.dao;
 
+
 /**
  *
  * @author PHONG
  */
 public interface HopDongDAO {
-    
+
 }
