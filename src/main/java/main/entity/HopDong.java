@@ -17,8 +17,6 @@ public class HopDong {
     private Date ngayBatDau;
     private Date ngayKetThuc;
 
-    public HopDong() {
-    }
 
     public HopDong(String maHopDong, String maPhong, String maKhach, Date ngayBatDau, Date ngayKetThuc) {
         this.maHopDong = maHopDong;

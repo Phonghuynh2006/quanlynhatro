@@ -269,6 +269,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtmahadon">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtmahadonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txthopdong">
               <Events>
@@ -279,16 +282,25 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="th&#xea;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnthemActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnsua">
               <Properties>
                 <Property name="text" type="java.lang.String" value="s&#x1eed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnsuaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnxoa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="x&#xf3;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnxoaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
@@ -311,8 +323,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtthang">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtthangActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtnam">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtnamActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txttienphong">
               <Events>
@@ -325,6 +343,9 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txttiennuoc">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txttiennuocActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

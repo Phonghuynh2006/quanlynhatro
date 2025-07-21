@@ -29,11 +29,12 @@
             <version>RELEASE190</version>
         </dependency>
         
-                <dependency>
+              <dependency>
     <groupId>com.sun.mail</groupId>
     <artifactId>javax.mail</artifactId>
     <version>1.6.2</version>
-</dependency>
-    </dependencies> 
+</dependency> 
+    </dependencies>
+  
     
 </project>

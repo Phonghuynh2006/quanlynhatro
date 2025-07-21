@@ -4,6 +4,10 @@
  */
 package main.manager;
 
+import main.entity.LichSuNguoiThue;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import main.impl.LichSuNguoiThueDAO;
 /**
  *
  * @author PHONG
@@ -16,7 +20,28 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
     public lichsunguoithueJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadTable(); 
     }
+
+
+private void loadTable() {
+    LichSuNguoiThueDAO dao = new LichSuNguoiThueDAO();
+    List<LichSuNguoiThue> list = dao.selectAll();
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // clear table
+
+    for (LichSuNguoiThue ls : list) {
+        model.addRow(new Object[]{
+            ls.getMaLichSu(),
+            ls.getMaKhach(),
+            ls.getMaPhong(),
+            ls.getNgayBatDau(),
+            ls.getNgayKetThuc(),
+            ls.getGhiChu()
+        });
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,13 +59,13 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã Khách Hàng", "Tên Khách Hàng", "Số CMND/CCCD", "Số Điện Thoại", "Tên Đăng Nhập"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -50,16 +75,15 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

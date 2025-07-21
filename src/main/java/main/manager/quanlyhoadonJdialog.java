@@ -4,19 +4,62 @@
  */
 package main.manager;
 
+import java.util.List;
+import main.dao.HoaDonDAO;
+import main.entity.HoaDon;
+import main.impl.HoaDonDAOImpl; // Giả sử bạn có lớp này để triển khai interface
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author PHONG
  */
 public class quanlyhoadonJdialog extends javax.swing.JDialog {
 
+private HoaDonDAO hoaDonDAO = new HoaDonDAOImpl();
     /**
      * Creates new form quanlyhoadonJdialog
      */
     public quanlyhoadonJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
+private HoaDon getFormData() {
+    try {
+        String maHD = txtmahadon.getText().trim();
+        String maHDong = txthopdong.getText().trim();
+        int thang = Integer.parseInt(txtthang.getText().trim());
+        int nam = Integer.parseInt(txtnam.getText().trim());
+        double tienPhong = Double.parseDouble(txttienphong.getText().trim());
+        double tienDien = Double.parseDouble(txttiendien.getText().trim());
+        double tienNuoc = Double.parseDouble(txttiennuoc.getText().trim());
+
+        return new HoaDon(maHD, maHDong, thang, nam, tienPhong, tienDien, tienNuoc);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ!");
+        return null;
+    }
+}
+private void loadTable() {
+    List<HoaDon> list = hoaDonDAO.selectAll();
+    DefaultTableModel model = (DefaultTableModel) tblhoadon.getModel();
+    model.setRowCount(0);
+    for (HoaDon hd : list) {
+        model.addRow(new Object[]{
+            hd.getMaHoaDon(),
+            hd.getMaHopDong(),
+            hd.getThang(),
+            hd.getNam(),
+            hd.getTienPhong(),
+            hd.getTienDien(),
+            hd.getTienNuoc()
+        });
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,6 +129,12 @@ public class quanlyhoadonJdialog extends javax.swing.JDialog {
 
         jLabel3.setText("tháng:");
 
+        txtmahadon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtmahadonActionPerformed(evt);
+            }
+        });
+
         txthopdong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txthopdongActionPerformed(evt);
@@ -93,10 +142,25 @@ public class quanlyhoadonJdialog extends javax.swing.JDialog {
         });
 
         btnthem.setText("thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthemActionPerformed(evt);
+            }
+        });
 
         btnsua.setText("sửa");
+        btnsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsuaActionPerformed(evt);
+            }
+        });
 
         btnxoa.setText("xóa");
+        btnxoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxoaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("năm:");
 
@@ -105,6 +169,18 @@ public class quanlyhoadonJdialog extends javax.swing.JDialog {
         jLabel6.setText("tiền điện:");
 
         jLabel7.setText("tiền nước:");
+
+        txtthang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtthangActionPerformed(evt);
+            }
+        });
+
+        txtnam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnamActionPerformed(evt);
+            }
+        });
 
         txttienphong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +191,12 @@ public class quanlyhoadonJdialog extends javax.swing.JDialog {
         txttiendien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txttiendienActionPerformed(evt);
+            }
+        });
+
+        txttiennuoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttiennuocActionPerformed(evt);
             }
         });
 
@@ -233,6 +315,65 @@ public class quanlyhoadonJdialog extends javax.swing.JDialog {
     private void txttiendienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttiendienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttiendienActionPerformed
+
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+        // TODO add your handling code here:
+ 
+HoaDon hd = getFormData();
+    if (hd != null) {
+        hoaDonDAO.insert(hd);
+        JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        loadTable();
+    }
+    }//GEN-LAST:event_btnthemActionPerformed
+
+    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
+        // TODO add your handling code here:
+          HoaDon hd = getFormData();
+    if (hd != null) {
+        hoaDonDAO.update(hd);
+        JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+        loadTable();
+    }
+    }//GEN-LAST:event_btnsuaActionPerformed
+
+    private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
+        // TODO add your handling code here:
+         String maHD = txtmahadon.getText().trim();
+    if (!maHD.isEmpty()) {
+        hoaDonDAO.delete(maHD);
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        loadTable();
+    } else {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn để xóa!");
+    }
+    }//GEN-LAST:event_btnxoaActionPerformed
+
+    private void txtmahadonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmahadonActionPerformed
+        // TODO add your handling code here:
+       
+    if (txtmahadon.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã hóa đơn không được để trống!");
+        txtmahadon.requestFocus();
+    } else {
+        txthopdong.requestFocus(); // chuyển focus sang ô kế tiếp
+    }
+
+
+    }//GEN-LAST:event_txtmahadonActionPerformed
+
+    private void txtthangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtthangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtthangActionPerformed
+
+    private void txtnamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnamActionPerformed
+
+    private void txttiennuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttiennuocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttiennuocActionPerformed
+
 
     /**
      * @param args the command line arguments
