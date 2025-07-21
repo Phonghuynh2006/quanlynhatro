@@ -113,7 +113,6 @@ public void ManagerButtons() {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        btndong = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnquanlykhachthue = new javax.swing.JButton();
@@ -145,16 +144,6 @@ public void ManagerButtons() {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("NHÀ TRỌ FPOLY");
 
-        btndong.setBackground(new java.awt.Color(0, 0, 255));
-        btndong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btndong.setForeground(new java.awt.Color(255, 255, 255));
-        btndong.setText("X");
-        btndong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndongActionPerformed(evt);
-            }
-        });
-
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/houselogo.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -166,22 +155,15 @@ public void ManagerButtons() {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(99, 99, 99)
-                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(160, 160, 160))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -380,12 +362,6 @@ public void ManagerButtons() {
          showxemphongJDialog(this);
     }//GEN-LAST:event_btnxemphongActionPerformed
 
-    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
-        // TODO add your handling code here:
-    // Đóng cửa sổ đăng ký
-    this.dispose();
-    }//GEN-LAST:event_btndongActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -424,7 +400,6 @@ public void ManagerButtons() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btndoanhthu;
     private javax.swing.JButton btndoimatkhau;
-    private javax.swing.JButton btndong;
     private javax.swing.JButton btnketthuc;
     private javax.swing.JButton btnquanlyhoadon;
     private javax.swing.JButton btnquanlyhopdong;
