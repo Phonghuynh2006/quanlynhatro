@@ -114,6 +114,7 @@ public void ManagerButtons() {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btndong = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnquanlykhachthue = new javax.swing.JButton();
         btnquanlyhopdong = new javax.swing.JButton();
@@ -128,7 +129,7 @@ public void ManagerButtons() {
         btndoimatkhau = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         btndoanhthu = new javax.swing.JButton();
-        btnketthuc = new javax.swing.JButton();
+        btndangxuat = new javax.swing.JButton();
         lblphoto = new javax.swing.JLabel();
         lblfullname = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -146,6 +147,16 @@ public void ManagerButtons() {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/houselogo.png"))); // NOI18N
 
+        btndong.setBackground(new java.awt.Color(0, 0, 255));
+        btndong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btndong.setForeground(new java.awt.Color(255, 255, 255));
+        btndong.setText("X");
+        btndong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndongActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -155,7 +166,9 @@ public void ManagerButtons() {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(160, 160, 160))
+                .addGap(107, 107, 107)
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +180,10 @@ public void ManagerButtons() {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -276,13 +292,13 @@ public void ManagerButtons() {
         });
         jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 90, 50));
 
-        btnketthuc.setText("Kết Thúc");
-        btnketthuc.addActionListener(new java.awt.event.ActionListener() {
+        btndangxuat.setText("Đăng Xuất");
+        btndangxuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnketthucActionPerformed(evt);
+                btndangxuatActionPerformed(evt);
             }
         });
-        jPanel2.add(btnketthuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 100, 50));
+        jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 100, 50));
 
         jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 429, 72));
 
@@ -337,10 +353,17 @@ public void ManagerButtons() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void btnketthucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnketthucActionPerformed
+    private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
         // TODO add your handling code here:
-        exit(); // Gọi method exit() trong interface để thoát
-    }//GEN-LAST:event_btnketthucActionPerformed
+          this.dispose(); // Đóng form hiện tại
+
+    // Mở lại form đăng nhập
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
+        }
+    });
+    }//GEN-LAST:event_btndangxuatActionPerformed
 
     private void btndoanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndoanhthuActionPerformed
         // TODO add your handling code here:
@@ -361,6 +384,11 @@ public void ManagerButtons() {
         // TODO add your handling code here:
          showxemphongJDialog(this);
     }//GEN-LAST:event_btnxemphongActionPerformed
+
+    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
+        // TODO add your handling code here:
+    this.dispose(); // Đóng form đăng nhập
+    }//GEN-LAST:event_btndongActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,9 +426,10 @@ public void ManagerButtons() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btndangxuat;
     private javax.swing.JButton btndoanhthu;
     private javax.swing.JButton btndoimatkhau;
-    private javax.swing.JButton btnketthuc;
+    private javax.swing.JButton btndong;
     private javax.swing.JButton btnquanlyhoadon;
     private javax.swing.JButton btnquanlyhopdong;
     private javax.swing.JButton btnquanlykhachthue;

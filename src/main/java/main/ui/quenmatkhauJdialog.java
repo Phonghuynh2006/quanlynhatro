@@ -37,12 +37,12 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         btnDangNhap = new javax.swing.JButton();
         btnDangKy = new javax.swing.JButton();
-        txtPassword = new javax.swing.JPasswordField();
+        txtPasswordnew = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtUsername1 = new javax.swing.JTextField();
+        txtma = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -115,18 +115,18 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         });
         getContentPane().add(btnDangKy, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 118, 43));
 
-        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, 25));
+        txtPasswordnew.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPasswordnew.setForeground(new java.awt.Color(40, 46, 62));
+        getContentPane().add(txtPasswordnew, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, 25));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 139));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Mật khẩu mới:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtUsername.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 190, 25));
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(40, 46, 62));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 190, 25));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 139));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -138,9 +138,9 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         jLabel4.setText("QUÊN MẬT KHẨU");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, -1, -1));
 
-        txtUsername1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtUsername1.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtUsername1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 190, 25));
+        txtma.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtma.setForeground(new java.awt.Color(40, 46, 62));
+        getContentPane().add(txtma, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 190, 25));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 139));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -224,8 +224,8 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsername;
-    private javax.swing.JTextField txtUsername1;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JPasswordField txtPasswordnew;
+    private javax.swing.JTextField txtma;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,6 +31,7 @@ public class dangnhapJdialog extends javax.swing.JDialog implements dangnhapCont
         super(parent, modal);
                 setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
+        open();
     }
     
         @Override 

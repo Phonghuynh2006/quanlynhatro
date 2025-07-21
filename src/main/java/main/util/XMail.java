@@ -17,7 +17,7 @@ public class XMail {
     // Phương thức tĩnh để gửi email
     public static boolean sendMail(String to, String code) {
         final String username = "phonghuynh031226@gmail.com"; // Địa chỉ email gửi
-        final String password = "ochcazzetzicifbp"; // Mật khẩu ứng dụng Gmail
+        final String password = "ochc azze tzic ifbp"; // Mật khẩu ứng dụng Gmail
 
         // Cấu hình các thuộc tính cho mail server
         Properties props = new Properties();
