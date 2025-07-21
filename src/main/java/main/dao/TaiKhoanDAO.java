@@ -10,8 +10,15 @@ import main.entity.TaiKhoan;
  *
  * @author PHONG
  */
-public interface TaiKhoanDAO extends CrudDAO<TaiKhoan, String> {
+public interface TaiKhoanDAO extends CrudDAO<TaiKhoan, Integer> {
+//    TaiKhoan findByTenTaiKhoanAndMatKhau(String tenTaiKhoan, String matKhau);
+//    boolean isTenDangNhapTonTai(String tenDangNhap);
+//
+//    public TaiKhoan findById(String username);
     
+    
+   TaiKhoan findByTenTaiKhoanAndMatKhau(String tenTaiKhoan, String matKhau);
     boolean isTenDangNhapTonTai(String tenDangNhap);
-    
+    TaiKhoan findByTenTaiKhoan(String tenTaiKhoan);
+
 }

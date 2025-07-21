@@ -37,32 +37,32 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
     public thongtinnguoithueJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-                loadThongTinNguoiThue();
+//                loadThongTinNguoiThue();
 
     }
-    private void loadThongTinNguoiThue() {
-        String tenDangNhap = XAuth.user.getTenDangNhap();
-        nguoiThue = dao.findByTenDangNhap(tenDangNhap);
-
-        if (nguoiThue != null) {
-            txtHoVaTen.setText(nguoiThue.getHoVaTen());
-            txtCCCD.setText(nguoiThue.getCccd());
-            txtDiaChi.setText(nguoiThue.getDiaChi());
-            txtSoDienThoai.setText(nguoiThue.getSoDienThoai());
-            txtEmail.setText(nguoiThue.getEmail());
-            txtNgaySinh.setText(nguoiThue.getNgaySinh().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-
-            if (nguoiThue.isGioiTinh()) {
-                rbNam.setSelected(true);
-            } else {
-                rbNu.setSelected(true);
-            }
-
-            if (nguoiThue.getPhoto() != null && !nguoiThue.getPhoto().isBlank()) {
-                showImage("src/main/resources/images/" + nguoiThue.getPhoto());
-            }
-        }
-    }
+//    private void loadThongTinNguoiThue() {
+//        String tenDangNhap = XAuth.user.getTenDangNhap();
+//        nguoiThue = dao.findByTenDangNhap(tenDangNhap);
+//
+//        if (nguoiThue != null) {
+//            txtHoVaTen.setText(nguoiThue.getHoVaTen());
+//            txtCCCD.setText(nguoiThue.getCccd());
+//            txtDiaChi.setText(nguoiThue.getDiaChi());
+//            txtSoDienThoai.setText(nguoiThue.getSoDienThoai());
+//            txtEmail.setText(nguoiThue.getEmail());
+//            txtNgaySinh.setText(nguoiThue.getNgaySinh().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+//
+//            if (nguoiThue.isGioiTinh()) {
+//                rbNam.setSelected(true);
+//            } else {
+//                rbNu.setSelected(true);
+//            }
+//
+//            if (nguoiThue.getPhoto() != null && !nguoiThue.getPhoto().isBlank()) {
+//                showImage("src/main/resources/images/" + nguoiThue.getPhoto());
+//            }
+//        }
+//    }
         private void showImage(String path) {
         File file = new File(path);
         if (file.exists()) {
@@ -74,47 +74,47 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
         }
     }
         
-        private void saveThongTinNguoiThue() {
-        if (nguoiThue == null) {
-            nguoiThue = new ThongTinNguoiThue();
-            nguoiThue.setTenDangNhap(XAuth.user.getTenDangNhap());
-        }
-
-        nguoiThue.setHoVaTen(txtHoVaTen.getText());
-        nguoiThue.setCccd(txtCCCD.getText());
-        nguoiThue.setDiaChi(txtDiaChi.getText());
-        nguoiThue.setSoDienThoai(txtSoDienThoai.getText());
-        nguoiThue.setEmail(txtEmail.getText());
-        nguoiThue.setGioiTinh(rbNam.isSelected());
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            nguoiThue.setNgaySinh(java.time.LocalDate.parse(txtNgaySinh.getText(), formatter));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ. Định dạng: dd/MM/yyyy");
-            return;
-        }
-
-        if (selectedImageFile != null) {
-            try {
-                String fileName = selectedImageFile.getName();
-                File dest = new File("src/main/resources/images/" + fileName);
-                Files.copy(selectedImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                nguoiThue.setPhoto(fileName);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Lỗi khi lưu ảnh.");
-                e.printStackTrace();
-            }
-        }
-
-        if (dao.findByTenDangNhap(nguoiThue.getTenDangNhap()) != null) {
-            dao.update(nguoiThue);
-            JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công.");
-        } else {
-            dao.insert(nguoiThue);
-            JOptionPane.showMessageDialog(this, "Thêm mới thông tin thành công.");
-        }
-    }
+//        private void saveThongTinNguoiThue() {
+//        if (nguoiThue == null) {
+//            nguoiThue = new ThongTinNguoiThue();
+//            nguoiThue.setTenDangNhap(XAuth.user.getTenDangNhap());
+//        }
+//
+//        nguoiThue.setHoVaTen(txtHoVaTen.getText());
+//        nguoiThue.setCccd(txtCCCD.getText());
+//        nguoiThue.setDiaChi(txtDiaChi.getText());
+//        nguoiThue.setSoDienThoai(txtSoDienThoai.getText());
+//        nguoiThue.setEmail(txtEmail.getText());
+//        nguoiThue.setGioiTinh(rbNam.isSelected());
+//
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            nguoiThue.setNgaySinh(java.time.LocalDate.parse(txtNgaySinh.getText(), formatter));
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ. Định dạng: dd/MM/yyyy");
+//            return;
+//        }
+//
+//        if (selectedImageFile != null) {
+//            try {
+//                String fileName = selectedImageFile.getName();
+//                File dest = new File("src/main/resources/images/" + fileName);
+//                Files.copy(selectedImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//                nguoiThue.setPhoto(fileName);
+//            } catch (Exception e) {
+//                JOptionPane.showMessageDialog(this, "Lỗi khi lưu ảnh.");
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        if (dao.findByTenDangNhap(nguoiThue.getTenDangNhap()) != null) {
+//            dao.update(nguoiThue);
+//            JOptionPane.showMessageDialog(this, "Cập nhật thông tin thành công.");
+//        } else {
+//            dao.insert(nguoiThue);
+//            JOptionPane.showMessageDialog(this, "Thêm mới thông tin thành công.");
+//        }
+//    }
 
   
     /**
@@ -286,7 +286,7 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-saveThongTinNguoiThue();
+//saveThongTinNguoiThue();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed

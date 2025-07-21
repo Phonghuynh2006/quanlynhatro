@@ -26,46 +26,36 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
     }
     
 
-    @Override
-    public void init() {
-        this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
-        this.setLocationRelativeTo(null);
+@Override
+public void init() {
+    this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
+    this.setLocationRelativeTo(null);
 
-        this.showWelcomeJDialog(this);
-        this.showLoginJDialog(this);
+    this.showWelcomeJDialog(this);
+    this.showLoginJDialog(this);
 
-        // Hiển thị thông tin người dùng
-        if (XAuth.user != null) {
-if (!XAuth.user.isVaiTro()) {
-    // Nếu là người thuê thì lấy thêm thông tin từ bảng ThongTinNguoiThue
-    ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
-    ThongTinNguoiThue thongTin = thongTinDAO.findByTenDangNhap(XAuth.user.getTenDangNhap());
+    if (XAuth.user != null) {
+        if (!XAuth.user.isAdmin()) {
+            // Nếu là người thuê
+            lblfullname.setText(XAuth.user.getHoTen() != null ? XAuth.user.getHoTen() : "Người dùng");
 
-    if (thongTin != null) {
-        lblfullname.setText(thongTin.getHoVaTen());
-        XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + thongTin.getPhoto());
-    } else {
-        lblfullname.setText("Người dùng");
-        XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/photo.png");
-    }
-
-    // Ẩn các chức năng của admin
-    jPanel1.setVisible(false);
-} else {
-    // Nếu là admin
-    lblfullname.setText("Quản trị viên");
-    XIcon.setIcon(lblphoto, "D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/admin.jpg");
-}
-
-
-            // Ẩn toàn bộ panel quản trị nếu không phải admin
-            if (!XAuth.user.isVaiTro()) {
-                jPanel1.setVisible(false); // hoặc bạn có thể remove nếu muốn
+            String hinh = XAuth.user.getHinhAnh();
+            if (hinh != null && !hinh.isEmpty()) {
+                XIcon.setIcon(lblphoto, "src/main/resources/main/icon/" + hinh);
+            } else {
+                XIcon.setIcon(lblphoto, "src/main/resources/main/icon/photo.png");
             }
+
+            jPanel1.setVisible(false); // ẩn chức năng admin
+
+        } else {
+            // Admin
+            lblfullname.setText("Quản trị viên");
+            XIcon.setIcon(lblphoto, "src/main/resources/main/icon/admin.jpg");
+            jPanel1.setVisible(true);
         }
     }
-
-
+}
 
 public void ManagerButtons() {
     jPanel2.setVisible(true);
@@ -76,8 +66,10 @@ public void ManagerButtons() {
         return;
     }
 
-    if (XAuth.user.isVaiTro()) {
-        jPanel3.setVisible(false); 
+    if (XAuth.user.isAdmin()) {
+        // ADMIN
+        jPanel3.setVisible(false);
+
         btnquanlytaikhoan.setVisible(true);
         btnquanlyphong.setVisible(true);
         btnquanlyhoadon.setVisible(true);
@@ -85,24 +77,27 @@ public void ManagerButtons() {
         btnquanlykhachthue.setVisible(true);
         btndoanhthu.setVisible(true);
 
-        jPanel1.setVisible(true); 
-
-    } else {
         jPanel1.setVisible(true);
 
-        
+    } else {
+        // NGƯỜI THUÊ
+        jPanel1.setVisible(true);
+
         btnquanlytaikhoan.setVisible(false);
         btnquanlyphong.setVisible(false);
         btnquanlyhoadon.setVisible(false);
         btnquanlyhopdong.setVisible(false);
         btnquanlykhachthue.setVisible(false);
         btndoanhthu.setVisible(false);
+
         jPanel3.setVisible(true);
+
         btnthongtinnguoithue.setVisible(true);
         btnxemhoadon.setVisible(true);
         btnxemphong.setVisible(true);
     }
 }
+
 
 
     /**

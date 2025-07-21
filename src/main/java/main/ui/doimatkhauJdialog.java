@@ -35,43 +35,44 @@ public class doimatkhauJdialog extends javax.swing.JDialog implements doimatkhau
         this.dispose();
     }
 
-    @Override
-    public void save() {
-        String username = txtUsername.getText().trim();
-        String password = txtPassword.getText().trim();
-        String newpass = txtNewpass.getText().trim();
-        String confirm = txtConfirm.getText().trim();
+@Override
+public void save() {
+    String username = txtUsername.getText().trim();
+    String password = txtPassword.getText().trim();
+    String newpass = txtNewpass.getText().trim();
+    String confirm = txtConfirm.getText().trim();
 
-        if (username.isEmpty() || password.isEmpty() || newpass.isEmpty() || confirm.isEmpty()) {
-            XDialog.alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
-
-        if (!newpass.equals(confirm)) {
-            XDialog.alert("Xác nhận mật khẩu không đúng!");
-            return;
-        }
-
-        TaiKhoan user = dao.findById(username);
-        if (user == null) {
-            XDialog.alert("Không tìm thấy tài khoản!");
-            return;
-        }
-
-        if (!user.getMatKhau().equals(password)) {
-            XDialog.alert("Mật khẩu hiện tại không đúng!");
-            return;
-        }
-
-        user.setMatKhau(newpass);
-        try {
-            dao.update(user);
-            XDialog.alert("Đổi mật khẩu thành công!");
-            this.dispose();
-        } catch (Exception e) {
-            XDialog.alert("Lỗi khi đổi mật khẩu: " + e.getMessage());
-        }
+    if (username.isEmpty() || password.isEmpty() || newpass.isEmpty() || confirm.isEmpty()) {
+        XDialog.alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
     }
+
+    if (!newpass.equals(confirm)) {
+        XDialog.alert("Xác nhận mật khẩu không đúng!");
+        return;
+    }
+
+    TaiKhoan user = dao.findByTenTaiKhoan(username);
+    if (user == null) {
+        XDialog.alert("Không tìm thấy tài khoản!");
+        return;
+    }
+
+    if (!user.getMatKhau().equals(password)) {
+        XDialog.alert("Mật khẩu hiện tại không đúng!");
+        return;
+    }
+
+    user.setMatKhau(newpass);
+    try {
+        dao.update(user);
+        XDialog.alert("Đổi mật khẩu thành công!");
+        this.dispose();
+    } catch (Exception e) {
+        XDialog.alert("Lỗi khi đổi mật khẩu: " + e.getMessage());
+    }
+}
+
 
 
 
