@@ -382,7 +382,8 @@ public void ManagerButtons() {
 
     private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
         // TODO add your handling code here:
-
+    // Đóng cửa sổ đăng ký
+    this.dispose();
     }//GEN-LAST:event_btndongActionPerformed
 
     /**

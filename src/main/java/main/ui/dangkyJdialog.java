@@ -199,7 +199,7 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
 
         jLabel5.setText("Nhập lại Mật Khẩu");
 
-        btndong.setText("Đóng");
+        btndong.setText("Quay lại");
         btndong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btndongActionPerformed(evt);
@@ -308,8 +308,12 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
     }//GEN-LAST:event_btndangkyActionPerformed
 
     private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+    // Đóng cửa sổ đăng ký
+    this.dispose();
+
+    // Mở lại cửa sổ đăng nhập
+    dangnhapJdialog dangNhap = new dangnhapJdialog(null, true);
+    dangNhap.setVisible(true);
     }//GEN-LAST:event_btndongActionPerformed
 
     /**
