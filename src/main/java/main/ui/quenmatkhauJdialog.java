@@ -18,6 +18,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
      */
     public quenmatkhauJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+                                setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
     }
 

@@ -109,7 +109,7 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
 
         JOptionPane.showMessageDialog(this, "Đăng ký thành công! Vui lòng đăng nhập.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
-        new dangnhapJdialog(null, true).setVisible(true);
+//        new dangnhapJdialog(null, true).setVisible(true);
     }
 
     /**
