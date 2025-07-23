@@ -19,7 +19,8 @@ public class HoaDon {
     private double tienPhong;
     private double tienDien;
     private double tienNuoc;
-
+ public HoaDon() {
+    }
     // Constructor đầy đủ tham số
     public HoaDon(String maHoaDon, String maHopDong, int thang, int nam, double tienPhong, double tienDien, double tienNuoc) {
         this.maHoaDon = maHoaDon;

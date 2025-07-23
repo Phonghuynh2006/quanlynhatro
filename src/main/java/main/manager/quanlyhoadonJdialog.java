@@ -25,7 +25,7 @@ private HoaDonDAO hoaDonDAO = new HoaDonDAOImpl();
     public quanlyhoadonJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        loadTable();
     }
 private HoaDon getFormData() {
     try {
