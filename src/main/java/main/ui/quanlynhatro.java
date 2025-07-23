@@ -29,7 +29,7 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
 
 @Override
 public void init() {
-    this.setIconImage(XIcon.getIcon("avartar.jpg").getImage());
+    this.setIconImage(XIcon.getIcon("photo.png").getImage());
     this.setLocationRelativeTo(null);
 
     this.showWelcomeJDialog(this);
@@ -98,8 +98,6 @@ public void ManagerButtons() {
         btnxemphong.setVisible(true);
     }
 }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.

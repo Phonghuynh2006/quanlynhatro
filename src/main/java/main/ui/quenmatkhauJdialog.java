@@ -233,7 +233,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nen1.jpg"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 390));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 270));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
