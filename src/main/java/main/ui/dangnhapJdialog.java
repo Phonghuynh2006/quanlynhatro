@@ -263,7 +263,7 @@ public void login() {
             jTShow.setBackground(new Color(255, 205, 31));
 
             // Sử dụng getClass().getResource() với đường dẫn tương đối
-            URL hideIconURL = getClass().getResource("/main/resources/main/icon/hide.png");
+            URL hideIconURL = getClass().getResource("src/main/resources/main/icon/hide.png");
             if (hideIconURL != null) {
                 jTShow.setIcon(new ImageIcon(hideIconURL));
             } else {
@@ -274,7 +274,7 @@ public void login() {
             jTShow.setBackground(new Color(255, 205, 31));
 
             // Sử dụng getClass().getResource() với đường dẫn tương đối
-            URL viewIconURL = getClass().getResource("/main/resources/main/icon/view.png");
+            URL viewIconURL = getClass().getResource("src/main/resources/main/icon/view.png");
             if (viewIconURL != null) {
                 jTShow.setIcon(new ImageIcon(viewIconURL));
             } else {

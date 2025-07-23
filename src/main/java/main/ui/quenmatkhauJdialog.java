@@ -4,14 +4,20 @@
  */
 package main.ui;
 
+import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import main.entity.TaiKhoan;
+import main.impl.TaiKhoanDAOImpl;
+import main.util.XMail;
 
 /**
  *
  * @author PHONG
  */
-public class quenmatkhauJdialog extends javax.swing.JDialog {
+public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKhauController{
 
     /**
      * Creates new form quenmatkhauJdialog
@@ -20,6 +26,84 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         super(parent, modal);
                                 setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
+                btnDoiPass.setEnabled(false);
+        setLocationRelativeTo(null);
+    }
+    
+
+    private final Map<String, String> maXacNhanMap = new HashMap<>();
+    private final TaiKhoanDAOImpl dao = new TaiKhoanDAOImpl();
+
+
+    @Override
+    public void guiMaXacNhan() {
+        String email = txtmail.getText().trim();
+
+        if (email.isEmpty()) {
+            showMsg("Vui lòng nhập email!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!emailExists(email)) {
+            showMsg("Email này không tồn tại!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String code = generateCode();
+        if (XMail.sendMail(email, code)) { // Gọi trực tiếp phương thức sendMail của lớp XMail
+            maXacNhanMap.put(email, code);
+            showMsg("Mã xác nhận đã gửi về email!", JOptionPane.INFORMATION_MESSAGE);
+            btnDoiPass.setEnabled(true);
+        } else {
+            showMsg("Không gửi được mã xác nhận. Hãy thử lại!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void doiMatKhau() {
+        String email = txtmail.getText().trim();
+        String maXacNhan = txtma.getText().trim();
+        String newPassword = new String(txtNewPassword.getPassword()).trim();
+
+        if (email.isEmpty() || maXacNhan.isEmpty() || newPassword.isEmpty()) {
+            showMsg("Vui lòng nhập đầy đủ thông tin!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!maXacNhan.equals(maXacNhanMap.get(email))) {
+            showMsg("Mã xác nhận không đúng hoặc đã hết hạn!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        TaiKhoan tk = getTaiKhoanByEmail(email);
+        if (tk == null) {
+            showMsg("Không tìm thấy tài khoản với email này!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        tk.setMatKhau(newPassword);
+        dao.update(tk);
+        showMsg("Đổi mật khẩu thành công! Vui lòng đăng nhập lại.", JOptionPane.INFORMATION_MESSAGE);
+
+        this.dispose();
+        new dangnhapJdialog(null, true).setVisible(true);
+    }
+
+    // --- HÀM HỖ TRỢ ---
+    private boolean emailExists(String email) {
+        return dao.findAll().stream().anyMatch(tk -> email.equalsIgnoreCase(tk.getEmail()));
+    }
+
+    private TaiKhoan getTaiKhoanByEmail(String email) {
+        return dao.findAll().stream()
+            .filter(tk -> email.equalsIgnoreCase(tk.getEmail()))
+            .findFirst().orElse(null);
+    }
+
+    private void showMsg(String msg, int type) {
+        JOptionPane.showMessageDialog(this, msg, "Thông báo", type);
+    }
+
+    private String generateCode() {
+        return String.valueOf(new SecureRandom().nextInt(900_000) + 100_000);
     }
 
     /**
@@ -35,11 +119,11 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         btndong = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        btnDangNhap = new javax.swing.JButton();
-        btnDangKy = new javax.swing.JButton();
-        txtPasswordnew = new javax.swing.JPasswordField();
+        btngui = new javax.swing.JButton();
+        btnDoiPass = new javax.swing.JButton();
+        txtNewPassword = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtma = new javax.swing.JTextField();
@@ -93,40 +177,40 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 60));
 
-        btnDangNhap.setBackground(new java.awt.Color(102, 204, 255));
-        btnDangNhap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDangNhap.setForeground(new java.awt.Color(40, 46, 62));
-        btnDangNhap.setText("Gửi");
-        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
+        btngui.setBackground(new java.awt.Color(102, 204, 255));
+        btngui.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btngui.setForeground(new java.awt.Color(40, 46, 62));
+        btngui.setText("Gửi");
+        btngui.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangNhapActionPerformed(evt);
+                btnguiActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDangNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, 43));
+        getContentPane().add(btngui, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, 43));
 
-        btnDangKy.setBackground(new java.awt.Color(102, 204, 255));
-        btnDangKy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDangKy.setForeground(new java.awt.Color(40, 46, 62));
-        btnDangKy.setText("Quay Lại");
-        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
+        btnDoiPass.setBackground(new java.awt.Color(102, 204, 255));
+        btnDoiPass.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDoiPass.setForeground(new java.awt.Color(40, 46, 62));
+        btnDoiPass.setText("đổi");
+        btnDoiPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangKyActionPerformed(evt);
+                btnDoiPassActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDangKy, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 118, 43));
+        getContentPane().add(btnDoiPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 118, 43));
 
-        txtPasswordnew.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtPasswordnew.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtPasswordnew, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, 25));
+        txtNewPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtNewPassword.setForeground(new java.awt.Color(40, 46, 62));
+        getContentPane().add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, 25));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 139));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Mật khẩu mới:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtEmail.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 190, 25));
+        txtmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtmail.setForeground(new java.awt.Color(40, 46, 62));
+        getContentPane().add(txtmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 190, 25));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 139));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -149,7 +233,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nen1.jpg"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 390));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 270));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -162,13 +246,15 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btndongActionPerformed
 
-    private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
+    private void btnguiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDangNhapActionPerformed
+        guiMaXacNhan();
+    }//GEN-LAST:event_btnguiActionPerformed
 
-    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+    private void btnDoiPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiPassActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDangKyActionPerformed
+         doiMatKhau();
+    }//GEN-LAST:event_btnDoiPassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,9 +299,9 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDangKy;
-    private javax.swing.JButton btnDangNhap;
+    private javax.swing.JButton btnDoiPass;
     private javax.swing.JButton btndong;
+    private javax.swing.JButton btngui;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -224,8 +310,8 @@ public class quenmatkhauJdialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JPasswordField txtPasswordnew;
+    private javax.swing.JPasswordField txtNewPassword;
     private javax.swing.JTextField txtma;
+    private javax.swing.JTextField txtmail;
     // End of variables declaration//GEN-END:variables
 }
