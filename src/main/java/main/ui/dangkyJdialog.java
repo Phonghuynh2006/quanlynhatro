@@ -7,6 +7,7 @@ package main.ui;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import main.dao.TaiKhoanDAO;
 import main.entity.TaiKhoan;
 import main.impl.TaiKhoanDAOImpl;
@@ -226,12 +227,12 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
     }//GEN-LAST:event_btndangkyActionPerformed
 
     private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
-    // Đóng cửa sổ đăng ký
-    this.dispose();
+    // Đóng cửa sổ hiện tại (Quên mật khẩu)
+    this.dispose(); // đóng form "Quên mật khẩu"
 
-    // Mở lại cửa sổ đăng nhập
-    dangnhapJdialog dangNhap = new dangnhapJdialog(null, true);
-    dangNhap.setVisible(true);
+    // Mở lại giao diện chính (QuanLyNhaTro)
+    new quanlynhatro().setVisible(true);
+
     }//GEN-LAST:event_btndongActionPerformed
 
     /**

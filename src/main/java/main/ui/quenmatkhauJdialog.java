@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import main.entity.TaiKhoan;
 import main.impl.TaiKhoanDAOImpl;
 import main.util.XMail;
@@ -273,12 +274,10 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
     }//GEN-LAST:event_btnDoiPassActionPerformed
 
     private void btndong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong1ActionPerformed
-        // Đóng cửa sổ đăng ký
-        this.dispose();
+    this.dispose(); // đóng form "Quên mật khẩu"
 
-        // Mở lại cửa sổ đăng nhập
-        dangnhapJdialog dangNhap = new dangnhapJdialog(null, true);
-        dangNhap.setVisible(true);
+    // Mở lại giao diện chính (QuanLyNhaTro)
+    new quanlynhatro().setVisible(true);
     }//GEN-LAST:event_btndong1ActionPerformed
 
     /**
