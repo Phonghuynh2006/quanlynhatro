@@ -4,6 +4,8 @@
  */
 package main.ui;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import javax.swing.JOptionPane;
 import main.dao.TaiKhoanDAO;
 import main.entity.TaiKhoan;
@@ -26,43 +28,22 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
         open();
     }
 
-//private void dangKyTaiKhoan() {
-//    String tenDangNhap = txtten.getText().trim();
-//    String matKhau = new String(txtmatkhau.getPassword()).trim();
-//    String nhapLaiMatKhau = new String(txtnhaplaimatkhau.getPassword()).trim();
-//
-//    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-//
-//    if (tenDangNhap.isEmpty() || matKhau.isEmpty() || nhapLaiMatKhau.isEmpty()) {
-//        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-//        return;
-//    }
-//
-//    if (!matKhau.equals(nhapLaiMatKhau)) {
-//        JOptionPane.showMessageDialog(this, "Mật khẩu không khớp!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-//        return;
-//    }
-//
-//    if (dao.isTenDangNhapTonTai(tenDangNhap)) {
-//        JOptionPane.showMessageDialog(this, "Tên đăng nhập đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-//        return;
-//    }
-//
-//    TaiKhoan taiKhoan = TaiKhoan.builder()
-//        .tenDangNhap(tenDangNhap)
-//        .matKhau(matKhau)
-//        .vaiTro(false) // false = người thuê
-//        .build();
-//
-//    dao.create(taiKhoan);
-//
-//    JOptionPane.showMessageDialog(this, "Đăng ký thành công! Vui lòng cập nhật thông tin cá nhân.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//    this.dispose();
-//}
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    
+    // Lấy vùng màn hình usable (trừ taskbar)
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle usableBounds = env.getMaximumWindowBounds();
+
+    // Thiết lập kích thước không che taskbar
+    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
+
+    // Các thao tác khác nếu có...
+
+
+
     }
     
     @Override
@@ -142,7 +123,7 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 255));
 
-        jLabel11.setFont(new java.awt.Font("Serif", 1, 36)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("NHÀ TRỌ FPOLY");
 
@@ -165,34 +146,37 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(479, 479, 479)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btndong1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 554, Short.MAX_VALUE)
+                .addComponent(btndong1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btndong1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btndong1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 3, 430, 60));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 3, 1550, 80));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/dangky.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 160, 240));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 220, 260));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("ĐĂNG KÝ");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 63, -1, 60));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, -1, 60));
 
         jLabel4.setText("Mật Khẩu");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 163, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, -1, -1));
 
         btndangky.setBackground(new java.awt.Color(102, 204, 255));
         btndangky.setText("Đăng Ký");
@@ -201,14 +185,14 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
                 btndangkyActionPerformed(evt);
             }
         });
-        getContentPane().add(btndangky, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 100, 40));
+        getContentPane().add(btndangky, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 380, 100, 40));
 
         jLabel3.setText("Nhập Tên Đăng Nhập");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 113, -1, -1));
-        getContentPane().add(txtten, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 133, 230, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 220, -1, -1));
+        getContentPane().add(txtten, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, 230, -1));
 
         jLabel5.setText("Nhập lại Mật Khẩu");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 213, 182, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 320, 182, -1));
 
         btndong.setBackground(new java.awt.Color(102, 204, 255));
         btndong.setText("Quay lại");
@@ -217,13 +201,13 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
                 btndongActionPerformed(evt);
             }
         });
-        getContentPane().add(btndong, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 114, 40));
-        getContentPane().add(txtmatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 183, 230, -1));
-        getContentPane().add(txtnhaplaimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(176, 233, 230, -1));
+        getContentPane().add(btndong, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 380, 114, 40));
+        getContentPane().add(txtmatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 290, 230, -1));
+        getContentPane().add(txtnhaplaimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 340, 230, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nen1.jpg"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/phong-nen-powerpoint-chuyen-nghiep-12.png"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 6, 430, 310));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 6, 1800, 990));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

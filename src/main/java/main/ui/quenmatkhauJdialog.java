@@ -119,6 +119,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
         jLabel2 = new javax.swing.JLabel();
         btndong = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btndong1 = new javax.swing.JButton();
         btngui = new javax.swing.JButton();
         btnDoiPass = new javax.swing.JButton();
         txtNewPassword = new javax.swing.JPasswordField();
@@ -135,7 +136,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 255));
 
-        jLabel2.setFont(new java.awt.Font("Serif", 1, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("NHÀ TRỌ FPOLY");
 
@@ -151,31 +152,46 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/houselogo.png"))); // NOI18N
 
+        btndong1.setBackground(new java.awt.Color(0, 0, 255));
+        btndong1.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\return (1).png")); // NOI18N
+        btndong1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndong1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(450, 450, 450)
                 .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 470, Short.MAX_VALUE)
+                .addComponent(btndong1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btndong1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 60));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 80));
 
         btngui.setBackground(new java.awt.Color(102, 204, 255));
         btngui.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -186,7 +202,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
                 btnguiActionPerformed(evt);
             }
         });
-        getContentPane().add(btngui, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, 43));
+        getContentPane().add(btngui, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 260, -1, 43));
 
         btnDoiPass.setBackground(new java.awt.Color(102, 204, 255));
         btnDoiPass.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -197,43 +213,43 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
                 btnDoiPassActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDoiPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 118, 43));
+        getContentPane().add(btnDoiPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 260, 118, 43));
 
         txtNewPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNewPassword.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 190, 25));
+        getContentPane().add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 220, 190, 25));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 139));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Mật khẩu mới:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, -1, -1));
 
         txtmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtmail.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 190, 25));
+        getContentPane().add(txtmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 160, 190, 25));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 139));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Email:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, -1, -1));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 139));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setText("QUÊN MẬT KHẨU");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, -1, -1));
 
         txtma.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtma.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtma, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 190, 25));
+        getContentPane().add(txtma, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 190, 190, 25));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 139));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Mã xác nhận:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 120, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 120, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nen1.jpg"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/phong-nen-powerpoint-chuyen-nghiep-12.png"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 270));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1570, 930));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -255,6 +271,15 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
         // TODO add your handling code here:
          doiMatKhau();
     }//GEN-LAST:event_btnDoiPassActionPerformed
+
+    private void btndong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong1ActionPerformed
+        // Đóng cửa sổ đăng ký
+        this.dispose();
+
+        // Mở lại cửa sổ đăng nhập
+        dangnhapJdialog dangNhap = new dangnhapJdialog(null, true);
+        dangNhap.setVisible(true);
+    }//GEN-LAST:event_btndong1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,6 +326,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoiPass;
     private javax.swing.JButton btndong;
+    private javax.swing.JButton btndong1;
     private javax.swing.JButton btngui;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

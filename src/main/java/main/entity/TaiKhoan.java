@@ -18,11 +18,6 @@ import lombok.NoArgsConstructor;
  * @author PHONG
  */
 public class TaiKhoan {
-
-//
-//    private String tenDangNhap;      // TenDangNhap
-//    private String matKhau;          // MatKhau
-//    private boolean vaiTro;          // true = Admin, false = Người thuê
 private Integer maNguoiDung;
     private String tenTaiKhoan;
     private String matKhau;

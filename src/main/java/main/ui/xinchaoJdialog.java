@@ -4,6 +4,9 @@
  */
 package main.ui;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+
 /**
  *
  * @author PHONG
@@ -15,7 +18,23 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
      */
     public xinchaoJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
+        
+    }
+    
+    public void open() { 
+    this.setLocationRelativeTo(null); 
+    
+    // Lấy vùng màn hình usable (trừ taskbar)
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle usableBounds = env.getMaximumWindowBounds();
+
+    // Thiết lập kích thước không che taskbar
+    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
+
+    // Các thao tác khác nếu có...
+
     }
     
         @Override 
@@ -45,7 +64,7 @@ System.exit(0);
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
         jLabel1 = new javax.swing.JLabel();
 
@@ -58,37 +77,32 @@ System.exit(0);
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(255, 0, 0));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(102, 255, 102));
-        jLabel2.setText("XIN CHÀO");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, -1));
+        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\logonhatro.png")); // NOI18N
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 300, 340));
 
         progressBar.setBackground(new java.awt.Color(51, 255, 51));
         progressBar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         progressBar.setValue(40);
         progressBar.setName(""); // NOI18N
         progressBar.setStringPainted(true);
-        jPanel2.add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 660, 20));
+        jPanel2.add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 640, 1310, 70));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9.jpg"))); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\nenxinchao.png")); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, 1650, 830));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1616, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,7 +157,7 @@ System.exit(0);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
