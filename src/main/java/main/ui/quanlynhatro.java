@@ -4,6 +4,8 @@
  */
 package main.ui;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import main.dao.ThongTinNguoiThueDAO;
 import main.entity.ThongTinNguoiThue;
 import main.impl.ThongTinNguoiThueDAOImpl;
@@ -25,6 +27,20 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
         this.init();
         ManagerButtons();
     }
+    
+    public void open() {  
+    
+    // Lấy vùng màn hình usable (trừ taskbar)
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle usableBounds = env.getMaximumWindowBounds();
+
+    // Thiết lập kích thước không che taskbar
+    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
+
+    // Các thao tác khác nếu có...
+
+
+} 
     
 
 @Override
@@ -139,7 +155,7 @@ public void ManagerButtons() {
 
         jPanel5.setBackground(new java.awt.Color(0, 0, 255));
 
-        jLabel3.setFont(new java.awt.Font("Serif", 1, 36)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("NHÀ TRỌ FPOLY");
 
@@ -162,9 +178,9 @@ public void ManagerButtons() {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                .addGap(433, 433, 433)
                 .addComponent(jLabel3)
-                .addGap(107, 107, 107)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 600, Short.MAX_VALUE)
                 .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -176,16 +192,15 @@ public void ManagerButtons() {
                         .addGap(12, 12, 12)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3))))
                 .addContainerGap())
         );
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 60));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1530, 90));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -261,7 +276,7 @@ public void ManagerButtons() {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 140));
 
-        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, -1, 139));
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, -1, 139));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -298,19 +313,19 @@ public void ManagerButtons() {
         });
         jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 100, 50));
 
-        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 429, 72));
+        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 370, 429, 72));
 
         lblphoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/avartar.jpg"))); // NOI18N
-        jPanel4.add(lblphoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 188, 184));
+        jPanel4.add(lblphoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 188, 184));
 
         lblfullname.setBackground(new java.awt.Color(51, 51, 51));
         lblfullname.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblfullname.setForeground(new java.awt.Color(255, 0, 0));
         lblfullname.setText("PHONG HUYNH");
-        jPanel4.add(lblfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, -1));
+        jPanel4.add(lblfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/download.jpg"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 330));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/pb5d9d1uif1d1.png"))); // NOI18N
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1530, 840));
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, -1, -1));
 
