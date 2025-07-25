@@ -19,6 +19,10 @@ public interface HoaDonDAO {
     void update(HoaDon hd);
     void delete(String maHoaDon);
     List<HoaDon> selectAll();
+      // Chỉ khai báo, không viết code ở đây
+     List<HoaDon> selectByUserId(int maNguoiDung);
+
+ 
 }
 
 

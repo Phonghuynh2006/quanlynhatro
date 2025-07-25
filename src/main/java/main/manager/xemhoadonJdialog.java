@@ -4,19 +4,62 @@
  */
 package main.manager;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import main.dao.HoaDonDAO;
+import main.entity.HoaDon;
+import main.impl.HoaDonDAOImpl;
+
 /**
  *
  * @author PHONG
  */
-public class xemhoadonJdialog extends javax.swing.JDialog {
+public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonController{
 
+    HoaDonDAO hoaDonDAO = new HoaDonDAOImpl(); // Tạo đối tượng DAO
+ private int maNguoiDung; // Dùng mã người dùng
     /**
      * Creates new form xemhoadonJdialog
      */
     public xemhoadonJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+     this.maNguoiDung = maNguoiDung;  // lưu lại tên tài khoản để lọc
         initComponents();
+        open(); 
     }
+
+    @Override
+    public void open() {
+        setLocationRelativeTo(null);
+        loadTable();
+    }
+
+    @Override
+    public void close() {
+        dispose();
+    }
+
+  @Override
+    public void loadTable() {
+        DefaultTableModel model = (DefaultTableModel) tblhoadon.getModel();
+        model.setRowCount(0);
+
+        // Lọc hóa đơn theo mã người dùng
+        List<HoaDon> list = hoaDonDAO.selectByUserId(this.maNguoiDung);
+
+        for (HoaDon hd : list) {
+            model.addRow(new Object[]{
+                hd.getMaHoaDon(),
+                hd.getMaHopDong(),
+                hd.getThang(),
+                hd.getNam(),
+                hd.getTienPhong(),
+                hd.getTienDien(),
+                hd.getTienNuoc()
+            });
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,6 +102,11 @@ public class xemhoadonJdialog extends javax.swing.JDialog {
                 "MÃ HÓA ĐƠN", "MÃ HỢP ĐỒNG", "THÁNG", "NĂM", "TIỀN PHÒNG", "TIỀN ĐIỆN", "TIỀN NƯỚC"
             }
         ));
+        tblhoadon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblhoadonMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblhoadon);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -76,6 +124,11 @@ public class xemhoadonJdialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblhoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhoadonMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tblhoadonMouseClicked
 
     /**
      * @param args the command line arguments

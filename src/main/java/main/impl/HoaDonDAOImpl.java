@@ -1,22 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.impl;
+
 import main.dao.HoaDonDAO;
 import main.entity.HoaDon;
-import main.util.XJdbc;
 import java.util.List;
-/**
- *
- * @author PHONG
- */
-public class HoaDonDAOImpl implements HoaDonDAO{
- 
+import static main.ui.quanlynhatro.main;
+import main.util.XJdbc;
 
-
-
-
+public class HoaDonDAOImpl implements HoaDonDAO {
 
     @Override
     public void insert(HoaDon hd) {
@@ -48,5 +38,16 @@ public class HoaDonDAOImpl implements HoaDonDAO{
         String sql = "SELECT * FROM HoaDon";
         return XJdbc.getBeanList(HoaDon.class, sql);
     }
+@Override
+public List<HoaDon> selectByUserId(int maNguoiDung) {
+    String sql = """
+        SELECT hd.*
+        FROM HoaDon hd
+        JOIN HopDong h ON hd.MaHopDong = h.MaHopDong
+        JOIN KhachThue kt ON kt.MaKhach = h.MaKhach
+        JOIN TaiKhoan tk ON tk.TenTaiKhoan = kt.TenTaiKhoan
+        WHERE tk.MaNguoiDung = ?
+    """;
+    return XJdbc.getBeanList(HoaDon.class, sql, maNguoiDung);
 }
-
+}
