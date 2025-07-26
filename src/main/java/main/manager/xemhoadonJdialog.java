@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import main.dao.HoaDonDAO;
 import main.entity.HoaDon;
 import main.impl.HoaDonDAOImpl;
+import main.util.XAuth;
 
 /**
  *
@@ -21,13 +22,20 @@ public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonCo
     /**
      * Creates new form xemhoadonJdialog
      */
-    public xemhoadonJdialog(java.awt.Frame parent, boolean modal) {
+    public xemhoadonJdialog(java.awt.Frame parent, boolean modal ,int maNguoiDung) {
         super(parent, modal);
-     this.maNguoiDung = maNguoiDung;  // lưu lại tên tài khoản để lọc
+   this.maNguoiDung = maNguoiDung;   // lưu lại tên tài khoản để lọc
         initComponents();
         open(); 
     }
-
+//
+//public void showxemhoadonJDialog(java.awt.Frame parent) {
+//    int maNguoiDung = XAuth.user.getMaNguoiDung(); // hoặc id bạn đang dùng
+//    xemhoadonJdialog dialog = new xemhoadonJdialog(parent, true, maNguoiDung);
+//    dialog.setLocationRelativeTo(parent);
+//    dialog.setVisible(true);
+//}
+////
     @Override
     public void open() {
         setLocationRelativeTo(null);
@@ -113,13 +121,11 @@ public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonCo
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -160,7 +166,10 @@ public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonCo
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                xemhoadonJdialog dialog = new xemhoadonJdialog(new javax.swing.JFrame(), true);
+                int maNguoiDung = 1; // hoặc giá trị đúng đang đăng nhập
+xemhoadonJdialog dialog = new xemhoadonJdialog(new javax.swing.JFrame(), true, maNguoiDung);
+dialog.setVisible(true);
+
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

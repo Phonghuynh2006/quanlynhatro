@@ -57,7 +57,9 @@ public interface quanlynhatroController {
         this.showJDialog(new xemphongJdialog(frame, true));
     }
     default void showxemhoadonJDialog(JFrame frame){
-        this.showJDialog(new xemhoadonJdialog(frame, true));
+        int maNguoiDung = 1; // hoặc lấy từ người dùng đăng nhập
+new xemhoadonJdialog(new JFrame(), true, maNguoiDung);
+
     }
     
     default void showthongtinnguoithueJdialog(JFrame frame){

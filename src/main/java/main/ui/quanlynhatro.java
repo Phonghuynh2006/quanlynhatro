@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import main.dao.ThongTinNguoiThueDAO;
 import main.entity.ThongTinNguoiThue;
 import main.impl.ThongTinNguoiThueDAOImpl;
+import main.manager.xemhoadonJdialog;
 import main.util.XAuth;
 import main.util.XIcon;
 
@@ -60,6 +61,7 @@ public void init() {
             String hinh = XAuth.user.getHinhAnh();
             if (hinh != null && !hinh.isEmpty()) {
                 XIcon.setIcon(lblphoto, "src/main/resources/main/icon/" + hinh);
+                //
             } else {
                 XIcon.setIcon(lblphoto, "src/main/resources/main/icon/photo.png");
             }
@@ -413,7 +415,11 @@ public void ManagerButtons() {
 
     private void btnxemhoadonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxemhoadonActionPerformed
         // TODO add your handling code here:
-         showxemhoadonJDialog(this);
+        // showxemhoadonJDialog(this);
+         int maNguoiDung = XAuth.user.getMaNguoiDung(); // Lấy mã người dùng đang đăng nhập
+    xemhoadonJdialog dialog = new xemhoadonJdialog(this, true, maNguoiDung);
+    dialog.setLocationRelativeTo(this);
+    dialog.setVisible(true);
     }//GEN-LAST:event_btnxemhoadonActionPerformed
 
     private void btnxemphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxemphongActionPerformed

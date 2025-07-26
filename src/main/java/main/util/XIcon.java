@@ -34,7 +34,8 @@ public class XIcon {
     if (!path.contains("/") && !path.contains("\\")) { // chỉ tên file, không có dấu /
         return XIcon.getIcon("D:/code/java/QUANLYNHATRO/src/main/resources/main/icon/" + path);
     }
-
+    //D:\quanlynhatro1\
+//D:/code/java/QUANLYNHATRO/
     if (path.startsWith("/")) { // path dạng resource
         java.net.URL url = XIcon.class.getResource(path);
         if (url == null) {
