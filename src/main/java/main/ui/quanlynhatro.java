@@ -176,31 +176,27 @@ public void ManagerButtons() {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(433, 433, 433)
+                .addGap(429, 429, 429)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 600, Short.MAX_VALUE)
-                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 563, Short.MAX_VALUE)
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(0, 16, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3))))
+                        .addComponent(jLabel3))
+                    .addComponent(btndong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1530, 90));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1530, 90));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -212,7 +208,7 @@ public void ManagerButtons() {
                 btnquanlykhachthueActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlykhachthue, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 140, 60));
+        jPanel1.add(btnquanlykhachthue, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 150, 110));
 
         btnquanlyhopdong.setText("Quản Lý Hợp Đồng");
         btnquanlyhopdong.addActionListener(new java.awt.event.ActionListener() {
@@ -220,7 +216,7 @@ public void ManagerButtons() {
                 btnquanlyhopdongActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyhopdong, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 140, 60));
+        jPanel1.add(btnquanlyhopdong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 150, 110));
 
         btnquanlytaikhoan.setText("Quản Lý Tài Khoản");
         btnquanlytaikhoan.addActionListener(new java.awt.event.ActionListener() {
@@ -228,7 +224,7 @@ public void ManagerButtons() {
                 btnquanlytaikhoanActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlytaikhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 50));
+        jPanel1.add(btnquanlytaikhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 120));
 
         btnquanlyphong.setText("Quản Lý Phòng");
         btnquanlyphong.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +232,7 @@ public void ManagerButtons() {
                 btnquanlyphongActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 50));
+        jPanel1.add(btnquanlyphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 120));
 
         btnquanlyhoadon.setText("Quản Lý Hóa Đơn");
         btnquanlyhoadon.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +240,7 @@ public void ManagerButtons() {
                 btnquanlyhoadonActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 50));
+        jPanel1.add(btnquanlyhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 120));
 
         jPanel3.setBackground(new java.awt.Color(255, 0, 153));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -274,58 +270,66 @@ public void ManagerButtons() {
         });
         jPanel3.add(btnxemphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 120));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 429, 140));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 429, 300));
 
-        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, -1, 139));
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 460, 300));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btndoimatkhau.setBackground(new java.awt.Color(51, 255, 255));
+        btndoimatkhau.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btndoimatkhau.setText("Đổi Mật Khẩu");
         btndoimatkhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btndoimatkhauActionPerformed(evt);
             }
         });
-        jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, 50));
+        jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, 90));
 
+        jButton7.setBackground(new java.awt.Color(51, 255, 255));
+        jButton7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jButton7.setText("Lịch Sử");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 50));
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 90));
 
+        btndoanhthu.setBackground(new java.awt.Color(51, 255, 255));
+        btndoanhthu.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btndoanhthu.setText("Doanh Thu");
         btndoanhthu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btndoanhthuActionPerformed(evt);
             }
         });
-        jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 90, 50));
+        jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 100, 90));
 
+        btndangxuat.setBackground(new java.awt.Color(51, 255, 255));
+        btndangxuat.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btndangxuat.setText("Đăng Xuất");
         btndangxuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btndangxuatActionPerformed(evt);
             }
         });
-        jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 100, 50));
+        jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 100, 90));
 
-        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 370, 429, 72));
+        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 460, 460, 110));
 
         lblphoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/avartar.jpg"))); // NOI18N
-        jPanel4.add(lblphoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 188, 184));
+        jPanel4.add(lblphoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 200, 280));
 
         lblfullname.setBackground(new java.awt.Color(51, 51, 51));
         lblfullname.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblfullname.setForeground(new java.awt.Color(255, 0, 0));
         lblfullname.setText("PHONG HUYNH");
-        jPanel4.add(lblfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, -1, -1));
+        jPanel4.add(lblfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 470, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/pb5d9d1uif1d1.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1530, 840));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 1530, 850));
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, -1, -1));
 
