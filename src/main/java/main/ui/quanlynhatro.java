@@ -130,15 +130,15 @@ public void ManagerButtons() {
         jLabel4 = new javax.swing.JLabel();
         btndong = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        btnthongtinnguoithue = new javax.swing.JButton();
+        btnxemhoadon = new javax.swing.JButton();
+        btnxemphong = new javax.swing.JButton();
         btnquanlykhachthue = new javax.swing.JButton();
         btnquanlyhopdong = new javax.swing.JButton();
         btnquanlytaikhoan = new javax.swing.JButton();
         btnquanlyphong = new javax.swing.JButton();
         btnquanlyhoadon = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        btnthongtinnguoithue = new javax.swing.JButton();
-        btnxemhoadon = new javax.swing.JButton();
-        btnxemphong = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btndoimatkhau = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -180,7 +180,7 @@ public void ManagerButtons() {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(429, 429, 429)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 563, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 583, Short.MAX_VALUE)
                 .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -196,11 +196,47 @@ public void ManagerButtons() {
                 .addContainerGap())
         );
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1530, 90));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1550, 90));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 0, 153));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnthongtinnguoithue.setBackground(new java.awt.Color(255, 255, 0));
+        btnthongtinnguoithue.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnthongtinnguoithue.setText("Thông Tin Người Thuê");
+        btnthongtinnguoithue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthongtinnguoithueActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnthongtinnguoithue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 440, 190));
+
+        btnxemhoadon.setBackground(new java.awt.Color(255, 255, 0));
+        btnxemhoadon.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnxemhoadon.setText("Xem Hóa Đơn");
+        btnxemhoadon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxemhoadonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnxemhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 440, 190));
+
+        btnxemphong.setBackground(new java.awt.Color(255, 255, 51));
+        btnxemphong.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnxemphong.setText("Xem Phòng");
+        btnxemphong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxemphongActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnxemphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 440, 190));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 610));
 
         btnquanlykhachthue.setText("Quản Lý Khách Thuê");
         btnquanlykhachthue.addActionListener(new java.awt.event.ActionListener() {
@@ -208,7 +244,7 @@ public void ManagerButtons() {
                 btnquanlykhachthueActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlykhachthue, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 150, 110));
+        jPanel1.add(btnquanlykhachthue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 430, 110));
 
         btnquanlyhopdong.setText("Quản Lý Hợp Đồng");
         btnquanlyhopdong.addActionListener(new java.awt.event.ActionListener() {
@@ -216,7 +252,7 @@ public void ManagerButtons() {
                 btnquanlyhopdongActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyhopdong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 150, 110));
+        jPanel1.add(btnquanlyhopdong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 430, 110));
 
         btnquanlytaikhoan.setText("Quản Lý Tài Khoản");
         btnquanlytaikhoan.addActionListener(new java.awt.event.ActionListener() {
@@ -224,7 +260,7 @@ public void ManagerButtons() {
                 btnquanlytaikhoanActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlytaikhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 120));
+        jPanel1.add(btnquanlytaikhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 430, 110));
 
         btnquanlyphong.setText("Quản Lý Phòng");
         btnquanlyphong.addActionListener(new java.awt.event.ActionListener() {
@@ -232,7 +268,7 @@ public void ManagerButtons() {
                 btnquanlyphongActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 130, 120));
+        jPanel1.add(btnquanlyphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 430, 110));
 
         btnquanlyhoadon.setText("Quản Lý Hóa Đơn");
         btnquanlyhoadon.addActionListener(new java.awt.event.ActionListener() {
@@ -240,39 +276,9 @@ public void ManagerButtons() {
                 btnquanlyhoadonActionPerformed(evt);
             }
         });
-        jPanel1.add(btnquanlyhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 120));
+        jPanel1.add(btnquanlyhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 430, 110));
 
-        jPanel3.setBackground(new java.awt.Color(255, 0, 153));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnthongtinnguoithue.setText("Thông Tin Người Thuê");
-        btnthongtinnguoithue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnthongtinnguoithueActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnthongtinnguoithue, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 150, 120));
-
-        btnxemhoadon.setText("Xem Hóa Đơn");
-        btnxemhoadon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnxemhoadonActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnxemhoadon, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 120, 120));
-
-        btnxemphong.setText("Xem Phòng");
-        btnxemphong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnxemphongActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnxemphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 120));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 429, 300));
-
-        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 460, 300));
+        jPanel4.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 460, 610));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -285,7 +291,7 @@ public void ManagerButtons() {
                 btndoimatkhauActionPerformed(evt);
             }
         });
-        jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, 90));
+        jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 250, 140));
 
         jButton7.setBackground(new java.awt.Color(51, 255, 255));
         jButton7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -295,7 +301,7 @@ public void ManagerButtons() {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 90));
+        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 140));
 
         btndoanhthu.setBackground(new java.awt.Color(51, 255, 255));
         btndoanhthu.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -305,7 +311,7 @@ public void ManagerButtons() {
                 btndoanhthuActionPerformed(evt);
             }
         });
-        jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 100, 90));
+        jPanel2.add(btndoanhthu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 250, 140));
 
         btndangxuat.setBackground(new java.awt.Color(51, 255, 255));
         btndangxuat.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -315,9 +321,9 @@ public void ManagerButtons() {
                 btndangxuatActionPerformed(evt);
             }
         });
-        jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 100, 90));
+        jPanel2.add(btndangxuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 250, 140));
 
-        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 460, 460, 110));
+        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 140, 270, 610));
 
         lblphoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/avartar.jpg"))); // NOI18N
         jPanel4.add(lblphoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 200, 280));
@@ -329,7 +335,7 @@ public void ManagerButtons() {
         jPanel4.add(lblfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 470, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/pb5d9d1uif1d1.png"))); // NOI18N
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 1530, 850));
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 1550, 850));
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, -1, -1));
 

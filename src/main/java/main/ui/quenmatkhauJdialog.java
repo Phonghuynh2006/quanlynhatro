@@ -4,6 +4,8 @@
  */
 package main.ui;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,18 +20,34 @@ import main.util.XMail;
  *
  * @author PHONG
  */
-public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKhauController{
+public class quenmatkhauJdialog extends javax.swing.JDialog implements quenmatkhauController{
 
     /**
      * Creates new form quenmatkhauJdialog
      */
     public quenmatkhauJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-                                setUndecorated(true);  // Ẩn viền và nút X
+        setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
-                btnDoiPass.setEnabled(false);
-        setLocationRelativeTo(null);
+        btnDoiPass.setEnabled(false);
+        open();
     }
+    
+        @Override
+public void open() { 
+    this.setLocationRelativeTo(null); 
+    
+    // Lấy vùng màn hình usable (trừ taskbar)
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle usableBounds = env.getMaximumWindowBounds();
+
+    // Thiết lập kích thước không che taskbar
+    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
+
+    // Các thao tác khác nếu có...
+
+
+}
     
 
     private final Map<String, String> maXacNhanMap = new HashMap<>();
@@ -168,9 +186,9 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(450, 450, 450)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 493, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 470, Short.MAX_VALUE)
+                .addGap(427, 427, 427)
                 .addComponent(btndong1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,7 +213,7 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 80));
 
         btngui.setBackground(new java.awt.Color(102, 204, 255));
-        btngui.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btngui.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btngui.setForeground(new java.awt.Color(40, 46, 62));
         btngui.setText("Gửi");
         btngui.addActionListener(new java.awt.event.ActionListener() {
@@ -203,10 +221,10 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
                 btnguiActionPerformed(evt);
             }
         });
-        getContentPane().add(btngui, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 260, -1, 43));
+        getContentPane().add(btngui, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 390, 120, 70));
 
         btnDoiPass.setBackground(new java.awt.Color(102, 204, 255));
-        btnDoiPass.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDoiPass.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDoiPass.setForeground(new java.awt.Color(40, 46, 62));
         btnDoiPass.setText("đổi");
         btnDoiPass.addActionListener(new java.awt.event.ActionListener() {
@@ -214,39 +232,39 @@ public class quenmatkhauJdialog extends javax.swing.JDialog implements QuenMatKh
                 btnDoiPassActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDoiPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 260, 118, 43));
+        getContentPane().add(btnDoiPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 120, 70));
 
         txtNewPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNewPassword.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 220, 190, 25));
+        getContentPane().add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 320, 190, 30));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 139));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Mật khẩu mới:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, -1, -1));
 
         txtmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtmail.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 160, 190, 25));
+        getContentPane().add(txtmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 240, 190, 30));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 139));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Email:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 240, -1, -1));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 139));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setText("QUÊN MẬT KHẨU");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, -1, -1));
 
         txtma.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtma.setForeground(new java.awt.Color(40, 46, 62));
-        getContentPane().add(txtma, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 190, 190, 25));
+        getContentPane().add(txtma, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 280, 190, 30));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 139));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Mã xác nhận:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 120, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, 120, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/phong-nen-powerpoint-chuyen-nghiep-12.png"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));

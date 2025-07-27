@@ -4,8 +4,11 @@
  */
 package main.ui;
 
+import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -36,23 +39,31 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
     // Các thao tác khác nếu có...
 
     }
-    
-        @Override 
-public void waiting() { 
 
-this.setLocationRelativeTo(null); 
-new Thread(() -> { 
-try { 
-for (var i = 0; i <= 100; i++) { 
-progressBar.setValue(i); 
-Thread.sleep(10); 
-} 
-xinchaoJdialog.this.dispose(); 
-} catch (InterruptedException ex) { 
-System.exit(0); 
-} 
-}).start(); 
-} 
+    @Override 
+public void waiting() { 
+    this.setLocationRelativeTo(null); 
+
+    // Nếu bạn dùng Nimbus Look and Feel, override màu cam mặc định
+    UIManager.put("nimbusOrange", new Color(0, 120, 215)); // Màu xanh dương
+    SwingUtilities.updateComponentTreeUI(this); // Cập nhật giao diện
+
+    // Hoặc set màu trực tiếp cho progressBar (nếu không dùng Nimbus)
+    progressBar.setForeground(new Color(0, 0, 0)); // Màu xanh dương
+    progressBar.setBackground(Color.LIGHT_GRAY);       // Màu nền
+
+    new Thread(() -> { 
+        try { 
+            for (int i = 0; i <= 100; i++) { 
+                progressBar.setValue(i); 
+                Thread.sleep(10); 
+            } 
+            xinchaoJdialog.this.dispose(); 
+        } catch (InterruptedException ex) { 
+            System.exit(0); 
+        } 
+    }).start(); 
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,7 +91,7 @@ System.exit(0);
         jLabel3.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\logonhatro.png")); // NOI18N
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 300, 340));
 
-        progressBar.setBackground(new java.awt.Color(51, 255, 51));
+        progressBar.setBackground(new java.awt.Color(0, 0, 0));
         progressBar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         progressBar.setValue(40);
         progressBar.setName(""); // NOI18N
@@ -88,7 +99,7 @@ System.exit(0);
         jPanel2.add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 640, 1310, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\nenxinchao.png")); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, 1650, 830));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -20, 1650, 860));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,7 +113,7 @@ System.exit(0);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
         pack();
