@@ -126,13 +126,13 @@ private void loadTable() {
 
         jTabbedPane1.addTab("HÓA ĐƠN", jPanel1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("MÃ HÓA ĐƠN:");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("MÃ HỢP ĐỒNG:");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("THÁNG:");
 
         txtmahadon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -149,7 +149,7 @@ private void loadTable() {
             }
         });
 
-        btnthem.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnthem.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnthem.setText("THÊM");
         btnthem.setBorder(new javax.swing.border.MatteBorder(null));
         btnthem.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +158,7 @@ private void loadTable() {
             }
         });
 
-        btnsua.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnsua.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnsua.setText("SỬA");
         btnsua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsua.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +167,7 @@ private void loadTable() {
             }
         });
 
-        btnxoa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnxoa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnxoa.setText("XÓA");
         btnxoa.setBorder(new javax.swing.border.MatteBorder(null));
         btnxoa.addActionListener(new java.awt.event.ActionListener() {
@@ -176,16 +176,16 @@ private void loadTable() {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("NĂM:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("TIỀN PHÒNG:");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("TIỀN ĐIỆN:");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("TIỀN NƯỚC:");
 
         txtthang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
