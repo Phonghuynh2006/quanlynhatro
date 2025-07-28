@@ -55,37 +55,6 @@ public void open() {
  
 ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
 
-//@Override
-//public void login() {
-//    String username = txtUsername.getText().trim();
-//    String password = txtPassword.getText().trim(); 
-//
-//    if (username.isEmpty() || password.isEmpty()) {
-//        XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
-//        return;
-//    }
-//
-//    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-//    TaiKhoan user = dao.findByTenTaiKhoanAndMatKhau(username, password);
-//
-//    if (user == null) {
-//        XDialog.alert("Tên đăng nhập hoặc mật khẩu không đúng!");
-//        return;
-//    }
-//
-//    XAuth.user = user; // Lưu vào biến toàn cục dùng toàn chương trình
-//
-//    if (user.isAdmin()) {
-//        System.out.println("Đăng nhập thành công: Quản trị viên");
-//    } else {
-//        System.out.println("Đăng nhập thành công: " + user.getHoTen());
-//        System.out.println("Ảnh đại diện: " + user.getHinhAnh());
-//    }
-//
-//    this.dispose(); // Đóng form đăng nhập
-//    
-//    
-//}
 @Override
 public void login() {
     String username = txtUsername.getText().trim();
@@ -104,16 +73,22 @@ public void login() {
         return;
     }
 
-    XAuth.user = user;
+    XAuth.user = user; // Lưu vào biến toàn cục dùng toàn chương trình
 
     if (user.isAdmin()) {
         System.out.println("Đăng nhập thành công: Quản trị viên");
     } else {
         System.out.println("Đăng nhập thành công: " + user.getHoTen());
+        System.out.println("Ảnh đại diện: " + user.getHinhAnh());
     }
 
-    this.dispose(); // đóng form đăng nhập
+    this.dispose(); // Đóng form đăng nhập
+    
+    
 }
+
+
+
 
 
 
