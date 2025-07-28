@@ -51,7 +51,7 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\code\java\QUANLYNHATRO\src\main\resources\main\icon\logonhatro.png"/>
+              <Image iconType="3" name="/main/icon/logonhatro.png"/>
             </Property>
           </Properties>
           <Constraints>
@@ -81,7 +81,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\code\java\QUANLYNHATRO\src\main\resources\main\icon\nenxinchao.png"/>
+              <Image iconType="3" name="/main/icon/nenxinchao.png"/>
             </Property>
           </Properties>
           <Constraints>

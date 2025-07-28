@@ -88,7 +88,7 @@ public void waiting() {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\logonhatro.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/logonhatro.png"))); // NOI18N
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 300, 340));
 
         progressBar.setBackground(new java.awt.Color(0, 0, 0));
@@ -98,7 +98,7 @@ public void waiting() {
         progressBar.setStringPainted(true);
         jPanel2.add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 640, 1310, 70));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\nenxinchao.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nenxinchao.png"))); // NOI18N
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -20, 1650, 860));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
