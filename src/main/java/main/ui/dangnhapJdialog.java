@@ -55,7 +55,7 @@ public void open() {
  
 ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
 
-@Override
+//@Override
 //public void login() {
 //    String username = txtUsername.getText().trim();
 //    String password = txtPassword.getText().trim(); 
@@ -85,9 +85,10 @@ ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
 //    this.dispose(); // Đóng form đăng nhập
 //}
 
+@Override
 public void login() {
     String username = txtUsername.getText().trim();
-    String password = txtPassword.getText().trim();
+    String password = txtPassword.getText().trim(); 
 
     if (username.isEmpty() || password.isEmpty()) {
         XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
@@ -102,12 +103,15 @@ public void login() {
         return;
     }
 
-    XAuth.user = user; // lưu user toàn cục
+    XAuth.user = user;
 
-    // Đóng dialog đăng nhập, trả quyền cho chỗ gọi setVisible(true)
-    this.dispose();
+    System.out.println("Đăng nhập thành công: " + user.getHoTen());
+
+    this.dispose(); // Đóng form đăng nhập
+
+    // ✅ Mở giao diện chính sau khi đăng nhập
+    new quanlynhatro().setVisible(true);
 }
-
 
 
 
