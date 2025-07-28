@@ -381,21 +381,14 @@ public void ManagerButtons() {
 
     private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
         // TODO add your handling code here:
-//          this.dispose(); // Đóng form hiện tại
-//
-//    // Mở lại form đăng nhập
-//    java.awt.EventQueue.invokeLater(new Runnable() {
-//        public void run() {
-//            new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
-//        }
-//    });                                          
-    this.dispose(); // Đóng form hiện tại
+          this.dispose(); // Đóng form hiện tại
 
+    // Mở lại form đăng nhập
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
             new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
         }
-    });
+    });                                          
 
     
     }//GEN-LAST:event_btndangxuatActionPerformed

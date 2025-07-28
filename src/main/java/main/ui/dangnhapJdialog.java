@@ -83,8 +83,9 @@ ThongTinNguoiThueDAO thongTinDAO = new ThongTinNguoiThueDAOImpl();
 //    }
 //
 //    this.dispose(); // Đóng form đăng nhập
+//    
+//    
 //}
-
 @Override
 public void login() {
     String username = txtUsername.getText().trim();
@@ -105,13 +106,16 @@ public void login() {
 
     XAuth.user = user;
 
-    System.out.println("Đăng nhập thành công: " + user.getHoTen());
+    if (user.isAdmin()) {
+        System.out.println("Đăng nhập thành công: Quản trị viên");
+    } else {
+        System.out.println("Đăng nhập thành công: " + user.getHoTen());
+    }
 
-    this.dispose(); // Đóng form đăng nhập
-
-    // ✅ Mở giao diện chính sau khi đăng nhập
-    new quanlynhatro().setVisible(true);
+    this.dispose(); // đóng form đăng nhập
 }
+
+
 
 
 
@@ -283,8 +287,11 @@ public void login() {
     }//GEN-LAST:event_rememberMeCheckboxActionPerformed
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        // TODO add your handling code here:
-        login();
+        // TODO add your handling code here:                                            
+    login();
+
+
+
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
