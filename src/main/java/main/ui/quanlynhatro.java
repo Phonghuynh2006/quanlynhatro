@@ -381,26 +381,16 @@ public void ManagerButtons() {
 
     private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
         // TODO add your handling code here:
-//          this.dispose(); // Đóng form hiện tại
-//
-//    // Mở lại form đăng nhập
-//    java.awt.EventQueue.invokeLater(new Runnable() {
-//        public void run() {
-//            new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
-//        }
-//    });
-    this.dispose();
-    XAuth.user = null;
+          this.dispose(); // Đóng form hiện tại
 
-    // Không gọi lại "Xin chào" nữa
-    dangnhapJdialog loginDialog = new dangnhapJdialog(new JFrame(), true);
-    loginDialog.setVisible(true);
+    // Mở lại form đăng nhập
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
+        }
+    });                                          
 
-    if (XAuth.user != null) {
-        new quanlynhatro().setVisible(true);
-    } else {
-        System.exit(0);
-    }
+    
     }//GEN-LAST:event_btndangxuatActionPerformed
 
     private void btndoanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndoanhthuActionPerformed
