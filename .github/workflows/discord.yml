@@ -1,0 +1,30 @@
+name: Notify Discord on Push
+
+on:
+  push:
+    branches:
+      - master  # hoặc main nếu bạn dùng branch main
+
+jobs:
+  discord_notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send webhook to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{
+                \"username\": \"GitHub Bot\",
+                \"avatar_url\": \"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\",
+                \"embeds\": [{
+                  \"title\": \"🚀 Push mới lên repo!\",
+                  \"description\": \"[${{ github.actor }}] vừa push lên **${{ github.repository }}**\",
+                  \"color\": 1127128,
+                  \"fields\": [
+                    { \"name\": \"📝 Message\", \"value\": \"${{ github.event.head_commit.message }}\" },
+                    { \"name\": \"🔗 Commit\", \"value\": \"[Xem commit](${{ github.event.head_commit.url }})\" }
+                  ],
+                  \"timestamp\": \"${{ github.event.head_commit.timestamp }}\"
+                }]
+              }" \
+          ${{ secrets.DISCORD_WEBHOOK }}
