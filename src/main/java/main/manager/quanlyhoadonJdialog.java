@@ -26,6 +26,7 @@ private HoaDonDAO hoaDonDAO = new HoaDonDAOImpl();
         super(parent, modal);
         initComponents();
         loadTable();
+        
     }
 private HoaDon getFormData() {
     try {
@@ -43,10 +44,13 @@ private HoaDon getFormData() {
         return null;
     }
 }
+
+
 private void loadTable() {
     List<HoaDon> list = hoaDonDAO.selectAll();
     DefaultTableModel model = (DefaultTableModel) tblhoadon.getModel();
     model.setRowCount(0);
+
     for (HoaDon hd : list) {
         model.addRow(new Object[]{
             hd.getMaHoaDon(),
@@ -59,6 +63,7 @@ private void loadTable() {
         });
     }
 }
+
 
 
     /**
@@ -115,13 +120,17 @@ private void loadTable() {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 829, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 84, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("HÓA ĐƠN", jPanel1);
@@ -415,7 +424,9 @@ HoaDon hd = getFormData();
         // TODO add your handling code here:
     }//GEN-LAST:event_txttiennuocActionPerformed
 
-
+private void formWindowOpened(java.awt.event.WindowEvent evt) {
+    loadTable();
+}
     /**
      * @param args the command line arguments
      */
