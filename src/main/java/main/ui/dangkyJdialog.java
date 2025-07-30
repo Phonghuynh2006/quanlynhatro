@@ -17,17 +17,21 @@ import main.impl.TaiKhoanDAOImpl;
  * @author PHONG
  */
 public class dangkyJdialog extends javax.swing.JDialog implements dangkyController {
+private dangnhapJdialog loginDialog;
 
     /**
      * Creates new form dangkyJdialog
      */
-    public dangkyJdialog(java.awt.Frame parent, boolean modal) {
+    public dangkyJdialog(java.awt.Frame parent, boolean modal, dangnhapJdialog loginDialog) {
         super(parent, modal);
-                        setUndecorated(true);
+        this.loginDialog = loginDialog;
+        setUndecorated(true);
         initComponents();
-
         open();
     }
+    
+public dangkyJdialog(java.awt.Frame parent, boolean modal) {
+}
 
     @Override
     public void open() {
@@ -85,13 +89,13 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
         tk.setDienThoai("0000000000");
         tk.setDiaChi("Chưa cập nhật");
         tk.setGioiTinh("Nam");
-        tk.setHinhAnh("user1.png");
+        tk.setHinhAnh("user.jpg");
 
         dao.create(tk);
 
         JOptionPane.showMessageDialog(this, "Đăng ký thành công! Vui lòng đăng nhập.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
-//        new dangnhapJdialog(null, true).setVisible(true);
+        new dangnhapJdialog(null, true).setVisible(true);
     }
 
     /**
@@ -114,7 +118,7 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
         jLabel3 = new javax.swing.JLabel();
         txtten = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        btndong = new javax.swing.JButton();
+        btnquaylai = new javax.swing.JButton();
         txtmatkhau = new javax.swing.JPasswordField();
         txtnhaplaimatkhau = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
@@ -195,14 +199,14 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
         jLabel5.setText("Nhập lại Mật Khẩu");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 320, 182, -1));
 
-        btndong.setBackground(new java.awt.Color(102, 204, 255));
-        btndong.setText("Quay lại");
-        btndong.addActionListener(new java.awt.event.ActionListener() {
+        btnquaylai.setBackground(new java.awt.Color(102, 204, 255));
+        btnquaylai.setText("Quay lại");
+        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndongActionPerformed(evt);
+                btnquaylaiActionPerformed(evt);
             }
         });
-        getContentPane().add(btndong, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 380, 114, 40));
+        getContentPane().add(btnquaylai, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 380, 114, 40));
         getContentPane().add(txtmatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 290, 230, -1));
         getContentPane().add(txtnhaplaimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 340, 230, -1));
 
@@ -226,14 +230,12 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
         dangKy();
     }//GEN-LAST:event_btndangkyActionPerformed
 
-    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
-    // Đóng cửa sổ hiện tại (Quên mật khẩu)
-    this.dispose(); // đóng form "Quên mật khẩu"
-
-    // Mở lại giao diện chính (QuanLyNhaTro)
-    new quanlynhatro().setVisible(true);
-
-    }//GEN-LAST:event_btndongActionPerformed
+    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+    if (loginDialog != null) {
+        loginDialog.setVisible(true);  // Hiển thị lại form đăng nhập
+    }
+    this.dispose(); // Đóng form đăng ký sau khi form đăng nhập hiện ra
+    }//GEN-LAST:event_btnquaylaiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,8 +281,8 @@ public class dangkyJdialog extends javax.swing.JDialog implements dangkyControll
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btndangky;
-    private javax.swing.JButton btndong;
     private javax.swing.JButton btndong1;
+    private javax.swing.JButton btnquaylai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

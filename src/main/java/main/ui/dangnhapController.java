@@ -24,8 +24,8 @@ System.exit(0);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-    default void showdangkyJDialog(JFrame frame){
-        this.showJDialog(new dangkyJdialog(frame, true));
-    }
+//    default void showdangkyJDialog(JFrame frame){
+//        this.showJDialog(new dangkyJdialog(frame, true));
+//    }
 
 }

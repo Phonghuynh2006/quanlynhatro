@@ -279,8 +279,13 @@ public boolean isDangNhapThanhCong() {
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
         // TODO add your handling code here:
         // Mở form đăng ký
-        dangkyJdialog dk = new dangkyJdialog((java.awt.Frame) getParent(), true);
-        dk.setVisible(true);
+        //dangkyJdialog dk = new dangkyJdialog((java.awt.Frame) getParent(), true);
+//        dangkyJdialog dk = new dangkyJdialog((java.awt.Frame) null, true, this);
+//        dk.setVisible(true);
+    this.setVisible(false); // Ẩn form đăng nhập tạm thời
+    dangkyJdialog dk = new dangkyJdialog(null, false, this); // Tạo form Đăng ký non-modal
+    dk.setVisible(true);
+        
     }//GEN-LAST:event_btnDangKyActionPerformed
 
     private void lblQuenMKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblQuenMKMouseClicked
