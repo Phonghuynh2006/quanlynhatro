@@ -49,9 +49,18 @@ public class quanlynhatro extends javax.swing.JFrame implements quanlynhatroCont
 public void init() {
     this.setIconImage(XIcon.getIcon("photo.png").getImage());
     this.setLocationRelativeTo(null);
+//
+//    this.showWelcomeJDialog(this);
+//    this.showLoginJDialog(this);
+//dangnhapJdialog loginDialog = new dangnhapJdialog(null, true);
+//loginDialog.setVisible(true);
+//
+//if (loginDialog.isDangNhapThanhCong()) {
+//    this.setVisible(true); // hiện giao diện quản lý nhà trọ
+//} else {
+//    this.dispose(); // hoặc thoát nếu đăng nhập thất bại
+//}
 
-    this.showWelcomeJDialog(this);
-    this.showLoginJDialog(this);
 
     if (XAuth.user != null) {
         if (!XAuth.user.isAdmin()) {
@@ -76,6 +85,8 @@ public void init() {
         }
     }
 }
+
+
 
 public void ManagerButtons() {
     jPanel2.setVisible(true);
@@ -381,14 +392,18 @@ public void ManagerButtons() {
 
     private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
         // TODO add your handling code here:
-          this.dispose(); // Đóng form hiện tại
+this.dispose(); // đóng form quản lý
 
-    // Mở lại form đăng nhập
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new dangnhapJdialog(new javax.swing.JFrame(), true).setVisible(true);
-        }
-    });                                          
+// Mở lại form đăng nhập
+dangnhapJdialog login = new dangnhapJdialog(null, true);
+login.setVisible(true);
+
+// Nếu đăng nhập lại thành công
+if (login.isDangNhapThanhCong()) {
+    new quanlynhatro().setVisible(true);
+
+
+}
 
     
     }//GEN-LAST:event_btndangxuatActionPerformed
@@ -449,10 +464,26 @@ public void ManagerButtons() {
         }
         //</editor-fold>
 
+        
+////    // Hiện màn hình chào
+//    new xinchaoJdialog(new javax.swing.JFrame(), true).setVisible(true);
+//
+//
+//    // Mở form đăng nhập
+//    dangnhapJdialog login = new dangnhapJdialog(null, true);
+//    login.setVisible(true);
+//
+//    // Nếu đăng nhập thành công thì mới mở giao diện chính
+//    if (login.isDangNhapThanhCong()) {
+//new quanlynhatro().setVisible(true);
+//    } else {
+//        System.out.println("Đăng nhập thất bại hoặc bị hủy");
+//    }
+    
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new quanlynhatro().setVisible(true);
+              //  new quanlynhatro().setVisible(true);
             }
         });
     }
