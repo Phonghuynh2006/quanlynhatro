@@ -259,6 +259,9 @@
             <Component class="javax.swing.JTextField" name="txtten3">
             </Component>
             <Component class="javax.swing.JTextField" name="txtten4">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtten4ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnthem">
               <Properties>

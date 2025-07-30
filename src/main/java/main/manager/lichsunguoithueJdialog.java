@@ -43,6 +43,26 @@ private void loadTable() {
     }
 }
 
+//private void loadTable() {
+//    LichSuNguoiThueDAO dao = new LichSuNguoiThueDAO();
+//    List<LichSuNguoiThue> list = dao.selectAll();
+//
+//    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//    model.setRowCount(0); // xóa dữ liệu cũ
+//
+//    for (LichSuNguoiThue ls : list) {
+//        model.addRow(new Object[]{
+//            ls.getTenKhach(),            // Tên
+//            ls.getCccd(),                // CCCD
+//            ls.getSoPhong(),             // Phòng
+//            ls.getSoDienThoai(),         // SĐT
+//            ls.getMaKhach(),             // Mã khách
+//            ls.getTenTaiKhoan(),         // Tên TK (login)
+//            ls.getNgayBatDau(),          // Ngày bắt đầu
+//            ls.getNgayKetThuc()          // Ngày kết thúc
+//        });
+//    }
+//}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

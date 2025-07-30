@@ -89,6 +89,12 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
 
         jLabel7.setText("Tên đăng nhập");
 
+        txtten4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtten4ActionPerformed(evt);
+            }
+        });
+
         btnthem.setText("Thêm");
         btnthem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +243,10 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
     private void btndangky4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangky4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btndangky4ActionPerformed
+
+    private void txtten4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtten4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtten4ActionPerformed
 
     /**
      * @param args the command line arguments

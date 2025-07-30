@@ -8,14 +8,25 @@ import main.util.XJdbc;
 
 public class HoaDonDAOImpl implements HoaDonDAO {
 
-    @Override
-    public void insert(HoaDon hd) {
-        String sql = "INSERT INTO HoaDon VALUES (?, ?, ?, ?, ?, ?, ?)";
-        XJdbc.executeUpdate(sql,
-            hd.getMaHoaDon(), hd.getMaHopDong(), hd.getThang(),
-            hd.getNam(), hd.getTienPhong(), hd.getTienDien(), hd.getTienNuoc()
-        );
-    }
+ @Override
+public void insert(HoaDon hd) {
+    String sql = """
+        INSERT INTO HoaDon
+          (MaHoaDon, MaHopDong, Thang, Nam,
+           TienPhong, TienDien, TienNuoc)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+    XJdbc.executeUpdate(sql,
+        hd.getMaHoaDon(),
+        hd.getMaHopDong(),
+        hd.getThang(),
+        hd.getNam(),
+        hd.getTienPhong(),
+        hd.getTienDien(),
+        hd.getTienNuoc()
+    );
+}
+
 
     @Override
     public void update(HoaDon hd) {
@@ -33,11 +44,17 @@ public class HoaDonDAOImpl implements HoaDonDAO {
         XJdbc.executeUpdate(sql, maHoaDon);
     }
 
-    @Override
-    public List<HoaDon> selectAll() {
-        String sql = "SELECT * FROM HoaDon";
-        return XJdbc.getBeanList(HoaDon.class, sql);
-    }
+@Override
+public List<HoaDon> selectAll() {
+    String sql = """
+        SELECT MaHoaDon, MaHopDong, Thang, Nam,
+               TienPhong, TienDien, TienNuoc
+        FROM HoaDon
+        ORDER BY Nam DESC, Thang DESC
+        """;
+    return XJdbc.getBeanList(HoaDon.class, sql);
+}
+
 @Override
 public List<HoaDon> selectByUserId(int maNguoiDung) {
     String sql = """
