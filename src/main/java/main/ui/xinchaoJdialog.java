@@ -25,6 +25,8 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
         initComponents();
         
     }
+
+
     
     public void open() { 
     this.setLocationRelativeTo(null); 

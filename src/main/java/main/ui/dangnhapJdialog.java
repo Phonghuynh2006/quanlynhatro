@@ -7,25 +7,25 @@ package main.ui;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.dao.TaiKhoanDAO;
 import main.dao.ThongTinNguoiThueDAO;
 import main.entity.TaiKhoan;
-import main.entity.ThongTinNguoiThue;
 import main.impl.TaiKhoanDAOImpl;
 import main.impl.ThongTinNguoiThueDAOImpl;
 import main.util.XAuth;
 import main.util.XDialog;
-
+import main.ui.quanlynhatro;
 /**
  *
  * @author PHONG
  */
 public class dangnhapJdialog extends javax.swing.JDialog implements dangnhapController{
+
+    
+    private boolean dangNhapThanhCong = false;
 
     /**
      * Creates new form dangnhapJdialog
@@ -77,14 +77,21 @@ public void login() {
 
     if (user.isAdmin()) {
         System.out.println("Đăng nhập thành công: Quản trị viên");
+        new quanlynhatro().setVisible(true);
+        
     } else {
         System.out.println("Đăng nhập thành công: " + user.getHoTen());
         System.out.println("Ảnh đại diện: " + user.getHinhAnh());
+        new quanlynhatro().setVisible(true);
     }
 
-    this.dispose(); // Đóng form đăng nhập
-    
-    
+dangNhapThanhCong = true; // đánh dấu đã đăng nhập đúng
+this.dispose(); // đóng form đăng nhập
+
+}
+
+public boolean isDangNhapThanhCong() {
+    return dangNhapThanhCong;
 }
 
 
@@ -151,8 +158,8 @@ public void login() {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(482, 482, 482)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 513, Short.MAX_VALUE)
-                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 477, Short.MAX_VALUE)
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
