@@ -9,6 +9,8 @@ package main.ui;
  * @author PHONG
  */
 public class App {
+    //main chính chạy dự án
+    
         public static void main(String[] args) {
         new xinchaoJdialog(null, true).setVisible(true);
 
