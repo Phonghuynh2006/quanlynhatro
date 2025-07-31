@@ -4,6 +4,7 @@
  */
 package main.manager;
 
+import java.math.BigDecimal;
 import java.util.List;
 import main.dao.HoaDonDAO;
 import main.entity.HoaDon;
@@ -34,9 +35,10 @@ private HoaDon getFormData() {
         String maHDong = txthopdong.getText().trim();
         int thang = Integer.parseInt(txtthang.getText().trim());
         int nam = Integer.parseInt(txtnam.getText().trim());
-        double tienPhong = Double.parseDouble(txttienphong.getText().trim());
-        double tienDien = Double.parseDouble(txttiendien.getText().trim());
-        double tienNuoc = Double.parseDouble(txttiennuoc.getText().trim());
+
+        BigDecimal tienPhong = new BigDecimal(txttienphong.getText().trim());
+        BigDecimal tienDien = new BigDecimal(txttiendien.getText().trim());
+        BigDecimal tienNuoc = new BigDecimal(txttiennuoc.getText().trim());
 
         return new HoaDon(maHD, maHDong, thang, nam, tienPhong, tienDien, tienNuoc);
     } catch (Exception e) {

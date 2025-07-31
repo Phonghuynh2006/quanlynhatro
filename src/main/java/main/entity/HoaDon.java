@@ -1,4 +1,5 @@
 package main.entity;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +15,10 @@ public class HoaDon {
     private String maHopDong;
     private int thang;
     private int nam;
-    private double tienPhong;
-    private double tienDien;
-    private double tienNuoc;
-    public String getMaHoaDon() {
-    return maHoaDon;
-}
-
-public void setMaHoaDon(String maHoaDon) {
-    this.maHoaDon = maHoaDon;
-}
+    private BigDecimal tienPhong;
+    private BigDecimal tienDien;
+    private BigDecimal tienNuoc;
 
 }
+
+
