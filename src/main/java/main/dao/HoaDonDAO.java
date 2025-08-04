@@ -4,6 +4,7 @@ import java.util.List;
 import main.entity.HoaDon;
 
 public interface HoaDonDAO {
+    
     void insert(HoaDon hd);
     void update(HoaDon hd);
     void delete(String maHoaDon);

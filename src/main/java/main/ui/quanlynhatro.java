@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import main.dao.ThongTinNguoiThueDAO;
 import main.entity.ThongTinNguoiThue;
 import main.impl.ThongTinNguoiThueDAOImpl;
+import main.manager.lichsunguoithueJdialog;
 import main.manager.xemhoadonJdialog;
 import main.util.XAuth;
 import main.util.XIcon;
@@ -155,7 +156,7 @@ public void ManagerButtons() {
         btnquanlyhoadon = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btndoimatkhau = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnlichsu = new javax.swing.JButton();
         btndoanhthu = new javax.swing.JButton();
         btndangxuat = new javax.swing.JButton();
         lblphoto = new javax.swing.JLabel();
@@ -307,15 +308,15 @@ public void ManagerButtons() {
         });
         jPanel2.add(btndoimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 250, 140));
 
-        jButton7.setBackground(new java.awt.Color(51, 255, 255));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton7.setText("Lịch Sử");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnlichsu.setBackground(new java.awt.Color(51, 255, 255));
+        btnlichsu.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnlichsu.setText("Lịch Sử");
+        btnlichsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnlichsuActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 140));
+        jPanel2.add(btnlichsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 140));
 
         btndoanhthu.setBackground(new java.awt.Color(51, 255, 255));
         btndoanhthu.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
@@ -386,9 +387,15 @@ public void ManagerButtons() {
         showquanlykhachthueJdialog(this);
     }//GEN-LAST:event_btnquanlykhachthueActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnlichsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlichsuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+             int maNguoiDung = XAuth.user.getMaNguoiDung(); 
+
+    // Mở dialog lịch sử
+    // Mở dialog lịch sử và truyền maNguoiDung
+    lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(this, true, maNguoiDung);
+    dialog.setVisible(true);
+    }//GEN-LAST:event_btnlichsuActionPerformed
 
     private void btndangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangxuatActionPerformed
         // TODO add your handling code here:
@@ -493,6 +500,7 @@ if (login.isDangNhapThanhCong()) {
     private javax.swing.JButton btndoanhthu;
     private javax.swing.JButton btndoimatkhau;
     private javax.swing.JButton btndong;
+    private javax.swing.JButton btnlichsu;
     private javax.swing.JButton btnquanlyhoadon;
     private javax.swing.JButton btnquanlyhopdong;
     private javax.swing.JButton btnquanlykhachthue;
@@ -501,7 +509,6 @@ if (login.isDangNhapThanhCong()) {
     private javax.swing.JButton btnthongtinnguoithue;
     private javax.swing.JButton btnxemhoadon;
     private javax.swing.JButton btnxemphong;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

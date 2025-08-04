@@ -8,6 +8,6 @@ package main.dao;
  *
  * @author PHONG
  */
-public interface LichSuDAO {
+public interface LichSuNguoiThueDAO {
     
 }

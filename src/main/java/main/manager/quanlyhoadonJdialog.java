@@ -105,6 +105,7 @@ private void loadTable() {
 
         jPanel1.setToolTipText("QUẢN LÝ HÓA ĐƠN");
 
+        tblhoadon.setBackground(new java.awt.Color(242, 242, 242));
         tblhoadon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},

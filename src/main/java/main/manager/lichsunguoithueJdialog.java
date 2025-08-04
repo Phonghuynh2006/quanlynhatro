@@ -4,65 +4,93 @@
  */
 package main.manager;
 
-import main.entity.LichSuNguoiThue;
-import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.util.List;
-import main.impl.LichSuNguoiThueDAO;
+import javax.swing.table.DefaultTableModel;
+import main.dao.LichSuNguoiThueDAO;
+import main.entity.LichSuNguoiThue;
+import main.impl.LichSuNguoiThueDAOImpl;
+import main.util.XJdbc;
+
 /**
  *
  * @author PHONG
  */
+
 public class lichsunguoithueJdialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form lichsunguoithueJdialog
-     */
-    public lichsunguoithueJdialog(java.awt.Frame parent, boolean modal) {
+    private LichSuNguoiThueDAO dao = new LichSuNguoiThueDAOImpl();
+    private int maNguoiDung;      // Lấy từ login
+    private String tenTaiKhoan;   // Lấy từ bảng TaiKhoan
+    private String maKhach;       // Lấy từ bảng KhachThue
+
+  // Constructor nhận mã người dùng
+    public lichsunguoithueJdialog(java.awt.Frame parent, boolean modal, int maNguoiDung) {
         super(parent, modal);
+        this.maNguoiDung = maNguoiDung;
+
+        // 1. Lấy TenTaiKhoan từ MaNguoiDung
+        this.tenTaiKhoan = getTenTaiKhoanByMaNguoiDung(maNguoiDung);
+
+        // 2. Lấy MaKhach từ TenTaiKhoan
+        this.maKhach = getMaKhachByTenTaiKhoan(tenTaiKhoan);
+
         initComponents();
-        loadTable(); 
+        loadTable();
+    }
+       // Lấy TenTaiKhoan từ bảng TaiKhoan
+    private String getTenTaiKhoanByMaNguoiDung(int maNguoiDung) {
+        String sql = "SELECT TenTaiKhoan FROM TaiKhoan WHERE MaNguoiDung = ?";
+        try {
+            ResultSet rs = XJdbc.executeQuery(sql, maNguoiDung);
+            if (rs.next()) {
+                return rs.getString("TenTaiKhoan");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+   // Lấy MaKhach từ bảng KhachThue
+    private String getMaKhachByTenTaiKhoan(String tenTaiKhoan) {
+        String sql = "SELECT MaKhach FROM KhachThue WHERE TenTaiKhoan = ?";
+        try {
+            ResultSet rs = XJdbc.executeQuery(sql, tenTaiKhoan);
+            if (rs.next()) {
+                return rs.getString("MaKhach");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+   // Load dữ liệu lịch sử thuê theo mã khách
+      // Load dữ liệu lịch sử thuê theo mã khách
+    private void loadTable() {
+        if (maKhach == null) {
+            System.out.println("Không tìm thấy mã khách cho tài khoản: " + tenTaiKhoan);
+            return;
+        }
+
+        List<LichSuNguoiThue> list = dao.selectByMaKhach(maKhach);
+        DefaultTableModel model = (DefaultTableModel) tblxem.getModel();
+        model.setRowCount(0);
+
+        for (LichSuNguoiThue ls : list) {
+            model.addRow(new Object[]{
+                ls.getMaKhach(),
+                ls.getTenKhach(),
+                ls.getCccd(),
+                ls.getSoDienThoai(),
+                ls.getTenTaiKhoan(),
+                ls.getNgayBatDau(),
+                ls.getNgayKetThuc()
+            });
+        }
     }
 
 
-private void loadTable() {
-    LichSuNguoiThueDAO dao = new LichSuNguoiThueDAO();
-    List<LichSuNguoiThue> list = dao.selectAll();
 
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // clear table
-
-    for (LichSuNguoiThue ls : list) {
-        model.addRow(new Object[]{
-            ls.getMaLichSu(),
-            ls.getMaKhach(),
-            ls.getMaPhong(),
-            ls.getNgayBatDau(),
-            ls.getNgayKetThuc(),
-            ls.getGhiChu()
-        });
-    }
-}
-
-//private void loadTable() {
-//    LichSuNguoiThueDAO dao = new LichSuNguoiThueDAO();
-//    List<LichSuNguoiThue> list = dao.selectAll();
-//
-//    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//    model.setRowCount(0); // xóa dữ liệu cũ
-//
-//    for (LichSuNguoiThue ls : list) {
-//        model.addRow(new Object[]{
-//            ls.getTenKhach(),            // Tên
-//            ls.getCccd(),                // CCCD
-//            ls.getSoPhong(),             // Phòng
-//            ls.getSoDienThoai(),         // SĐT
-//            ls.getMaKhach(),             // Mã khách
-//            ls.getTenTaiKhoan(),         // Tên TK (login)
-//            ls.getNgayBatDau(),          // Ngày bắt đầu
-//            ls.getNgayKetThuc()          // Ngày kết thúc
-//        });
-//    }
-//}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,86 +101,95 @@ private void loadTable() {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblxem = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowIconified(java.awt.event.WindowEvent evt) {
+                formWindowIconified(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblxem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Khách Hàng", "Tên Khách Hàng", "Số CMND/CCCD", "Số Điện Thoại", "Tên Đăng Nhập"
+                "Mã Khách Hàng", "Tên Khách Hàng", "Số CMND/CCCD", "Số Điện Thoại", "Tên Đăng Nhập", "Ngày bắt Đầu", "Ngày Kết Thúc"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblxem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowIconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowIconified
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowIconified
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+         loadTable(); // Khi dialog mở thì tự load dữ liệu
+    }//GEN-LAST:event_formWindowOpened
+   
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+public static void main(String args[]) {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    } catch (Exception ex) {
+        java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            // Test: truyền giá trị mã người dùng tạm
+            int testMaNguoiDung = 1; // giả lập mã người dùng login
+            lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(new javax.swing.JFrame(), true, testMaNguoiDung);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
+        }
+    });
+}
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblxem;
     // End of variables declaration//GEN-END:variables
 }

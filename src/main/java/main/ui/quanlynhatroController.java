@@ -88,7 +88,8 @@ new xemhoadonJdialog(new JFrame(), true, maNguoiDung);
         this.showJDialog(new lichsuadminJdialog(frame, true));
     }
     default void showlichsunguoithueJdialog(JFrame frame){
-        this.showJDialog(new lichsunguoithueJdialog(frame, true));
+     int maNguoiDung = 1; // Hoặc lấy từ XAuth.user.getMaNguoiDung()
+new lichsunguoithueJdialog(frame, true, maNguoiDung).setVisible(true);
     }
 
 }
