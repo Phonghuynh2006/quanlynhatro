@@ -25,4 +25,7 @@ public interface HopDongDAO {
 
     // Lấy toàn bộ danh sách hợp đồng
     List<HopDong> findAll();
+    
+        // 👉 Thêm dòng này:
+    List<HopDong> findByKeyword(String keyword);
 }

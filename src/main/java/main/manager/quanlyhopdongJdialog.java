@@ -4,11 +4,28 @@
  */
 package main.manager;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import main.entity.HopDong;
+
+
+import main.dao.HopDongDAO;
+
+import java.sql.*;
+import main.impl.HopDongDAOImpl;
+
+
 /**
  *
  * @author PHONG
  */
 public class quanlyhopdongJdialog extends javax.swing.JDialog {
+private DefaultTableModel model;
+private List<HopDong> list = new ArrayList<>();
+private HopDongDAO hopDongDAO;
 
     /**
      * Creates new form quanlyhopdongJdialog
@@ -16,7 +33,60 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
     public quanlyhopdongJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+     hopDongDAO = new HopDongDAOImpl(); // Khởi tạo DAO
+    model = (DefaultTableModel) tblHopDong.getModel(); // Gán model sau khi initComponents()
+    loadTable(); // Gọi sau khi có model
     }
+//private HopDong formData() {
+//    try {
+//        String maHD = txtMaHopDong.getText();
+//        String maPhong = txtMaPhong.getText();
+//        String maKhach = txtTenKhachThue.getText();
+//        Date ngayBatDau = Date.valueOf(txtBatDau.getText()); // yyyy-MM-dd
+//        Date ngayKetThuc = Date.valueOf(txtKetThuc.getText()); // yyyy-MM-dd
+//
+//        return new HopDong(maHD, maPhong, maKhach, ngayBatDau, ngayKetThuc);
+//    } catch (Exception e) {
+//        JOptionPane.showMessageDialog(this, "Lỗi nhập dữ liệu: " + e.getMessage());
+//        return null;
+//    }
+//}
+public HopDong formData() {
+    try {
+        String maHD = txtMaHopDong.getText().trim();
+        String maPhong = txtMaPhong.getText().trim();
+        String maKhach = txtMaKhachThue.getText().trim();
+        Date ngayBatDau = Date.valueOf(txtBatDau.getText().trim());
+        Date ngayKetThuc = Date.valueOf(txtKetThuc.getText().trim());
+        String tenNhanVien = txtNhanVien.getText().trim(); // nếu bạn có field này
+
+        return new HopDong(maHD, maPhong, maKhach, ngayBatDau, ngayKetThuc, tenNhanVien);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ!");
+        return null;
+    }
+}
+private void loadTable() {
+    DefaultTableModel model = (DefaultTableModel) tblHopDong.getModel();
+    model.setRowCount(0); // Xóa dữ liệu cũ
+HopDongDAO hopDongDAO = new HopDongDAOImpl();
+List<HopDong> list = hopDongDAO.findAll();
+
+
+   
+    for (HopDong hd : list) {
+        model.addRow(new Object[]{
+            hd.getMaHopDong(),
+            hd.getMaPhong(),
+            hd.getMaKhach(),
+            hd.getNgayBatDau(),
+            hd.getNgayKetThuc(),
+            hd.getTenNhanVien()     
+            
+        });
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,13 +101,13 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHopDong = new javax.swing.JTable();
-        txtTim = new javax.swing.JTextField();
+        txtTimKiem = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         txtMaHopDong = new javax.swing.JTextField();
         txtMaPhong = new javax.swing.JTextField();
-        txtTenKhachThue = new javax.swing.JTextField();
+        txtMaKhachThue = new javax.swing.JTextField();
         txtBatDau = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -72,9 +142,9 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tblHopDong);
 
-        txtTim.addActionListener(new java.awt.event.ActionListener() {
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTimActionPerformed(evt);
+                txtTimKiemActionPerformed(evt);
             }
         });
 
@@ -97,7 +167,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSearch)
                         .addGap(0, 91, Short.MAX_VALUE))
@@ -109,7 +179,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(btnSearch))
                 .addGap(30, 30, 30)
@@ -190,7 +260,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTenKhachThue, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+                                    .addComponent(txtMaKhachThue, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
                                     .addComponent(txtMaPhong)
                                     .addComponent(txtMaHopDong)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -227,7 +297,7 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenKhachThue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMaKhachThue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,30 +351,126 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+HopDong hd = formData();
+    if (hd == null) {
+        return; // Dừng nếu dữ liệu không hợp lệ
+    }
+
+    try {
+        hopDongDAO.insert(hd);         // Ghi vào cơ sở dữ liệu
+        list.add(hd);                  // Ghi vào danh sách
+        model.addRow(hd.toRow());      // Hiển thị lên bảng
+        JOptionPane.showMessageDialog(this, "Thêm hợp đồng thành công!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm hợp đồng: " + e.getMessage());
+    }
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblHopDong.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn hợp đồng cần sửa.");
+        return;
+    }
+
+    HopDong hd = formData();
+    if (hd == null) {
+        return;
+    }
+
+    try {
+        hopDongDAO.update(hd); // Cập nhật trong DB
+
+        // Cập nhật dữ liệu trong list và bảng
+        list.set(selectedRow, hd);
+        model.setValueAt(hd.getMaHopDong(), selectedRow, 0);
+        model.setValueAt(hd.getMaPhong(), selectedRow, 1);
+        model.setValueAt(hd.getMaKhach(), selectedRow, 2);
+        model.setValueAt(hd.getNgayBatDau(), selectedRow, 3);
+        model.setValueAt(hd.getNgayKetThuc(), selectedRow, 4);
+        model.setValueAt(hd.getTenNhanVien(), selectedRow, 5);
+
+        JOptionPane.showMessageDialog(this, "Cập nhật hợp đồng thành công!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi cập nhật: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+         int selectedRow = tblHopDong.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
+        return;
+    }
+
+    String maHopDong = model.getValueAt(selectedRow, 0).toString();
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa hợp đồng này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    try {
+        hopDongDAO.delete(maHopDong); // Xóa trong DB
+        list.remove(selectedRow);     // Xóa trong list
+        model.removeRow(selectedRow); // Xóa trên bảng
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi xóa: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnNhapMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapMoiActionPerformed
         // TODO add your handling code here:
+         txtMaHopDong.setText("");
+    txtMaPhong.setText("");
+    txtMaKhachThue.setText("");
+    txtBatDau.setText("");
+    txtKetThuc.setText("");
+    txtNhanVien.setText("");
+    tblHopDong.clearSelection(); // Bỏ chọn trên bảng nếu có
     }//GEN-LAST:event_btnNhapMoiActionPerformed
 
     private void tblHopDongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHopDongMouseClicked
         // TODO add your handling code here:
+         int row = tblHopDong.getSelectedRow();
+    if (row >= 0) {
+        txtMaHopDong.setText(tblHopDong.getValueAt(row, 0).toString());
+        txtMaPhong.setText(tblHopDong.getValueAt(row, 1).toString());
+        txtMaKhachThue.setText(tblHopDong.getValueAt(row, 2).toString());
+        txtBatDau.setText(tblHopDong.getValueAt(row, 3).toString());
+        txtKetThuc.setText(tblHopDong.getValueAt(row, 4).toString());
+        txtNhanVien.setText(tblHopDong.getValueAt(row, 5).toString());
+    }
     }//GEN-LAST:event_tblHopDongMouseClicked
 
-    private void txtTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimActionPerformed
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimActionPerformed
+    }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        String keyword = txtTimKiem.getText().trim(); // txtTimKiem là ô nhập tìm kiếm
+
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập từ khóa tìm kiếm!");
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) tblHopDong.getModel();
+    model.setRowCount(0); // Xóa toàn bộ dữ liệu cũ trong bảng
+
+    List<HopDong> ketQua = hopDongDAO.findByKeyword(keyword); // Tùy bạn định nghĩa logic DAO
+
+    for (HopDong hd : ketQua) {
+        model.addRow(hd.toRow());
+    }
+
+    if (ketQua.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Không tìm thấy hợp đồng phù hợp!");
+    }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
@@ -370,9 +536,9 @@ public class quanlyhopdongJdialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtBatDau;
     private javax.swing.JTextField txtKetThuc;
     private javax.swing.JTextField txtMaHopDong;
+    private javax.swing.JTextField txtMaKhachThue;
     private javax.swing.JTextField txtMaPhong;
     private javax.swing.JTextField txtNhanVien;
-    private javax.swing.JTextField txtTenKhachThue;
-    private javax.swing.JTextField txtTim;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

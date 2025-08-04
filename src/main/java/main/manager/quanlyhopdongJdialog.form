@@ -63,7 +63,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel8" min="-2" pref="37" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtTim" min="-2" pref="618" max="-2" attributes="0"/>
+                              <Component id="txtTimKiem" min="-2" pref="618" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="91" max="32767" attributes="0"/>
@@ -79,7 +79,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtTim" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -154,9 +154,9 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="txtTim">
+            <Component class="javax.swing.JTextField" name="txtTimKiem">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTimActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTimKiemActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
@@ -203,7 +203,7 @@
                                   <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtTenKhachThue" alignment="0" pref="705" max="32767" attributes="0"/>
+                                          <Component id="txtMaKhachThue" alignment="0" pref="705" max="32767" attributes="0"/>
                                           <Component id="txtMaPhong" alignment="0" max="32767" attributes="0"/>
                                           <Component id="txtMaHopDong" alignment="0" max="32767" attributes="0"/>
                                       </Group>
@@ -254,7 +254,7 @@
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="txtTenKhachThue" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtMaKhachThue" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -291,7 +291,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtMaPhong">
             </Component>
-            <Component class="javax.swing.JTextField" name="txtTenKhachThue">
+            <Component class="javax.swing.JTextField" name="txtMaKhachThue">
             </Component>
             <Component class="javax.swing.JTextField" name="txtBatDau">
               <Events>
