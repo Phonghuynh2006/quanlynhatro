@@ -32,12 +32,8 @@ public class thongtinnguoithueJdialog extends javax.swing.JDialog {
  }
         
         
-        
-                  DefaultTableModel model;
+         DefaultTableModel model;
 boolean isLuuMode = false;
-
-
-  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -126,6 +122,7 @@ boolean isLuuMode = false;
         txtEmail = new javax.swing.JTextField();
         chkGioiTinh = new javax.swing.JCheckBox();
         btnLuu = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Tài KHoản");
@@ -543,7 +540,7 @@ boolean isLuuMode = false;
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Người dùng", "Mã Hợp Đồng", "Mật Khẩu", "HoTen", "Mã Hóa Đơn", "Giới tính", "cccd", "Điện thoại", "Email"
+                "Mã Người dùng", "Mã Hợp Đồng", "Mật Khẩu", "Họ Và Tên", "Mã Hóa Đơn", "Giới tính", "cccd", "Điện thoại", "Email"
             }
         ));
         tblBangdulieu3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -564,7 +561,7 @@ boolean isLuuMode = false;
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 877, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnXoa3)
@@ -588,7 +585,7 @@ boolean isLuuMode = false;
 
         jLabel4.setText("Mật Khẩu");
 
-        jLabel5.setText("HoTen");
+        jLabel5.setText("Họ Tên");
 
         jLabel6.setText("Mã Hóa Đơn");
 
@@ -596,7 +593,7 @@ boolean isLuuMode = false;
 
         jLabel8.setText("cccd");
 
-        jLabel29.setText("Điện THoai");
+        jLabel29.setText("Điện Thoại");
 
         jLabel30.setText("Email");
 
@@ -607,6 +604,8 @@ boolean isLuuMode = false;
             }
         });
 
+        txtHopDong.setText("111");
+
         txtMk2.setText("123");
 
         txtHoten2.setText("Ho Anh Quân");
@@ -615,6 +614,8 @@ boolean isLuuMode = false;
                 txtHoten2ActionPerformed(evt);
             }
         });
+
+        txtHoaDon.setText("1");
 
         txtCccd2.setText("00");
         txtCccd2.addActionListener(new java.awt.event.ActionListener() {
@@ -642,35 +643,33 @@ boolean isLuuMode = false;
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(txtCccd2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(99, 99, 99)
-                                .addComponent(txtDt2))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(txtHoten2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(99, 99, 99)
-                                .addComponent(txtHoaDon))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel29))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtMaNguoidung2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(99, 99, 99)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtHopDong, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 223, Short.MAX_VALUE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(203, 203, 203)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(206, 206, 206)))
+                        .addComponent(txtCccd2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(99, 99, 99)
+                        .addComponent(txtDt2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMaNguoidung2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(99, 99, 99)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(txtHopDong, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtHoten2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(99, 99, 99)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtHoaDon)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLuu)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -699,13 +698,13 @@ boolean isLuuMode = false;
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7))
+                        .addComponent(jLabel7)
                         .addGap(34, 34, 34))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))
                         .addGap(26, 26, 26)))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtHoten2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -728,51 +727,39 @@ boolean isLuuMode = false;
 
         jTabbedPane4.addTab("Mẫu ", jPanel6);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel1.setText("Thông Tin Người Thuê");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane4)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(457, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblBangdulieu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBangdulieu1MouseClicked
-        // TODO add your handling code here:
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("MaNguoidung");
-        model.addColumn("MaHopDong");
-        model.addColumn("Mk");
-        model.addColumn("HoTen");
-        model.addColumn("HoaDon");
-        model.addColumn("GioiTinh");
-        model.addColumn("Cccd");
-        model.addColumn("DienThoai");
-        model.addColumn("Email");
+
     }//GEN-LAST:event_tblBangdulieu1MouseClicked
 
     private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
         // TODO add your handling code here:
-        int row = tblBangdulieu3.getSelectedRow(); // lấy dòng được chọn
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa dòng này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-            DefaultTableModel model = (DefaultTableModel) tblBangdulieu3.getModel();
-            model.removeRow(row);
-
-        }
     }//GEN-LAST:event_btnXoa1ActionPerformed
 
     private void txtMaNguoidungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNguoidungActionPerformed
@@ -789,60 +776,19 @@ boolean isLuuMode = false;
 
     private void btnLuu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuu1ActionPerformed
         // TODO add your handling code here:
-        if (!isLuuMode) {
-            model = new DefaultTableModel(new String[]{"MaNguoidung","MaHopDong","Mk","HoTen","HoaDon","GioiTinh","Cccd","DienThoai","Email"}, 0);
-
-            tblBangdulieu3.setModel(model);
-            btnLuu.setText("Lưu");
-            isLuuMode = true;
-
-        }
-
-        String MaNguoidung = txtMaNguoidung.getText().trim();
-        String MaHopDong = txtHopDong.getText().trim();
-        String Mk = txtMk.getText().trim();
-        String HoTen = txtHoten.getText().trim();
-        String HoaDon = txtHoaDon.getText().trim();
-        String Cccd = txtCccd.getText().trim();
-        String Email = txtEmail.getText().trim();
-        String DienThoai = txtDt.getText().trim();
-        String GioiTinh = chkGioiTinh.isSelected() ? "Nam" : "Nữ";
-
-        if (MaNguoidung.isEmpty() || MaHopDong.isEmpty() || Mk.isEmpty()| HoTen.isEmpty() || HoaDon.isEmpty() || Cccd.isEmpty() || Email.isEmpty() || DienThoai.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ Thông tin !");
-            return;
-        }
-        model.addRow(new Object[]{MaNguoidung, MaHopDong, Mk, HoTen, GioiTinh, HoaDon, Cccd, DienThoai, Email});
+  
     }//GEN-LAST:event_btnLuu1ActionPerformed
 
     private void tblBangdulieu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBangdulieu2MouseClicked
         // TODO add your handling code here:
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("MaNguoidung");
-        model.addColumn("MaHopDong");
-        model.addColumn("Mk");
-        model.addColumn("HoTen");
-        model.addColumn("HoaDon");
-        model.addColumn("GioiTinh");
-        model.addColumn("Cccd");
-        model.addColumn("DienThoai");
-        model.addColumn("Email");
+
     }//GEN-LAST:event_tblBangdulieu2MouseClicked
 
     private void btnXoa2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa2ActionPerformed
         // TODO add your handling code here:
-        int row = tblBangdulieu3.getSelectedRow(); // lấy dòng được chọn
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa.");
-            return;
-        }
+     
 
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa dòng này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-            DefaultTableModel model = (DefaultTableModel) tblBangdulieu3.getModel();
-            model.removeRow(row);
-
-        }
+       
     }//GEN-LAST:event_btnXoa2ActionPerformed
 
     private void txtMaNguoidung1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNguoidung1ActionPerformed
@@ -859,30 +805,7 @@ boolean isLuuMode = false;
 
     private void btnLuu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuu2ActionPerformed
         // TODO add your handling code here:
-        if (!isLuuMode) {
-            model = new DefaultTableModel(new String[]{"MaNguoidung","TenTK","Mk","HoTen","NgaySinh","GioiTinh","Cccd","DienThoai","Email"}, 0);
 
-            tblBangdulieu3.setModel(model);
-            btnLuu.setText("Lưu");
-            isLuuMode = true;
-
-        }
-
-        String MaNguoidung = txtMaNguoidung.getText().trim();
-        String TenTK = txtTenTK.getText().trim();
-        String Mk = txtMk.getText().trim();
-        String HoTen = txtHoten.getText().trim();
-        String NgaySinh = txtHoaDon.getText().trim();
-        String Cccd = txtCccd.getText().trim();
-        String Email = txtEmail.getText().trim();
-        String DienThoai = txtDt.getText().trim();
-        String GioiTinh = chkGioiTinh.isSelected() ? "Nam" : "Nữ";
-
-        if (MaNguoidung.isEmpty() || TenTK.isEmpty() || Mk.isEmpty()| HoTen.isEmpty() || NgaySinh.isEmpty() || Cccd.isEmpty() || Email.isEmpty() || DienThoai.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ Thông tin !");
-            return;
-        }
-        model.addRow(new Object[]{MaNguoidung, TenTK, Mk, HoTen, NgaySinh, GioiTinh, Cccd, DienThoai, Email});
     }//GEN-LAST:event_btnLuu2ActionPerformed
 
     private void btnXoa3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa3ActionPerformed
@@ -916,7 +839,7 @@ boolean isLuuMode = false;
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
         if (!isLuuMode) {
-            model = new DefaultTableModel(new String[]{"MaNguoidung","TenTK","Mk","HoTen","NgaySinh","GioiTinh","Cccd","DienThoai","Email"}, 0);
+            model = new DefaultTableModel(new String[]{"MaNguoidung","MaHopDong","Mk","HoTen","HoaDon","GioiTinh","Cccd","DienThoai","Email"}, 0);
 
             tblBangdulieu3.setModel(model);
             btnLuu.setText("Lưu");
@@ -924,31 +847,32 @@ boolean isLuuMode = false;
 
         }
 
-        String MaNguoidung = txtMaNguoidung.getText().trim();
-        String TenTK = txtTenTK.getText().trim();
-        String Mk = txtMk.getText().trim();
-        String HoTen = txtHoten.getText().trim();
-        String NgaySinh = txtHoaDon.getText().trim();
-        String Cccd = txtCccd.getText().trim();
+        String MaNguoidung = txtMaNguoidung2.getText().trim();
+        String MaHopDong = txtHopDong.getText().trim();
+        String Mk = txtMk2.getText().trim();
+        String HoTen = txtHoten2.getText().trim();
+        String HoaDon = txtHoaDon.getText().trim();
+        String Cccd = txtCccd2.getText().trim();
         String Email = txtEmail.getText().trim();
-        String DienThoai = txtDt.getText().trim();
+        String DienThoai = txtDt2.getText().trim();
         String GioiTinh = chkGioiTinh.isSelected() ? "Nam" : "Nữ";
 
-        if (MaNguoidung.isEmpty() || TenTK.isEmpty() || Mk.isEmpty()| HoTen.isEmpty() || NgaySinh.isEmpty() || Cccd.isEmpty() || Email.isEmpty() || DienThoai.isEmpty()) {
+        if (MaNguoidung.isEmpty() || MaHopDong.isEmpty() || Mk.isEmpty()| HoTen.isEmpty() || HoaDon.isEmpty() || Cccd.isEmpty() || Email.isEmpty() || DienThoai.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ Thông tin !");
             return;
         }
-        model.addRow(new Object[]{MaNguoidung, TenTK, Mk, HoTen, NgaySinh, GioiTinh, Cccd, DienThoai, Email});
+        model.addRow(new Object[]{MaNguoidung, MaHopDong, Mk, HoTen, HoaDon, GioiTinh, Cccd, DienThoai, Email});
+
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void tblBangdulieu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBangdulieu3MouseClicked
         // TODO add your handling code here:
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MaNguoidung");
-        model.addColumn("TenTK");
+        model.addColumn("MaHopDong");
         model.addColumn("Mk");
         model.addColumn("HoTen");
-        model.addColumn("NgaySinh");
+        model.addColumn("HoaDon");
         model.addColumn("GioiTinh");
         model.addColumn("Cccd");
         model.addColumn("DienThoai");
@@ -1008,6 +932,7 @@ boolean isLuuMode = false;
     private javax.swing.JCheckBox chkGioiTinh;
     private javax.swing.JCheckBox chkGioiTinh1;
     private javax.swing.JCheckBox chkGioiTinh2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
