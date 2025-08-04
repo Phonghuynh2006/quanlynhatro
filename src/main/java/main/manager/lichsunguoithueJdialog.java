@@ -2,6 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
+//package main.manager;
+//
+//import java.sql.ResultSet;
+//import java.util.List;
+//import javax.swing.table.DefaultTableModel;
+//import main.dao.LichSuNguoiThueDAO;
+//import main.entity.LichSuNguoiThue;
+//import main.impl.LichSuNguoiThueDAOImpl;
+//import main.util.XJdbc;
 package main.manager;
 
 import java.sql.ResultSet;
@@ -11,7 +20,6 @@ import main.dao.LichSuNguoiThueDAO;
 import main.entity.LichSuNguoiThue;
 import main.impl.LichSuNguoiThueDAOImpl;
 import main.util.XJdbc;
-
 /**
  *
  * @author PHONG
@@ -19,26 +27,52 @@ import main.util.XJdbc;
 
 public class lichsunguoithueJdialog extends javax.swing.JDialog {
 
-    private LichSuNguoiThueDAO dao = new LichSuNguoiThueDAOImpl();
-    private int maNguoiDung;      // Lấy từ login
-    private String tenTaiKhoan;   // Lấy từ bảng TaiKhoan
-    private String maKhach;       // Lấy từ bảng KhachThue
+//    private LichSuNguoiThueDAO dao = new LichSuNguoiThueDAOImpl();
+//    private int maNguoiDung;      // Lấy từ login
+//    private String tenTaiKhoan;   // Lấy từ bảng TaiKhoan
+//    private String maKhach;       // Lấy từ bảng KhachThue
 
-  // Constructor nhận mã người dùng
+    private LichSuNguoiThueDAO dao = new LichSuNguoiThueDAOImpl();
+    private int maNguoiDung;
+    private String tenTaiKhoan;
+    private String role;
+
+//  // Constructor nhận mã người dùng
+//    public lichsunguoithueJdialog(java.awt.Frame parent, boolean modal, int maNguoiDung) {
+//        super(parent, modal);
+//        this.maNguoiDung = maNguoiDung;
+//
+//        // 1. Lấy TenTaiKhoan từ MaNguoiDung
+//        this.tenTaiKhoan = getTenTaiKhoanByMaNguoiDung(maNguoiDung);
+//
+//        // 2. Lấy MaKhach từ TenTaiKhoan
+//        this.maKhach = getMaKhachByTenTaiKhoan(tenTaiKhoan);
+//
+//        initComponents();
+//        loadTable();
+//    }
     public lichsunguoithueJdialog(java.awt.Frame parent, boolean modal, int maNguoiDung) {
         super(parent, modal);
         this.maNguoiDung = maNguoiDung;
-
-        // 1. Lấy TenTaiKhoan từ MaNguoiDung
         this.tenTaiKhoan = getTenTaiKhoanByMaNguoiDung(maNguoiDung);
-
-        // 2. Lấy MaKhach từ TenTaiKhoan
-        this.maKhach = getMaKhachByTenTaiKhoan(tenTaiKhoan);
-
+        this.role = getRoleByMaNguoiDung(maNguoiDung);
         initComponents();
         loadTable();
     }
-       // Lấy TenTaiKhoan từ bảng TaiKhoan
+    
+//       // Lấy TenTaiKhoan từ bảng TaiKhoan
+//    private String getTenTaiKhoanByMaNguoiDung(int maNguoiDung) {
+//        String sql = "SELECT TenTaiKhoan FROM TaiKhoan WHERE MaNguoiDung = ?";
+//        try {
+//            ResultSet rs = XJdbc.executeQuery(sql, maNguoiDung);
+//            if (rs.next()) {
+//                return rs.getString("TenTaiKhoan");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
     private String getTenTaiKhoanByMaNguoiDung(int maNguoiDung) {
         String sql = "SELECT TenTaiKhoan FROM TaiKhoan WHERE MaNguoiDung = ?";
         try {
@@ -51,30 +85,68 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
         }
         return null;
     }
-   // Lấy MaKhach từ bảng KhachThue
-    private String getMaKhachByTenTaiKhoan(String tenTaiKhoan) {
-        String sql = "SELECT MaKhach FROM KhachThue WHERE TenTaiKhoan = ?";
-        try {
-            ResultSet rs = XJdbc.executeQuery(sql, tenTaiKhoan);
-            if (rs.next()) {
-                return rs.getString("MaKhach");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+//   // Lấy MaKhach từ bảng KhachThue
+//    private String getMaKhachByTenTaiKhoan(String tenTaiKhoan) {
+//        String sql = "SELECT MaKhach FROM KhachThue WHERE TenTaiKhoan = ?";
+//        try {
+//            ResultSet rs = XJdbc.executeQuery(sql, tenTaiKhoan);
+//            if (rs.next()) {
+//                return rs.getString("MaKhach");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+   private String getRoleByMaNguoiDung(int maNguoiDung) {
+    String sql = "SELECT VaiTro FROM TaiKhoan WHERE MaNguoiDung = ?";
+    try {
+        ResultSet rs = XJdbc.executeQuery(sql, maNguoiDung);
+        if (rs.next()) {
+            int vaiTro = rs.getInt("VaiTro");
+            return vaiTro == 1 ? "Admin" : "User";
         }
-        return null;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-   // Load dữ liệu lịch sử thuê theo mã khách
-      // Load dữ liệu lịch sử thuê theo mã khách
-    private void loadTable() {
-        if (maKhach == null) {
-            System.out.println("Không tìm thấy mã khách cho tài khoản: " + tenTaiKhoan);
-            return;
-        }
+    return "User"; // mặc định nếu không có dữ liệu
+}
 
-        List<LichSuNguoiThue> list = dao.selectByMaKhach(maKhach);
+//   // Load dữ liệu lịch sử thuê theo mã khách
+//      // Load dữ liệu lịch sử thuê theo mã khách
+//    private void loadTable() {
+//        if (maKhach == null) {
+//            System.out.println("Không tìm thấy mã khách cho tài khoản: " + tenTaiKhoan);
+//            return;
+//        }
+//
+//        List<LichSuNguoiThue> list = dao.selectByMaKhach(maKhach);
+//        DefaultTableModel model = (DefaultTableModel) tblxem.getModel();
+//        model.setRowCount(0);
+//
+//        for (LichSuNguoiThue ls : list) {
+//            model.addRow(new Object[]{
+//                ls.getMaKhach(),
+//                ls.getTenKhach(),
+//                ls.getCccd(),
+//                ls.getSoDienThoai(),
+//                ls.getTenTaiKhoan(),
+//                ls.getNgayBatDau(),
+//                ls.getNgayKetThuc()
+//            });
+//        }
+//    }
+
+    private void loadTable() {
         DefaultTableModel model = (DefaultTableModel) tblxem.getModel();
         model.setRowCount(0);
+
+        List<LichSuNguoiThue> list;
+        if ("Admin".equalsIgnoreCase(role)) {
+            list = dao.selectAll();
+        } else {
+            list = dao.selectByTenTaiKhoan(tenTaiKhoan);
+        }
 
         for (LichSuNguoiThue ls : list) {
             model.addRow(new Object[]{
@@ -88,7 +160,6 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
             });
         }
     }
-
 
 
     /**
@@ -157,34 +228,53 @@ public class lichsunguoithueJdialog extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-public static void main(String args[]) {
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+//public static void main(String args[]) {
+//    try {
+//        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//            if ("Nimbus".equals(info.getName())) {
+//                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                break;
+//            }
+//        }
+//    } catch (Exception ex) {
+//        java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//    }
+//
+//    java.awt.EventQueue.invokeLater(new Runnable() {
+//        public void run() {
+//            // Test: truyền giá trị mã người dùng tạm
+//            int testMaNguoiDung = 1; // giả lập mã người dùng login
+//            lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(new javax.swing.JFrame(), true, testMaNguoiDung);
+//            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                @Override
+//                public void windowClosing(java.awt.event.WindowEvent e) {
+//                    System.exit(0);
+//                }
+//            });
+//            dialog.setVisible(true);
+//        }
+//    });
+//}
+
+
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                int testMaNguoiDung = 1;
+                lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(new javax.swing.JFrame(), true, testMaNguoiDung);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
-        }
-    } catch (Exception ex) {
-        java.util.logging.Logger.getLogger(lichsunguoithueJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        });
     }
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            // Test: truyền giá trị mã người dùng tạm
-            int testMaNguoiDung = 1; // giả lập mã người dùng login
-            lichsunguoithueJdialog dialog = new lichsunguoithueJdialog(new javax.swing.JFrame(), true, testMaNguoiDung);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
-        }
-    });
-}
-
+//    private javax.swing.JScrollPane jScrollPane1;
+//    private javax.swing.JTable tblxem;
 
 
 
