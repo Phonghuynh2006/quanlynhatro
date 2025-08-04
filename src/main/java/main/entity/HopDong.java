@@ -9,26 +9,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HopDong {
-    private String maHopDong;
+   private String maHopDong;
     private String maPhong;
-    private String maKhach;
+    private int maNguoiThue;     // đổi thành int
+    private int maNhanVien;      // đổi thành int
     private Date ngayBatDau;
     private Date ngayKetThuc;
-    private String tenNhanVien;
 
-    // Constructor chỉ cho DAO
-    public HopDong(String maHopDong, String maPhong, String maKhach, Date ngayBatDau, Date ngayKetThuc) {
+    private String tenNhanVien;  // JOIN để hiển thị
+    private String tenNguoiThue; // (nếu bạn cần JOIN để hiển thị)
+
+    // Constructor cho DAO không join
+    public HopDong(String maHopDong, String maPhong, int maNguoiThue, int maNhanVien, Date ngayBatDau, Date ngayKetThuc) {
         this.maHopDong = maHopDong;
         this.maPhong = maPhong;
-        this.maKhach = maKhach;
+        this.maNguoiThue = maNguoiThue;
+        this.maNhanVien = maNhanVien;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
     }
 
-    
     public Object[] toRow() {
         return new Object[] {
-            maHopDong, maPhong, maKhach, ngayBatDau, ngayKetThuc, tenNhanVien
+            maHopDong, maPhong, maNguoiThue, maNhanVien, ngayBatDau, ngayKetThuc, tenNhanVien
         };
     }
 }

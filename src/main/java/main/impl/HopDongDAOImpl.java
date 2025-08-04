@@ -24,14 +24,15 @@ public class HopDongDAOImpl implements HopDongDAO {
 
     @Override
     public boolean insert(HopDong hd) {
-        String sql = "INSERT INTO HopDong (MaHopDong, MaPhong, MaKhach, NgayBatDau, NgayKetThuc, TenNhanVien) VALUES (?, ?, ?, ?, ?, ?)";
+       String sql = "INSERT INTO HopDong (MaHopDong, MaPhong, MaNguoiThue, MaNhanVien, NgayBatDau, NgayKetThuc) VALUES (?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, hd.getMaHopDong());
-            ps.setString(2, hd.getMaPhong());
-            ps.setString(3, hd.getMaKhach());
-            ps.setDate(4, hd.getNgayBatDau());
-            ps.setDate(5, hd.getNgayKetThuc());
-             ps.setString(5, hd.getTenNhanVien()); // thêm dòng này
+             ps.setString(1, hd.getMaHopDong());
+             ps.setString(2, hd.getMaPhong());
+             ps.setInt(3, hd.getMaNguoiThue());
+             ps.setInt(4, hd.getMaNhanVien());
+             ps.setDate(5, hd.getNgayBatDau());
+             ps.setDate(6, hd.getNgayKetThuc());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,20 +42,23 @@ public class HopDongDAOImpl implements HopDongDAO {
 
     @Override
     public boolean update(HopDong hd) {
-        String sql = "UPDATE HopDong SET MaPhong = ?, MaKhach = ?, NgayBatDau = ?, NgayKetThuc = ?, TenNhanVien=? WHERE MaHopDong = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, hd.getMaPhong());
-            ps.setString(2, hd.getMaKhach());
-            ps.setDate(3, hd.getNgayBatDau());
-            ps.setDate(4, hd.getNgayKetThuc());
-            ps.setString(5, hd.getTenNhanVien()); // thêm dòng này
-        ps.setString(6, hd.getMaHopDong());  // moved to thứ 6
-            
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        String sql = """
+        UPDATE HopDong SET MaPhong = ?, MaNguoiThue = ?, MaNhanVien = ?, NgayBatDau = ?, NgayKetThuc = ?
+        WHERE MaHopDong = ?
+    """;
+
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, hd.getMaPhong());
+        ps.setInt(2, hd.getMaNguoiThue());
+        ps.setInt(3, hd.getMaNhanVien());
+        ps.setDate(4, hd.getNgayBatDau());
+        ps.setDate(5, hd.getNgayKetThuc());
+        ps.setString(6, hd.getMaHopDong()); // where
+        return ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
     }
 
     @Override
@@ -71,83 +75,90 @@ public class HopDongDAOImpl implements HopDongDAO {
 
     @Override
     public HopDong findById(String maHopDong) {
-        String sql = """
-            SELECT hd.MaHopDong, hd.MaPhong, hd.MaKhach, hd.NgayBatDau, hd.NgayKetThuc, nv.TenNhanVien
-            FROM HopDong hd
-            LEFT JOIN NhanVien nv ON hd.MaNhanVien = nv.MaNhanVien
-            WHERE hd.MaHopDong = ?
-        """;
+ String sql = """
+        SELECT hd.MaHopDong, hd.MaPhong, hd.MaNguoiThue, hd.MaNhanVien,
+               hd.NgayBatDau, hd.NgayKetThuc, tk.HoTen AS TenNhanVien
+        FROM HopDong hd
+        LEFT JOIN TaiKhoan tk ON hd.MaNhanVien = tk.MaNguoiDung
+        WHERE hd.MaHopDong = ?
+    """;
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, maHopDong);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                HopDong hd = new HopDong(
-                    rs.getString("MaHopDong"),
-                    rs.getString("MaPhong"),
-                    rs.getString("MaKhach"),
-                    rs.getDate("NgayBatDau"),
-                    rs.getDate("NgayKetThuc")
-                );
-                hd.setTenNhanVien(rs.getString("TenNhanVien"));
-                return hd;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, maHopDong);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            HopDong hd = new HopDong(
+                rs.getString("MaHopDong"),
+                rs.getString("MaPhong"),
+                rs.getInt("MaNguoiThue"),
+                rs.getInt("MaNhanVien"),
+                rs.getDate("NgayBatDau"),
+                rs.getDate("NgayKetThuc")
+            );
+            hd.setTenNhanVien(rs.getString("TenNhanVien"));
+            return hd;
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
     }
 
     @Override
     public List<HopDong> findAll() {
         List<HopDong> list = new ArrayList<>();
-        String sql = """
-            SELECT hd.MaHopDong, hd.MaPhong, hd.MaKhach, hd.NgayBatDau, hd.NgayKetThuc, nv.TenNhanVien
-            FROM HopDong hd
-            LEFT JOIN NhanVien nv ON hd.MaNhanVien = nv.MaNhanVien
-        """;
+String sql = """
+        SELECT hd.MaHopDong, hd.MaPhong, hd.MaNguoiThue, hd.MaNhanVien,
+               hd.NgayBatDau, hd.NgayKetThuc, tk.HoTen AS TenNhanVien
+        FROM HopDong hd
+        LEFT JOIN TaiKhoan tk ON hd.MaNhanVien = tk.MaNguoiDung
+    """;
 
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) {
-                HopDong hd = new HopDong(
-                    rs.getString("MaHopDong"),
-                    rs.getString("MaPhong"),
-                    rs.getString("MaKhach"),
-                    rs.getDate("NgayBatDau"),
-                    rs.getDate("NgayKetThuc")
-                );
-                hd.setTenNhanVien(rs.getString("TenNhanVien"));
-                list.add(hd);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    try (Statement st = conn.createStatement();
+         ResultSet rs = st.executeQuery(sql)) {
+        while (rs.next()) {
+            HopDong hd = new HopDong(
+                rs.getString("MaHopDong"),
+                rs.getString("MaPhong"),
+                rs.getInt("MaNguoiThue"),
+                rs.getInt("MaNhanVien"),
+                rs.getDate("NgayBatDau"),
+                rs.getDate("NgayKetThuc")
+            );
+            hd.setTenNhanVien(rs.getString("TenNhanVien"));
+            list.add(hd);
         }
-        return list;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
     }
     
     @Override
 public List<HopDong> findByKeyword(String keyword) {
     List<HopDong> list = new ArrayList<>();
-    String sql = """
-        SELECT hd.MaHopDong, hd.MaPhong, hd.MaKhach, hd.NgayBatDau, hd.NgayKetThuc, nv.TenNhanVien
+   String sql = """
+        SELECT hd.MaHopDong, hd.MaPhong, hd.MaNguoiThue, hd.MaNhanVien,
+               hd.NgayBatDau, hd.NgayKetThuc, tk.HoTen AS TenNhanVien
         FROM HopDong hd
-        LEFT JOIN NhanVien nv ON hd.MaNhanVien = nv.MaNhanVien
-        WHERE hd.MaHopDong LIKE ? OR hd.MaPhong LIKE ? OR hd.MaKhach LIKE ?
+        LEFT JOIN TaiKhoan tk ON hd.MaNhanVien = tk.MaNguoiDung
+        WHERE hd.MaHopDong LIKE ? OR tk.HoTen LIKE ?
     """;
 
+
+  
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         String wildcard = "%" + keyword + "%";
         ps.setString(1, wildcard);
         ps.setString(2, wildcard);
-        ps.setString(3, wildcard);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             HopDong hd = new HopDong(
                 rs.getString("MaHopDong"),
                 rs.getString("MaPhong"),
-                rs.getString("MaKhach"),
+                rs.getInt("MaNguoiThue"),
+                rs.getInt("MaNhanVien"),
                 rs.getDate("NgayBatDau"),
                 rs.getDate("NgayKetThuc")
             );

@@ -55,12 +55,12 @@ public HopDong formData() {
     try {
         String maHD = txtMaHopDong.getText().trim();
         String maPhong = txtMaPhong.getText().trim();
-        String maKhach = txtMaKhachThue.getText().trim();
+        int maNguoiThue = Integer.parseInt(txtMaKhachThue.getText().trim());
+        int maNhanVien = Integer.parseInt(txtMaNhanVien.getText().trim());
         Date ngayBatDau = Date.valueOf(txtBatDau.getText().trim());
         Date ngayKetThuc = Date.valueOf(txtKetThuc.getText().trim());
-        String tenNhanVien = txtNhanVien.getText().trim(); // nếu bạn có field này
 
-        return new HopDong(maHD, maPhong, maKhach, ngayBatDau, ngayKetThuc, tenNhanVien);
+        return new HopDong(maHD, maPhong, maNguoiThue, maNhanVien, ngayBatDau, ngayKetThuc);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ!");
         return null;
@@ -74,17 +74,16 @@ List<HopDong> list = hopDongDAO.findAll();
 
 
    
-    for (HopDong hd : list) {
-        model.addRow(new Object[]{
-            hd.getMaHopDong(),
-            hd.getMaPhong(),
-            hd.getMaKhach(),
-            hd.getNgayBatDau(),
-            hd.getNgayKetThuc(),
-            hd.getTenNhanVien()     
-            
-        });
-    }
+for (HopDong hd : list) {
+    model.addRow(new Object[]{
+        hd.getMaHopDong(),
+        hd.getMaPhong(),
+        hd.getMaNguoiThue(),      // ✅ Sửa lại dòng này
+        hd.getNgayBatDau(),
+        hd.getNgayKetThuc(),
+        hd.getTenNhanVien()
+    });
+}
 }
 
 
@@ -119,7 +118,7 @@ List<HopDong> list = hopDongDAO.findAll();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnNhapMoi = new javax.swing.JButton();
-        txtNhanVien = new javax.swing.JTextField();
+        txtMaNhanVien = new javax.swing.JTextField();
         txtKetThuc = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -211,7 +210,7 @@ List<HopDong> list = hopDongDAO.findAll();
 
         jLabel6.setText("Ngày Kết Thúc:");
 
-        jLabel7.setText("Tên Nhân Viên:");
+        jLabel7.setText("Mã Nhân Viên:");
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -275,7 +274,7 @@ List<HopDong> list = hopDongDAO.findAll();
                                         .addGap(82, 82, 82)
                                         .addComponent(btnNhapMoi))
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+                                        .addComponent(txtMaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
                                         .addComponent(txtKetThuc))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,7 +308,7 @@ List<HopDong> list = hopDongDAO.findAll();
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(txtNhanVien))
+                    .addComponent(txtMaNhanVien))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
@@ -383,14 +382,12 @@ HopDong hd = formData();
     try {
         hopDongDAO.update(hd); // Cập nhật trong DB
 
-        // Cập nhật dữ liệu trong list và bảng
-        list.set(selectedRow, hd);
-        model.setValueAt(hd.getMaHopDong(), selectedRow, 0);
-        model.setValueAt(hd.getMaPhong(), selectedRow, 1);
-        model.setValueAt(hd.getMaKhach(), selectedRow, 2);
-        model.setValueAt(hd.getNgayBatDau(), selectedRow, 3);
-        model.setValueAt(hd.getNgayKetThuc(), selectedRow, 4);
-        model.setValueAt(hd.getTenNhanVien(), selectedRow, 5);
+model.setValueAt(hd.getMaHopDong(), selectedRow, 0);
+model.setValueAt(hd.getMaPhong(), selectedRow, 1);
+model.setValueAt(hd.getMaNguoiThue(), selectedRow, 2);  // ✅ Sửa tại đây
+model.setValueAt(hd.getNgayBatDau(), selectedRow, 3);
+model.setValueAt(hd.getNgayKetThuc(), selectedRow, 4);
+model.setValueAt(hd.getTenNhanVien(), selectedRow, 5);
 
         JOptionPane.showMessageDialog(this, "Cập nhật hợp đồng thành công!");
     } catch (Exception e) {
@@ -429,7 +426,7 @@ HopDong hd = formData();
     txtMaKhachThue.setText("");
     txtBatDau.setText("");
     txtKetThuc.setText("");
-    txtNhanVien.setText("");
+    txtMaNhanVien.setText("");
     tblHopDong.clearSelection(); // Bỏ chọn trên bảng nếu có
     }//GEN-LAST:event_btnNhapMoiActionPerformed
 
@@ -442,7 +439,7 @@ HopDong hd = formData();
         txtMaKhachThue.setText(tblHopDong.getValueAt(row, 2).toString());
         txtBatDau.setText(tblHopDong.getValueAt(row, 3).toString());
         txtKetThuc.setText(tblHopDong.getValueAt(row, 4).toString());
-        txtNhanVien.setText(tblHopDong.getValueAt(row, 5).toString());
+        txtMaNhanVien.setText(tblHopDong.getValueAt(row, 5).toString());
     }
     }//GEN-LAST:event_tblHopDongMouseClicked
 
@@ -537,8 +534,8 @@ HopDong hd = formData();
     private javax.swing.JTextField txtKetThuc;
     private javax.swing.JTextField txtMaHopDong;
     private javax.swing.JTextField txtMaKhachThue;
+    private javax.swing.JTextField txtMaNhanVien;
     private javax.swing.JTextField txtMaPhong;
-    private javax.swing.JTextField txtNhanVien;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }
