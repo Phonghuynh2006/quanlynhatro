@@ -33,19 +33,19 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblMaKhach = new javax.swing.JLabel();
+        lblHoTen = new javax.swing.JLabel();
+        lblCMND = new javax.swing.JLabel();
+        lblSoDienThoai = new javax.swing.JLabel();
+        lblTenDangNhap = new javax.swing.JLabel();
         txtten7 = new javax.swing.JTextField();
-        btnluu2 = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         txtten5 = new javax.swing.JTextField();
-        btnluu3 = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
         txtten8 = new javax.swing.JTextField();
-        btnluu4 = new javax.swing.JButton();
+        btnMoi = new javax.swing.JButton();
         txtten9 = new javax.swing.JTextField();
-        btnluu5 = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
         txtten10 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
@@ -83,32 +83,32 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Mã khách");
+        lblMaKhach.setForeground(new java.awt.Color(0, 0, 0));
+        lblMaKhach.setText("Mã khách");
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Họ tên");
+        lblHoTen.setForeground(new java.awt.Color(0, 0, 0));
+        lblHoTen.setText("Họ tên");
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("CMND/CCCD");
+        lblCMND.setForeground(new java.awt.Color(0, 0, 0));
+        lblCMND.setText("CMND/CCCD");
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Số điện thoại");
+        lblSoDienThoai.setForeground(new java.awt.Color(0, 0, 0));
+        lblSoDienThoai.setText("Số điện thoại");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Tên đăng nhập");
+        lblTenDangNhap.setForeground(new java.awt.Color(0, 0, 0));
+        lblTenDangNhap.setText("Tên đăng nhập");
 
         txtten7.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnluu2.setBackground(new java.awt.Color(204, 204, 0));
-        btnluu2.setForeground(new java.awt.Color(0, 0, 0));
-        btnluu2.setText("Xóa");
+        btnXoa.setBackground(new java.awt.Color(204, 204, 0));
+        btnXoa.setForeground(new java.awt.Color(0, 0, 0));
+        btnXoa.setText("Xóa");
 
         txtten5.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnluu3.setBackground(new java.awt.Color(204, 204, 0));
-        btnluu3.setForeground(new java.awt.Color(0, 0, 0));
-        btnluu3.setText("Sửa");
+        btnSua.setBackground(new java.awt.Color(204, 204, 0));
+        btnSua.setForeground(new java.awt.Color(0, 0, 0));
+        btnSua.setText("Sửa");
 
         txtten8.setBackground(new java.awt.Color(255, 255, 255));
         txtten8.addActionListener(new java.awt.event.ActionListener() {
@@ -117,9 +117,9 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
             }
         });
 
-        btnluu4.setBackground(new java.awt.Color(204, 204, 0));
-        btnluu4.setForeground(new java.awt.Color(0, 0, 0));
-        btnluu4.setText("Mới");
+        btnMoi.setBackground(new java.awt.Color(204, 204, 0));
+        btnMoi.setForeground(new java.awt.Color(0, 0, 0));
+        btnMoi.setText("Mới");
 
         txtten9.setBackground(new java.awt.Color(255, 255, 255));
         txtten9.addActionListener(new java.awt.event.ActionListener() {
@@ -128,12 +128,12 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
             }
         });
 
-        btnluu5.setBackground(new java.awt.Color(204, 204, 0));
-        btnluu5.setForeground(new java.awt.Color(0, 0, 0));
-        btnluu5.setText("Thêm");
-        btnluu5.addActionListener(new java.awt.event.ActionListener() {
+        btnThem.setBackground(new java.awt.Color(204, 204, 0));
+        btnThem.setForeground(new java.awt.Color(0, 0, 0));
+        btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnluu5ActionPerformed(evt);
+                btnThemActionPerformed(evt);
             }
         });
 
@@ -155,33 +155,33 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
+                            .addComponent(lblTenDangNhap)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtten10, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel6)
+                            .addComponent(lblSoDienThoai)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtten7, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
+                            .addComponent(lblCMND)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtten9, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
+                            .addComponent(lblHoTen)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtten8, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
+                            .addComponent(lblMaKhach)
                             .addGap(88, 88, 88)
                             .addComponent(txtten5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnluu5)
+                        .addComponent(btnThem)
                         .addGap(18, 18, 18)
-                        .addComponent(btnluu2)
+                        .addComponent(btnXoa)
                         .addGap(18, 18, 18)
-                        .addComponent(btnluu3)
+                        .addComponent(btnSua)
                         .addGap(18, 18, 18)
-                        .addComponent(btnluu4)))
+                        .addComponent(btnMoi)))
                 .addGap(58, 58, 58)
                 .addComponent(jLabel1)
                 .addContainerGap(165, Short.MAX_VALUE))
@@ -191,30 +191,30 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblMaKhach)
                     .addComponent(txtten5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(lblHoTen)
                     .addComponent(txtten8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(lblCMND)
                     .addComponent(txtten9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                    .addComponent(lblSoDienThoai)
                     .addComponent(txtten7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(lblTenDangNhap)
                     .addComponent(txtten10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnluu5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnluu2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnluu3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnluu4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,9 +247,9 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtten8ActionPerformed
 
-    private void btnluu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnluu5ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnluu5ActionPerformed
+    }//GEN-LAST:event_btnThemActionPerformed
 
     private void txtten10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtten10ActionPerformed
         // TODO add your handling code here:
@@ -302,21 +302,21 @@ public class quanlykhachthueJdialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnluu2;
-    private javax.swing.JButton btnluu3;
-    private javax.swing.JButton btnluu4;
-    private javax.swing.JButton btnluu5;
+    private javax.swing.JButton btnMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblCMND;
+    private javax.swing.JLabel lblHoTen;
+    private javax.swing.JLabel lblMaKhach;
+    private javax.swing.JLabel lblSoDienThoai;
+    private javax.swing.JLabel lblTenDangNhap;
     private javax.swing.JTextField txtten;
     private javax.swing.JTextField txtten10;
     private javax.swing.JTextField txtten5;
