@@ -5,13 +5,13 @@ import main.entity.HoaDon;
 import java.util.List;
 import main.util.XJdbc;
 
-public class HoaDonDAOImpl implements HoaDonDAO{
+public class HoaDonDAOImpl implements HoaDonDAO {
 
     @Override
     public void insert(HoaDon hd) {
         String sql = """
-            INSERT INTO HoaDon (MaHoaDon, MaHopDong, Thang, Nam, TienPhong, TienDien, TienNuoc)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO HoaDon (MaHoaDon, MaHopDong, Thang, Nam, TienPhong, TienDien, TienNuoc, TrangThaiThanhToan)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """;
         XJdbc.executeUpdate(sql,
                 hd.getMaHoaDon(),
@@ -20,7 +20,8 @@ public class HoaDonDAOImpl implements HoaDonDAO{
                 hd.getNam(),
                 hd.getTienPhong(),
                 hd.getTienDien(),
-                hd.getTienNuoc()
+                hd.getTienNuoc(),
+                hd.getTrangThaiThanhToan()  // thêm trạng thái
         );
     }
 
@@ -28,7 +29,7 @@ public class HoaDonDAOImpl implements HoaDonDAO{
     public void update(HoaDon hd) {
         String sql = """
             UPDATE HoaDon
-            SET MaHopDong=?, Thang=?, Nam=?, TienPhong=?, TienDien=?, TienNuoc=?
+            SET MaHopDong=?, Thang=?, Nam=?, TienPhong=?, TienDien=?, TienNuoc=?, TrangThaiThanhToan=?
             WHERE MaHoaDon=?
         """;
         XJdbc.executeUpdate(sql,
@@ -38,6 +39,7 @@ public class HoaDonDAOImpl implements HoaDonDAO{
                 hd.getTienPhong(),
                 hd.getTienDien(),
                 hd.getTienNuoc(),
+                hd.getTrangThaiThanhToan(), // thêm trạng thái
                 hd.getMaHoaDon()
         );
     }
@@ -49,40 +51,41 @@ public class HoaDonDAOImpl implements HoaDonDAO{
     }
 
     @Override
-public List<HoaDon> selectAll() {
-String sql = """
-    SELECT MaHoaDon   AS maHoaDon,
-           MaHopDong  AS maHopDong,
-           Thang      AS thang,
-           Nam        AS nam,
-           TienPhong  AS tienPhong,
-           TienDien   AS tienDien,
-           TienNuoc   AS tienNuoc
-    FROM HoaDon
-    ORDER BY Nam DESC, Thang DESC
-""";
-return XJdbc.getBeanList(HoaDon.class, sql);
-
-}
+    public List<HoaDon> selectAll() {
+        String sql = """
+            SELECT MaHoaDon   AS maHoaDon,
+                   MaHopDong  AS maHopDong,
+                   Thang      AS thang,
+                   Nam        AS nam,
+                   TienPhong  AS tienPhong,
+                   TienDien   AS tienDien,
+                   TienNuoc   AS tienNuoc,
+                   TrangThaiThanhToan AS trangThaiThanhToan
+            FROM HoaDon
+            ORDER BY Nam DESC, Thang DESC
+        """;
+        return XJdbc.getBeanList(HoaDon.class, sql);
+    }
 
     @Override
-public List<HoaDon> selectByUserId(int maNguoiDung) {
-    String sql = """
-        SELECT 
-            hd.MaHoaDon   AS maHoaDon,
-            hd.MaHopDong  AS maHopDong,
-            hd.Thang      AS thang,
-            hd.Nam        AS nam,
-            hd.TienPhong  AS tienPhong,
-            hd.TienDien   AS tienDien,
-            hd.TienNuoc   AS tienNuoc
-        FROM HoaDon hd
-        JOIN HopDong h ON hd.MaHopDong = h.MaHopDong
-        JOIN KhachThue kt ON kt.MaKhach = h.MaKhach
-        JOIN TaiKhoan tk ON tk.TenTaiKhoan = kt.TenTaiKhoan
-        WHERE tk.MaNguoiDung = ?
-        ORDER BY hd.Nam DESC, hd.Thang DESC
-    """;
-    return XJdbc.getBeanList(HoaDon.class, sql, maNguoiDung);
-}
+    public List<HoaDon> selectByUserId(int maNguoiDung) {
+        String sql = """
+            SELECT 
+                hd.MaHoaDon   AS maHoaDon,
+                hd.MaHopDong  AS maHopDong,
+                hd.Thang      AS thang,
+                hd.Nam        AS nam,
+                hd.TienPhong  AS tienPhong,
+                hd.TienDien   AS tienDien,
+                hd.TienNuoc   AS tienNuoc,
+                hd.TrangThaiThanhToan AS trangThaiThanhToan
+            FROM HoaDon hd
+            JOIN HopDong h ON hd.MaHopDong = h.MaHopDong
+            JOIN KhachThue kt ON kt.MaKhach = h.MaKhach
+            JOIN TaiKhoan tk ON tk.TenTaiKhoan = kt.TenTaiKhoan
+            WHERE tk.MaNguoiDung = ?
+            ORDER BY hd.Nam DESC, hd.Thang DESC
+        """;
+        return XJdbc.getBeanList(HoaDon.class, sql, maNguoiDung);
+    }
 }

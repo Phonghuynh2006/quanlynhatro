@@ -18,6 +18,8 @@ public class HoaDon {
     private BigDecimal tienPhong;
     private BigDecimal tienDien;
     private BigDecimal tienNuoc;
+    private String trangThaiThanhToan;
+
 
 }
 

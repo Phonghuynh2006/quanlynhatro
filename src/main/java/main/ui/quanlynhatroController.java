@@ -7,7 +7,7 @@ package main.ui;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import main.manager.doanhthuJdialog;
-import main.manager.lichsuadminJdialog;
+
 import main.manager.lichsunguoithueJdialog;
 import main.manager.quanlyhoadonJdialog;
 import main.manager.quanlyhopdongJdialog;
@@ -84,9 +84,8 @@ new xemhoadonJdialog(new JFrame(), true, maNguoiDung);
         default void showdoanhthuJdialog(JFrame frame){
         this.showJDialog(new doanhthuJdialog(frame, true));
     }
-    default void showlichsuadminJdialog(JFrame frame){
-        this.showJDialog(new lichsuadminJdialog(frame, true));
-    }
+ 
+    
     default void showlichsunguoithueJdialog(JFrame frame){
      int maNguoiDung = 1; // Hoặc lấy từ XAuth.user.getMaNguoiDung()
 new lichsunguoithueJdialog(frame, true, maNguoiDung).setVisible(true);

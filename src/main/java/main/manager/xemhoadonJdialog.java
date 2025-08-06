@@ -63,7 +63,8 @@ public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonCo
                 hd.getNam(),
                 hd.getTienPhong(),
                 hd.getTienDien(),
-                hd.getTienNuoc()
+                hd.getTienNuoc(),
+                hd.getTrangThaiThanhToan()
             });
         }
     }
@@ -101,13 +102,13 @@ public class xemhoadonJdialog extends javax.swing.JDialog implements xemhoadonCo
 
         tblhoadon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "MÃ HÓA ĐƠN", "MÃ HỢP ĐỒNG", "THÁNG", "NĂM", "TIỀN PHÒNG", "TIỀN ĐIỆN", "TIỀN NƯỚC"
+                "MÃ HÓA ĐƠN", "MÃ HỢP ĐỒNG", "THÁNG", "NĂM", "TIỀN PHÒNG", "TIỀN ĐIỆN", "TIỀN NƯỚC", "TRẠNG THÁI"
             }
         ));
         tblhoadon.addMouseListener(new java.awt.event.MouseAdapter() {
