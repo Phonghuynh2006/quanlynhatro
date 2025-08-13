@@ -926,3 +926,4 @@ private String fmtQty(BigDecimal v) {
     private javax.swing.JTextField txttienphong;
     // End of variables declaration//GEN-END:variables
 }
+// doreamon ơi
