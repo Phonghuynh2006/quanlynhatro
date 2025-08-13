@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class HoaDon {
-    private String maHoaDon;
+    private String maHoaDon; // ma hoa dơn
     private String maHopDong;
     private BigDecimal tienPhong;
     private BigDecimal tienDien;

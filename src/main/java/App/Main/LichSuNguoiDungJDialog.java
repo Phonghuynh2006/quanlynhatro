@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PHONG
  */
+//lich su
 public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichSuNguoiDungController{
 
     /**

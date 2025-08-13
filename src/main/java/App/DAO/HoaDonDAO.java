@@ -17,3 +17,4 @@ public interface HoaDonDAO extends CrudDAO<HoaDon, String> {
     List<HoaDon> findChuaThanhToanByMaHopDong(String maHopDong);
     void capNhatTrangThaiThanhToan(String maHoaDon, Date ngayThanhToan); // set Đã thanh toán + ngày TT
 }
+// tunh

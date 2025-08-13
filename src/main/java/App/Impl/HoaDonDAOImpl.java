@@ -104,3 +104,4 @@ public class HoaDonDAOImpl implements HoaDonDAO {
         return String.format("HDON%03d", maxNum + 1);
     }
 }
+// control
