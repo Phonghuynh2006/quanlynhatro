@@ -1,0 +1,704 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ */
+package App.Main;
+
+import App.DAO.TaiKhoanDAO;
+import App.Entity.TaiKhoan;
+import App.Impl.TaiKhoanDAOImpl;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author PHONG
+ */
+public class dangkyJdialog extends javax.swing.JDialog implements dangkyController{
+
+    /**
+     * Creates new form dangkyJdialog
+     */
+    public dangkyJdialog(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+                open();
+    }
+    
+    
+    
+private dangnhapJdialog loginDialog;
+
+
+    @Override
+    public void open() {
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+                this.loginDialog = loginDialog;
+        setUndecorated(true);
+    
+    // Lấy vùng màn hình usable (trừ taskbar)
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    Rectangle usableBounds = env.getMaximumWindowBounds();
+
+    // Thiết lập kích thước không che taskbar
+    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
+
+    // Các thao tác khác nếu có...
+
+
+
+    }
+    
+@Override
+public void dangKy() {
+    // Lấy parent an toàn cho JOptionPane (có thể null)
+    java.awt.Component parent = javax.swing.SwingUtilities.getWindowAncestor(getRootPane());
+
+    String username = txtten.getText().trim();
+    String pass     = new String(txtmatkhau.getPassword()).trim();
+    String pass2    = new String(txtnhaplaimatkhau.getPassword()).trim();
+
+    // ===== Validate cơ bản =====
+    if (username.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
+        JOptionPane.showMessageDialog(parent, "Vui lòng nhập đầy đủ thông tin!", "Thông báo",
+                                      JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    // username: 4–32 kí tự, chỉ chữ/số/._-
+    if (!username.matches("^[a-zA-Z0-9_.-]{4,32}$")) {
+        JOptionPane.showMessageDialog(parent,
+            "Tên đăng nhập 4–32 ký tự, chỉ gồm chữ, số, dấu chấm (.), gạch dưới (_) hoặc gạch ngang (-).",
+            "Thông báo", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    // password >= 6 ký tự
+    if (pass.length() < 6) {
+        JOptionPane.showMessageDialog(parent, "Mật khẩu tối thiểu 6 ký tự.", "Thông báo",
+                                      JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    if (!pass.equals(pass2)) {
+        JOptionPane.showMessageDialog(parent, "Mật khẩu nhập lại không khớp!", "Thông báo",
+                                      JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
+
+    try {
+        // Kiểm tra tồn tại username
+        boolean existed;
+        try {
+            // nếu bạn có sẵn hàm này thì dùng
+            existed = dao.isTenDangNhapTonTai(username);
+        } catch (Throwable ignore) {
+            // nếu không có, fallback sang findByTenTaiKhoan(...)
+            existed = (dao.findByTenTaiKhoan(username) != null);
+        }
+        if (existed) {
+            JOptionPane.showMessageDialog(parent, "Tên đăng nhập đã tồn tại!", "Thông báo",
+                                          JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // ===== Tạo tài khoản mới =====
+        long ts = System.currentTimeMillis(); // dùng tạo dữ liệu unique tạm
+        TaiKhoan tk = new TaiKhoan();
+        tk.setTenTaiKhoan(username);
+        tk.setMatKhau(pass);           // nếu có mã hoá, hãy hash tại đây
+        tk.setVaiTro(2);               // 2 = Người thuê
+        tk.setTrangThai(1);            // 1 = Hoạt động
+
+        // Các cột có UNIQUE -> gán tạm để không lỗi ràng buộc
+        tk.setHoTen("Người dùng mới");
+        tk.setNgaySinh(null);
+        tk.setGioiTinh("Nam");
+        tk.setCccd("TMP" + ts);
+        tk.setDienThoai("0");
+        tk.setEmail("user" + ts + "@dummy.com");
+        tk.setDiaChi("");
+        tk.setHinhAnh(null);
+
+        dao.create(tk);
+
+        JOptionPane.showMessageDialog(parent, "Đăng ký thành công! Vui lòng đăng nhập.",
+                                      "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+        // Đóng form đăng ký và mở form đăng nhập
+        dispose();
+        new dangnhapJdialog((java.awt.Frame) null, true).setVisible(true);
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(parent, "Không thể đăng ký: " + ex.getMessage(),
+                                      "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel103 = new javax.swing.JPanel();
+        jLabel112 = new javax.swing.JLabel();
+        btndong102 = new javax.swing.JButton();
+        jLabel113 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btndangky = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtten = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnquaylai = new javax.swing.JButton();
+        txtmatkhau = new javax.swing.JPasswordField();
+        txtnhaplaimatkhau = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel103.setBackground(new java.awt.Color(102, 204, 255));
+
+        jLabel112.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
+        jLabel112.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel112.setText("NHÀ TRỌ FPOLY");
+
+        btndong102.setBackground(new java.awt.Color(0, 0, 255));
+        btndong102.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btndong102.setForeground(new java.awt.Color(255, 255, 255));
+        btndong102.setText("X");
+        btndong102.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndong102ActionPerformed(evt);
+            }
+        });
+
+        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel103Layout = new javax.swing.GroupLayout(jPanel103);
+        jPanel103.setLayout(jPanel103Layout);
+        jPanel103Layout.setHorizontalGroup(
+            jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel103Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel113)
+                .addGap(441, 441, 441)
+                .addComponent(jLabel112)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 554, Short.MAX_VALUE)
+                .addComponent(btndong102, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+        jPanel103Layout.setVerticalGroup(
+            jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel103Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btndong102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel112))
+                    .addGroup(jPanel103Layout.createSequentialGroup()
+                        .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setText("ĐĂNG KÝ");
+
+        jLabel4.setText("Mật Khẩu");
+
+        btndangky.setBackground(new java.awt.Color(102, 204, 255));
+        btndangky.setText("Đăng Ký");
+        btndangky.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangkyActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Nhập Tên Đăng Nhập");
+
+        jLabel5.setText("Nhập lại Mật Khẩu");
+
+        btnquaylai.setBackground(new java.awt.Color(102, 204, 255));
+        btnquaylai.setText("Quay lại");
+        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquaylaiActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
+        jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(654, 654, 654)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(774, 774, 774)
+                            .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(txtmatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(txtnhaplaimatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(jLabel4))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(btndangky, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(664, 664, 664)
+                            .addComponent(jLabel3))
+                        .addComponent(jPanel103, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 1800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 993, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(97, 97, 97)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(377, 377, 377)
+                            .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(287, 287, 287)
+                            .addComponent(txtmatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(317, 317, 317)
+                            .addComponent(jLabel5))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(337, 337, 337)
+                            .addComponent(txtnhaplaimatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(267, 267, 267)
+                            .addComponent(jLabel4))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(377, 377, 377)
+                            .addComponent(btndangky, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(237, 237, 237)
+                            .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(217, 217, 217)
+                            .addComponent(jLabel3))
+                        .addComponent(jPanel103, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btndong102ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong102ActionPerformed
+        // TODO add your handling code here:
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn muốn đóng ứng dụng?", "Thoát?", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btndong102ActionPerformed
+
+    private void btndangkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangkyActionPerformed
+        // TODO add your handling code here:
+        dangKy();
+    }//GEN-LAST:event_btndangkyActionPerformed
+
+    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+        if (loginDialog != null) {
+            loginDialog.setVisible(true);  // Hiển thị lại form đăng nhập
+        }
+        this.dispose(); // Đóng form đăng ký sau khi form đăng nhập hiện ra
+    }//GEN-LAST:event_btnquaylaiActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(dangkyJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(dangkyJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(dangkyJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(dangkyJdialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                dangkyJdialog dialog = new dangkyJdialog(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btndangky;
+    private javax.swing.JButton btndong1;
+    private javax.swing.JButton btndong10;
+    private javax.swing.JButton btndong100;
+    private javax.swing.JButton btndong101;
+    private javax.swing.JButton btndong102;
+    private javax.swing.JButton btndong11;
+    private javax.swing.JButton btndong12;
+    private javax.swing.JButton btndong13;
+    private javax.swing.JButton btndong14;
+    private javax.swing.JButton btndong15;
+    private javax.swing.JButton btndong16;
+    private javax.swing.JButton btndong17;
+    private javax.swing.JButton btndong18;
+    private javax.swing.JButton btndong19;
+    private javax.swing.JButton btndong2;
+    private javax.swing.JButton btndong20;
+    private javax.swing.JButton btndong21;
+    private javax.swing.JButton btndong22;
+    private javax.swing.JButton btndong23;
+    private javax.swing.JButton btndong24;
+    private javax.swing.JButton btndong25;
+    private javax.swing.JButton btndong26;
+    private javax.swing.JButton btndong27;
+    private javax.swing.JButton btndong28;
+    private javax.swing.JButton btndong29;
+    private javax.swing.JButton btndong3;
+    private javax.swing.JButton btndong30;
+    private javax.swing.JButton btndong31;
+    private javax.swing.JButton btndong32;
+    private javax.swing.JButton btndong33;
+    private javax.swing.JButton btndong34;
+    private javax.swing.JButton btndong35;
+    private javax.swing.JButton btndong36;
+    private javax.swing.JButton btndong37;
+    private javax.swing.JButton btndong38;
+    private javax.swing.JButton btndong39;
+    private javax.swing.JButton btndong4;
+    private javax.swing.JButton btndong40;
+    private javax.swing.JButton btndong41;
+    private javax.swing.JButton btndong42;
+    private javax.swing.JButton btndong43;
+    private javax.swing.JButton btndong44;
+    private javax.swing.JButton btndong45;
+    private javax.swing.JButton btndong46;
+    private javax.swing.JButton btndong47;
+    private javax.swing.JButton btndong48;
+    private javax.swing.JButton btndong49;
+    private javax.swing.JButton btndong5;
+    private javax.swing.JButton btndong50;
+    private javax.swing.JButton btndong51;
+    private javax.swing.JButton btndong52;
+    private javax.swing.JButton btndong53;
+    private javax.swing.JButton btndong54;
+    private javax.swing.JButton btndong55;
+    private javax.swing.JButton btndong56;
+    private javax.swing.JButton btndong57;
+    private javax.swing.JButton btndong58;
+    private javax.swing.JButton btndong59;
+    private javax.swing.JButton btndong6;
+    private javax.swing.JButton btndong60;
+    private javax.swing.JButton btndong61;
+    private javax.swing.JButton btndong62;
+    private javax.swing.JButton btndong63;
+    private javax.swing.JButton btndong64;
+    private javax.swing.JButton btndong65;
+    private javax.swing.JButton btndong66;
+    private javax.swing.JButton btndong67;
+    private javax.swing.JButton btndong68;
+    private javax.swing.JButton btndong69;
+    private javax.swing.JButton btndong7;
+    private javax.swing.JButton btndong70;
+    private javax.swing.JButton btndong71;
+    private javax.swing.JButton btndong72;
+    private javax.swing.JButton btndong73;
+    private javax.swing.JButton btndong74;
+    private javax.swing.JButton btndong75;
+    private javax.swing.JButton btndong76;
+    private javax.swing.JButton btndong77;
+    private javax.swing.JButton btndong78;
+    private javax.swing.JButton btndong79;
+    private javax.swing.JButton btndong8;
+    private javax.swing.JButton btndong80;
+    private javax.swing.JButton btndong81;
+    private javax.swing.JButton btndong82;
+    private javax.swing.JButton btndong83;
+    private javax.swing.JButton btndong84;
+    private javax.swing.JButton btndong85;
+    private javax.swing.JButton btndong86;
+    private javax.swing.JButton btndong87;
+    private javax.swing.JButton btndong88;
+    private javax.swing.JButton btndong89;
+    private javax.swing.JButton btndong9;
+    private javax.swing.JButton btndong90;
+    private javax.swing.JButton btndong91;
+    private javax.swing.JButton btndong92;
+    private javax.swing.JButton btndong93;
+    private javax.swing.JButton btndong94;
+    private javax.swing.JButton btndong95;
+    private javax.swing.JButton btndong96;
+    private javax.swing.JButton btndong97;
+    private javax.swing.JButton btndong98;
+    private javax.swing.JButton btndong99;
+    private javax.swing.JButton btnquaylai;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel100;
+    private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel104;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel110;
+    private javax.swing.JLabel jLabel111;
+    private javax.swing.JLabel jLabel112;
+    private javax.swing.JLabel jLabel113;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel100;
+    private javax.swing.JPanel jPanel101;
+    private javax.swing.JPanel jPanel102;
+    private javax.swing.JPanel jPanel103;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel48;
+    private javax.swing.JPanel jPanel49;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel50;
+    private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
+    private javax.swing.JPanel jPanel53;
+    private javax.swing.JPanel jPanel54;
+    private javax.swing.JPanel jPanel55;
+    private javax.swing.JPanel jPanel56;
+    private javax.swing.JPanel jPanel57;
+    private javax.swing.JPanel jPanel58;
+    private javax.swing.JPanel jPanel59;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel60;
+    private javax.swing.JPanel jPanel61;
+    private javax.swing.JPanel jPanel62;
+    private javax.swing.JPanel jPanel63;
+    private javax.swing.JPanel jPanel64;
+    private javax.swing.JPanel jPanel65;
+    private javax.swing.JPanel jPanel66;
+    private javax.swing.JPanel jPanel67;
+    private javax.swing.JPanel jPanel68;
+    private javax.swing.JPanel jPanel69;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel70;
+    private javax.swing.JPanel jPanel71;
+    private javax.swing.JPanel jPanel72;
+    private javax.swing.JPanel jPanel73;
+    private javax.swing.JPanel jPanel74;
+    private javax.swing.JPanel jPanel75;
+    private javax.swing.JPanel jPanel76;
+    private javax.swing.JPanel jPanel77;
+    private javax.swing.JPanel jPanel78;
+    private javax.swing.JPanel jPanel79;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel80;
+    private javax.swing.JPanel jPanel81;
+    private javax.swing.JPanel jPanel82;
+    private javax.swing.JPanel jPanel83;
+    private javax.swing.JPanel jPanel84;
+    private javax.swing.JPanel jPanel85;
+    private javax.swing.JPanel jPanel86;
+    private javax.swing.JPanel jPanel87;
+    private javax.swing.JPanel jPanel88;
+    private javax.swing.JPanel jPanel89;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanel90;
+    private javax.swing.JPanel jPanel91;
+    private javax.swing.JPanel jPanel92;
+    private javax.swing.JPanel jPanel93;
+    private javax.swing.JPanel jPanel94;
+    private javax.swing.JPanel jPanel95;
+    private javax.swing.JPanel jPanel96;
+    private javax.swing.JPanel jPanel97;
+    private javax.swing.JPanel jPanel98;
+    private javax.swing.JPanel jPanel99;
+    private javax.swing.JPasswordField txtmatkhau;
+    private javax.swing.JPasswordField txtnhaplaimatkhau;
+    private javax.swing.JTextField txtten;
+    // End of variables declaration//GEN-END:variables
+}
