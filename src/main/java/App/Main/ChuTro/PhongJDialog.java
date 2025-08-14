@@ -31,6 +31,7 @@ public class PhongJDialog extends javax.swing.JDialog implements PhongController
         super(parent, modal);
         initComponents();
         afterInit();
+                setLocationRelativeTo(null);
     }
 
 
@@ -399,6 +400,7 @@ public class PhongJDialog extends javax.swing.JDialog implements PhongController
 
         jPanel4.setBackground(new java.awt.Color(207, 243, 243));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jPanel4.setToolTipText("");
 
         btnThem.setBackground(new java.awt.Color(255, 205, 31));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

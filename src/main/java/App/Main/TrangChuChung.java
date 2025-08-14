@@ -147,6 +147,7 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhongTrong = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTrangChu = new javax.swing.JMenu();
         jMenuDangnhap = new javax.swing.JMenu();
@@ -158,6 +159,7 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
 
         jPanel1.setBackground(new java.awt.Color(40, 46, 62));
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 630));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblPhongTrong.setBackground(new java.awt.Color(207, 243, 243));
         tblPhongTrong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -182,45 +184,28 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jScrollPane1.setViewportView(tblPhongTrong);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 77, 971, 400));
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 205, 31));
         jLabel2.setText("DANH SÁCH PHÒNG TRỐNG");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 27, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(355, 355, 355)
-                        .addComponent(jLabel2)))
-                .addContainerGap(68, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 530));
 
         jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
         jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
-        jMenuTrangChu.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home (1).png"))); // NOI18N
+        jMenuTrangChu.setBackground(new java.awt.Color(204, 255, 255));
+        jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home.png"))); // NOI18N
         jMenuTrangChu.setText("Trang chủ");
         jMenuTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jMenuBar1.add(jMenuTrangChu);
 
+        jMenuDangnhap.setBackground(new java.awt.Color(204, 255, 255));
         jMenuDangnhap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/Unknown person.png"))); // NOI18N
         jMenuDangnhap.setText("Đăng nhập");
         jMenuDangnhap.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -231,6 +216,7 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jMenuBar1.add(jMenuDangnhap);
 
+        jMenuDangky.setBackground(new java.awt.Color(204, 255, 255));
         jMenuDangky.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/edit.png"))); // NOI18N
         jMenuDangky.setText("Đăng ký");
         jMenuDangky.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -241,8 +227,9 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jMenuBar1.add(jMenuDangky);
 
-        jMenuThoat.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/logout.png"))); // NOI18N
+        jMenuThoat.setBackground(new java.awt.Color(204, 255, 255));
+        jMenuThoat.setBorder(null);
+        jMenuThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logout (1).png"))); // NOI18N
         jMenuThoat.setText("Thoát");
         jMenuThoat.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jMenuThoat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -258,15 +245,11 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -320,6 +303,7 @@ public static void main(String[] args) {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDangky;

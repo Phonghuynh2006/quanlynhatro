@@ -157,6 +157,7 @@ private void loadDashboard() {
         lblHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblphongtro = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTrangChu = new javax.swing.JMenu();
         jMenuPhongTro = new javax.swing.JMenu();
@@ -366,8 +367,11 @@ private void loadDashboard() {
 
         jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 166, 1012, 310));
 
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen03.jpg"))); // NOI18N
+        jpnView.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 530));
+
         jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
         jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
@@ -410,6 +414,7 @@ private void loadDashboard() {
         });
         jMenuBar1.add(jMenuHoaDon);
 
+        jMtaikhoan.setForeground(new java.awt.Color(255, 255, 255));
         jMtaikhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/Clien list.png"))); // NOI18N
         jMtaikhoan.setText("Tài khoản");
         jMtaikhoan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -488,7 +493,9 @@ private void loadDashboard() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -616,6 +623,7 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
     private javax.swing.JMenuItem btnThoat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JMenu jMenuAbout;

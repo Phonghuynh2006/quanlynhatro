@@ -178,6 +178,7 @@ public void dangKyPhong() {
         lblIDPhong = new javax.swing.JLabel();
         lblTenNguoiThue = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTrangChu = new javax.swing.JMenu();
         jMenuHopDong = new javax.swing.JMenu();
@@ -197,6 +198,8 @@ public void dangKyPhong() {
 
         jpnView.setBackground(new java.awt.Color(40, 46, 62));
         jpnView.setPreferredSize(new java.awt.Dimension(1100, 630));
+        jpnView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jpnView.add(lblNull, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         tblPhongTrong.setBackground(new java.awt.Color(207, 243, 243));
         tblPhongTrong.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,14 +223,15 @@ public void dangKyPhong() {
         });
         jScrollPane1.setViewportView(tblPhongTrong);
 
-        jPanel1.setBackground(new java.awt.Color(46, 56, 86));
+        jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 206, 971, 400));
+
+        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
         lblThang.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblThang.setForeground(new java.awt.Color(255, 205, 31));
         lblThang.setText("MỚI NHẤT");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("HÓA ĐƠN");
 
         lblTongTien.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -261,16 +265,17 @@ public void dangKyPhong() {
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(46, 56, 86));
+        jpnView.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(721, 23, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(204, 255, 255));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("ID Phòng:");
 
         txtIDPhong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIDPhong.setForeground(new java.awt.Color(40, 46, 62));
 
-        btnDangKy.setBackground(new java.awt.Color(255, 205, 31));
+        btnDangKy.setBackground(new java.awt.Color(0, 51, 255));
         btnDangKy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnDangKy.setForeground(new java.awt.Color(40, 46, 62));
         btnDangKy.setText("Đăng ký");
@@ -304,83 +309,36 @@ public void dangKyPhong() {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("ID phòng:");
+        jpnView.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 23, -1, -1));
 
+        jLabel5.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("ID phòng:");
+        jpnView.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 97, -1, -1));
+
+        jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tên người thuê:");
+        jpnView.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 123, -1, -1));
 
         lblIDPhong.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblIDPhong.setForeground(new java.awt.Color(255, 205, 31));
+        lblIDPhong.setForeground(new java.awt.Color(255, 51, 0));
         lblIDPhong.setText("XX");
+        jpnView.add(lblIDPhong, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 97, -1, -1));
 
         lblTenNguoiThue.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblTenNguoiThue.setForeground(new java.awt.Color(255, 205, 31));
+        lblTenNguoiThue.setForeground(new java.awt.Color(255, 51, 0));
         lblTenNguoiThue.setText("Họ tên");
+        jpnView.add(lblTenNguoiThue, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 123, -1, -1));
 
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("DANH SÁCH PHÒNG TRỐNG");
+        jpnView.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 180, -1, -1));
 
-        javax.swing.GroupLayout jpnViewLayout = new javax.swing.GroupLayout(jpnView);
-        jpnView.setLayout(jpnViewLayout);
-        jpnViewLayout.setHorizontalGroup(
-            jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnViewLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblNull)
-                .addContainerGap(1094, Short.MAX_VALUE))
-            .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpnViewLayout.createSequentialGroup()
-                    .addGap(64, 64, 64)
-                    .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7)
-                        .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnViewLayout.createSequentialGroup()
-                                .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jpnViewLayout.createSequentialGroup()
-                                        .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6))
-                                        .addGap(24, 24, 24)
-                                        .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTenNguoiThue)
-                                            .addComponent(lblIDPhong))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(65, Short.MAX_VALUE)))
-        );
-        jpnViewLayout.setVerticalGroup(
-            jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnViewLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblNull)
-                .addContainerGap(624, Short.MAX_VALUE))
-            .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpnViewLayout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jpnViewLayout.createSequentialGroup()
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(lblIDPhong))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(lblTenNguoiThue))))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jLabel7)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(24, Short.MAX_VALUE)))
-        );
+        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
+        jpnView.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 630));
 
         jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
@@ -597,6 +555,7 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenuAbout;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuHoaDon;
