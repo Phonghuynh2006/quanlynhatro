@@ -168,15 +168,15 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtHoTen" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="txtHoTen" alignment="0" pref="137" max="32767" attributes="0"/>
                                           <Component id="txtSoDT" alignment="0" max="32767" attributes="0"/>
                                           <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
                                           <Component id="txtCccd" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="dcsNgaySinh" alignment="0" pref="137" max="32767" attributes="0"/>
+                                          <Component id="dcsNgaySinh" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <EmptySpace min="26" pref="26" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -209,7 +209,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Component id="txtDiaChi" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
+                                  <Component id="txtDiaChi" min="-2" pref="137" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -273,14 +273,17 @@
                           <Component id="rbbikhoa" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rbhoatdong" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="7" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="dcsNgaySinh" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="dcsNgaySinh" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -297,7 +300,6 @@
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="7" max="32767" attributes="0"/>
                               <Component id="lblanhnguoidung" min="-2" pref="124" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -633,8 +635,6 @@
                 <Property name="text" type="java.lang.String" value="Ng&#xe0;y sinh:"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="dcsNgaySinh">
-            </Component>
             <Component class="javax.swing.JLabel" name="lblanhnguoidung">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -643,6 +643,8 @@
                   </Border>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="dcsNgaySinh">
             </Component>
           </SubComponents>
         </Container>

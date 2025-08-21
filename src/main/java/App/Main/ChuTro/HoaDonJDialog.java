@@ -337,9 +337,7 @@ private String fmtQty(BigDecimal v) {
         lblIDHoaDon = new javax.swing.JLabel();
         txtIDHopDong = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jdcNgayTao = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        jdcNgaythanhtoan = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         txtSoDien = new javax.swing.JTextField();
         txttiendien = new javax.swing.JTextField();
@@ -355,6 +353,8 @@ private String fmtQty(BigDecimal v) {
         lblTongCong = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         txttienphong = new javax.swing.JTextField();
+        jdcNgaythanhtoan = new com.toedter.calendar.JDateChooser();
+        jdcNgayTao = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -443,29 +443,17 @@ private String fmtQty(BigDecimal v) {
 
         txtIDHopDong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIDHopDong.setForeground(new java.awt.Color(40, 46, 62));
-        jPanel3.add(txtIDHopDong, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 33, 140, -1));
+        jPanel3.add(txtIDHopDong, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 140, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(40, 46, 62));
         jLabel5.setText("Ngày tạo:");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(328, 36, 90, -1));
 
-        jdcNgayTao.setBackground(new java.awt.Color(255, 255, 255));
-        jdcNgayTao.setForeground(new java.awt.Color(40, 46, 62));
-        jdcNgayTao.setDateFormatString("dd-MM-yyyy");
-        jdcNgayTao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(jdcNgayTao, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 37, 130, -1));
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(40, 46, 62));
         jLabel6.setText("Ngày thanh toán:");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 67, -1, -1));
-
-        jdcNgaythanhtoan.setBackground(new java.awt.Color(255, 255, 255));
-        jdcNgaythanhtoan.setForeground(new java.awt.Color(40, 46, 62));
-        jdcNgaythanhtoan.setDateFormatString("dd-MM-yyyy");
-        jdcNgaythanhtoan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(jdcNgaythanhtoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 65, 140, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(40, 46, 62));
@@ -560,6 +548,8 @@ private String fmtQty(BigDecimal v) {
             }
         });
         jPanel3.add(txttienphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 157, 140, -1));
+        jPanel3.add(jdcNgaythanhtoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 140, -1));
+        jPanel3.add(jdcNgayTao, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 140, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 102, 550, 260));
 

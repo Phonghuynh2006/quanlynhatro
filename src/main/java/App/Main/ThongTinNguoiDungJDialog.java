@@ -217,9 +217,9 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lblanh = new javax.swing.JLabel();
-        dcsngaysinh = new com.toedter.calendar.JDateChooser();
         rdnu = new javax.swing.JRadioButton();
         rdnam = new javax.swing.JRadioButton();
+        dcsngaysinh = new com.toedter.calendar.JDateChooser();
         btnCapNhat = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
@@ -347,10 +347,6 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         });
         jPanel2.add(lblanh, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 160, 150));
 
-        dcsngaysinh.setDateFormatString("dd-MM-yyyy");
-        dcsngaysinh.setDoubleBuffered(false);
-        jPanel2.add(dcsngaysinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 170, 160, 26));
-
         buttonGroup1.add(rdnu);
         rdnu.setText("Nữ");
         jPanel2.add(rdnu, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 213, 98, -1));
@@ -358,6 +354,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         buttonGroup1.add(rdnam);
         rdnam.setText("Nam");
         jPanel2.add(rdnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 213, 98, -1));
+        jPanel2.add(dcsngaysinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 160, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 622, 268));
 

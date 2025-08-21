@@ -202,7 +202,68 @@ public class PhongJDialog extends javax.swing.JDialog implements PhongController
         lblanhphong.setIcon(new ImageIcon(img));
         lblanhphong.putClientProperty("path", path);
     }
+    
+// ===== validate =====
+    private boolean validatePhong() {
+    String maPhong = txtMaPhong.getText().trim();
+    String lienHe = txtlienhe.getText().trim();
+    String giaTien = txtGiatien.getText().trim();
+    String dienTich = txtDienTich.getText().trim();
+    String diaChi = txtDiaChi.getText().trim();
 
+    if (maPhong.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã phòng không được để trống!");
+        txtMaPhong.requestFocus();
+        return false;
+    }
+    if (lienHe.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại liên hệ!");
+        txtlienhe.requestFocus();
+        return false;
+    }
+    if (!lienHe.matches("^0\\d{9,10}$")) { // kiểm tra sđt Việt Nam
+        JOptionPane.showMessageDialog(this, "Số điện thoại liên hệ không hợp lệ!");
+        txtlienhe.requestFocus();
+        return false;
+    }
+    if (!giaTien.isBlank()) {
+        try {
+            BigDecimal g = new BigDecimal(giaTien);
+            if (g.compareTo(BigDecimal.ZERO) <= 0) {
+                JOptionPane.showMessageDialog(this, "Giá tiền phải > 0!");
+                txtGiatien.requestFocus();
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Giá tiền không hợp lệ!");
+            txtGiatien.requestFocus();
+            return false;
+        }
+    }
+    if (!dienTich.isBlank()) {
+        try {
+            BigDecimal dt = new BigDecimal(dienTich);
+            if (dt.compareTo(BigDecimal.ZERO) <= 0) {
+                JOptionPane.showMessageDialog(this, "Diện tích phải > 0!");
+                txtDienTich.requestFocus();
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Diện tích không hợp lệ!");
+            txtDienTich.requestFocus();
+            return false;
+        }
+    }
+    if (diaChi.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống!");
+        txtDiaChi.requestFocus();
+        return false;
+    }
+    return true;
+}
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

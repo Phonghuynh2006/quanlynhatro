@@ -159,6 +159,9 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
 
     @Override
     public void add() {
+         if (!validateForm()) {
+        return; // Nếu validate fail thì dừng lại
+    }
         HopDong h = getForm();
         if (h == null) return;
 
@@ -213,6 +216,59 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
         if (h != null) setForm(h);
     }
 
+    private boolean validateForm() {
+    // Kiểm tra Mã Hợp Đồng
+    if (lblmahopdong.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã hợp đồng không được để trống!");
+        lblmahopdong.requestFocus();
+        return false;
+    }
+
+    // Kiểm tra Mã Phòng
+    if (txtmaphong.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã phòng không được để trống!");
+        txtmaphong.requestFocus();
+        return false;
+    }
+
+    // Kiểm tra Mã Người Dùng (phải là số)
+    if (txtMaNguoiDung.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã người dùng không được để trống!");
+        txtMaNguoiDung.requestFocus();
+        return false;
+    }
+    try {
+        Integer.parseInt(txtMaNguoiDung.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Mã người dùng phải là số!");
+        txtMaNguoiDung.requestFocus();
+        return false;
+    }
+
+    // Kiểm tra ngày
+    Date ngayBD = dcsngaybatdauthue.getDate();
+    Date ngayKT = dcsngayketthucthue.getDate();
+
+    if (ngayBD == null) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày bắt đầu thuê!");
+        dcsngaybatdauthue.requestFocus();
+        return false;
+    }
+    if (ngayKT == null) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày kết thúc thuê!");
+        dcsngayketthucthue.requestFocus();
+        return false;
+    }
+    if (ngayKT.before(ngayBD)) {
+        JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu!");
+        dcsngayketthucthue.requestFocus();
+        return false;
+    }
+
+    return true;
+}
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -233,13 +289,13 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
         jLabel3 = new javax.swing.JLabel();
         txtMaNguoiDung = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        dcsngaybatdauthue = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
-        dcsngayketthucthue = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         txtGiaPhong = new javax.swing.JTextField();
         lbl = new javax.swing.JLabel();
         lblmahopdong = new javax.swing.JLabel();
+        dcsngaybatdauthue = new com.toedter.calendar.JDateChooser();
+        dcsngayketthucthue = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -299,14 +355,14 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 6, 1000, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1000, -1));
 
         jPanel3.setBackground(new java.awt.Color(207, 243, 243));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 46, 62));
-        jLabel1.setText("HỘP ĐỒNG");
+        jLabel1.setText("HỢP ĐỒNG");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(40, 46, 62));
@@ -324,15 +380,9 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
         jLabel4.setForeground(new java.awt.Color(40, 46, 62));
         jLabel4.setText("Ngày BĐ thuê:");
 
-        dcsngaybatdauthue.setDateFormatString("dd-MM-yyyy");
-        dcsngaybatdauthue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(40, 46, 62));
         jLabel5.setText("Ngày KT thuê:");
-
-        dcsngayketthucthue.setDateFormatString("dd-MM-yyyy");
-        dcsngayketthucthue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(40, 46, 62));
@@ -364,7 +414,8 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(2, 2, 2)))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -373,10 +424,12 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtMaNguoiDung)
-                    .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addComponent(txtMaNguoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(42, 42, 42))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -403,14 +456,19 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                     .addComponent(txtMaNguoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
