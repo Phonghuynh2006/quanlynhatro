@@ -233,9 +233,7 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
         jLabel3 = new javax.swing.JLabel();
         txtMaNguoiDung = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        dcsngaybatdauthue = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
-        dcsngayketthucthue = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         txtGiaPhong = new javax.swing.JTextField();
         lbl = new javax.swing.JLabel();
@@ -306,7 +304,7 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 46, 62));
-        jLabel1.setText("HỘP ĐỒNG");
+        jLabel1.setText("HỢP ĐỒNG");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(40, 46, 62));
@@ -324,15 +322,9 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
         jLabel4.setForeground(new java.awt.Color(40, 46, 62));
         jLabel4.setText("Ngày BĐ thuê:");
 
-        dcsngaybatdauthue.setDateFormatString("dd-MM-yyyy");
-        dcsngaybatdauthue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(40, 46, 62));
         jLabel5.setText("Ngày KT thuê:");
-
-        dcsngayketthucthue.setDateFormatString("dd-MM-yyyy");
-        dcsngayketthucthue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(40, 46, 62));
@@ -356,15 +348,12 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                 .addGap(41, 41, 41)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtmaphong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel4))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -374,9 +363,7 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtMaNguoiDung)
-                    .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addComponent(txtMaNguoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -404,14 +391,12 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(dcsngaybatdauthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(dcsngayketthucthue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 94, 640, 170));
@@ -636,8 +621,6 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
-    private com.toedter.calendar.JDateChooser dcsngaybatdauthue;
-    private com.toedter.calendar.JDateChooser dcsngayketthucthue;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

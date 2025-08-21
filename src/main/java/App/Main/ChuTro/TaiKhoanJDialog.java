@@ -274,7 +274,6 @@ public class TaiKhoanJDialog extends javax.swing.JDialog implements TaiKhoanCont
         jLabel13 = new javax.swing.JLabel();
         rbbikhoa = new javax.swing.JRadioButton();
         jLabel14 = new javax.swing.JLabel();
-        dcsNgaySinh = new com.toedter.calendar.JDateChooser();
         lblanhnguoidung = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -474,11 +473,10 @@ public class TaiKhoanJDialog extends javax.swing.JDialog implements TaiKhoanCont
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtHoTen)
+                                    .addComponent(txtHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                                     .addComponent(txtSoDT)
                                     .addComponent(txtEmail)
-                                    .addComponent(txtCccd)
-                                    .addComponent(dcsNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+                                    .addComponent(txtCccd))
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -558,12 +556,8 @@ public class TaiKhoanJDialog extends javax.swing.JDialog implements TaiKhoanCont
                     .addComponent(rbhoatdong))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dcsNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel14)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -791,7 +785,6 @@ public class TaiKhoanJDialog extends javax.swing.JDialog implements TaiKhoanCont
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private com.toedter.calendar.JDateChooser dcsNgaySinh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

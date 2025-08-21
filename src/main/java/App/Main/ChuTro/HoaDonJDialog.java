@@ -337,9 +337,7 @@ private String fmtQty(BigDecimal v) {
         lblIDHoaDon = new javax.swing.JLabel();
         txtIDHopDong = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jdcNgayTao = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        jdcNgaythanhtoan = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         txtSoDien = new javax.swing.JTextField();
         txttiendien = new javax.swing.JTextField();
@@ -450,22 +448,10 @@ private String fmtQty(BigDecimal v) {
         jLabel5.setText("Ngày tạo:");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(328, 36, 90, -1));
 
-        jdcNgayTao.setBackground(new java.awt.Color(255, 255, 255));
-        jdcNgayTao.setForeground(new java.awt.Color(40, 46, 62));
-        jdcNgayTao.setDateFormatString("dd-MM-yyyy");
-        jdcNgayTao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(jdcNgayTao, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 37, 130, -1));
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(40, 46, 62));
         jLabel6.setText("Ngày thanh toán:");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 67, -1, -1));
-
-        jdcNgaythanhtoan.setBackground(new java.awt.Color(255, 255, 255));
-        jdcNgaythanhtoan.setForeground(new java.awt.Color(40, 46, 62));
-        jdcNgaythanhtoan.setDateFormatString("dd-MM-yyyy");
-        jdcNgaythanhtoan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(jdcNgaythanhtoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 65, 140, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(40, 46, 62));
@@ -818,8 +804,6 @@ private String fmtQty(BigDecimal v) {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.toedter.calendar.JDateChooser jdcNgayTao;
-    private com.toedter.calendar.JDateChooser jdcNgaythanhtoan;
     private javax.swing.JLabel lblIDHoaDon;
     private javax.swing.JLabel lblTongCong;
     private javax.swing.JRadioButton rbChuaThanhToan;
