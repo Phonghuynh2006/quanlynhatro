@@ -16,9 +16,6 @@ import javax.swing.UIManager;
  */
 public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoController{
 
-    /**
-     * Creates new form xinchaoJdialog
-     */
     public xinchaoJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setUndecorated(true); 
@@ -29,30 +26,30 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
     }
 
 
-    @Override 
-public void waiting() { 
-    this.setLocationRelativeTo(null); 
+        @Override 
+    public void waiting() { 
+        this.setLocationRelativeTo(null); 
 
-    // Nếu bạn dùng Nimbus Look and Feel, override màu cam mặc định
-    UIManager.put("nimbusOrange", new Color(51,204,255)); // Màu xanh dương
-    SwingUtilities.updateComponentTreeUI(this); // Cập nhật giao diện
+        // Nếu bạn dùng Nimbus Look and Feel, override màu cam mặc định
+        UIManager.put("nimbusOrange", new Color(51,204,255)); // Màu xanh dương
+        SwingUtilities.updateComponentTreeUI(this); // Cập nhật giao diện
 
-    // Hoặc set màu trực tiếp cho progressBar (nếu không dùng Nimbus)
-    progressBar.setForeground(new Color(51,204,255)); // Màu xanh dương
-    progressBar.setBackground(Color.LIGHT_GRAY);       // Màu nền
+        // Hoặc set màu trực tiếp cho progressBar (nếu không dùng Nimbus)
+        progressBar.setForeground(new Color(51,204,255)); // Màu xanh dương
+        progressBar.setBackground(Color.LIGHT_GRAY);       // Màu nền
 
-    new Thread(() -> { 
-        try { 
-            for (int i = 0; i <= 100; i++) { 
-                progressBar.setValue(i); 
-                Thread.sleep(10); 
+        new Thread(() -> { 
+            try { 
+                for (int i = 0; i <= 100; i++) { 
+                    progressBar.setValue(i); 
+                    Thread.sleep(10); 
+                } 
+                xinchaoJdialog.this.dispose(); 
+            } catch (InterruptedException ex) { 
+                System.exit(0); 
             } 
-            xinchaoJdialog.this.dispose(); 
-        } catch (InterruptedException ex) { 
-            System.exit(0); 
-        } 
-    }).start(); 
-}
+        }).start(); 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

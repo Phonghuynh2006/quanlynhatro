@@ -7,12 +7,10 @@ package App.Main;
 import App.Entity.TaiKhoan;
 import App.Impl.TaiKhoanDAOImpl;
 import App.Utils.XMail;
-//import static App.Main.ChuTro.Main_ChuTro.main;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -20,110 +18,96 @@ import javax.swing.JOptionPane;
  */
 public class quenmatkhauJdialog extends javax.swing.JDialog implements quenmatkhauController{
 
-    /**
-     * Creates new form quenmatkhauJdialog
-     */
+    private TaiKhoanDAOImpl dao = new TaiKhoanDAOImpl();
+    private String maXacNhan = "";  // Lưu mã xác nhận của người dùng
+    
     public quenmatkhauJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
-        btnDoiPass.setEnabled(false);
         open();
-        java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
-        java.awt.Rectangle usableBounds = ge.getMaximumWindowBounds();
-        setBounds(usableBounds);
     }
     
         @Override
 public void open() { 
-//    this.setLocationRelativeTo(null); 
-    
-//    // Lấy vùng màn hình usable (trừ taskbar)
-//    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//    Rectangle usableBounds = env.getMaximumWindowBounds();
-//
-//    // Thiết lập kích thước không che taskbar
-//    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
-//
-//    // Các thao tác khác nếu có...
-
-
+        btnDoiPass.setEnabled(false); // Ban đầu chưa cho đổi mật khẩu
+        setLocationRelativeTo(null);  // Căn giữa màn hình
 }
-    
-
-    private final Map<String, String> maXacNhanMap = new HashMap<>();
-    private final TaiKhoanDAOImpl dao = new TaiKhoanDAOImpl();
 
 
-    @Override
+   // Gửi mã xác nhận
     public void guiMaXacNhan() {
         String email = txtmail.getText().trim();
 
         if (email.isEmpty()) {
-            showMsg("Vui lòng nhập email!", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!emailExists(email)) {
-            showMsg("Email này không tồn tại!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập email!");
             return;
         }
 
-        String code = generateCode();
-        if (XMail.sendMail(email, code)) { // Gọi trực tiếp phương thức sendMail của lớp XMail
-            maXacNhanMap.put(email, code);
-            showMsg("Mã xác nhận đã gửi về email!", JOptionPane.INFORMATION_MESSAGE);
+        // Kiểm tra email có tồn tại trong DB không
+        TaiKhoan tk = null;
+        for (TaiKhoan t : dao.findAll()) {
+            if (email.equalsIgnoreCase(t.getEmail())) {
+                tk = t;
+                break;
+            }
+        }
+
+        if (tk == null) {
+            JOptionPane.showMessageDialog(this, "Email này không tồn tại!");
+            return;
+        }
+
+        // Sinh mã xác nhận ngẫu nhiên 6 số
+        maXacNhan = String.valueOf(new SecureRandom().nextInt(900000) + 100000);
+
+        // Gửi email
+        if (XMail.sendMail(email, maXacNhan)) {
+            JOptionPane.showMessageDialog(this, "Mã xác nhận đã gửi về email!");
             btnDoiPass.setEnabled(true);
         } else {
-            showMsg("Không gửi được mã xác nhận. Hãy thử lại!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Không gửi được mã. Thử lại!");
         }
     }
 
-    @Override
+    // Đổi mật khẩu
     public void doiMatKhau() {
         String email = txtmail.getText().trim();
-        String maXacNhan = txtma.getText().trim();
-        String newPassword = new String(txtNewPassword.getPassword()).trim();
+        String maNhap = txtma.getText().trim();
+        String matKhauMoi = new String(txtNewPassword.getPassword()).trim();
 
-        if (email.isEmpty() || maXacNhan.isEmpty() || newPassword.isEmpty()) {
-            showMsg("Vui lòng nhập đầy đủ thông tin!", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!maXacNhan.equals(maXacNhanMap.get(email))) {
-            showMsg("Mã xác nhận không đúng hoặc đã hết hạn!", JOptionPane.WARNING_MESSAGE);
+        if (email.isEmpty() || maNhap.isEmpty() || matKhauMoi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
             return;
         }
 
-        TaiKhoan tk = getTaiKhoanByEmail(email);
+        // Kiểm tra mã xác nhận
+        if (!maNhap.equals(maXacNhan)) {
+            JOptionPane.showMessageDialog(this, "Mã xác nhận không đúng!");
+            return;
+        }
+
+        // Tìm tài khoản theo email
+        TaiKhoan tk = null;
+        for (TaiKhoan t : dao.findAll()) {
+            if (email.equalsIgnoreCase(t.getEmail())) {
+                tk = t;
+                break;
+            }
+        }
+
         if (tk == null) {
-            showMsg("Không tìm thấy tài khoản với email này!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Không tìm thấy tài khoản!");
             return;
         }
 
-        tk.setMatKhau(newPassword);
+        // Cập nhật mật khẩu mới
+        tk.setMatKhau(matKhauMoi);
         dao.update(tk);
-        showMsg("Đổi mật khẩu thành công! Vui lòng đăng nhập lại.", JOptionPane.INFORMATION_MESSAGE);
 
+        JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công!");
         this.dispose();
         new dangnhapJdialog(null, true).setVisible(true);
-    }
-
-    // --- HÀM HỖ TRỢ ---
-    private boolean emailExists(String email) {
-        return dao.findAll().stream().anyMatch(tk -> email.equalsIgnoreCase(tk.getEmail()));
-    }
-
-    private TaiKhoan getTaiKhoanByEmail(String email) {
-        return dao.findAll().stream()
-            .filter(tk -> email.equalsIgnoreCase(tk.getEmail()))
-            .findFirst().orElse(null);
-    }
-
-    private void showMsg(String msg, int type) {
-        JOptionPane.showMessageDialog(this, msg, "Thông báo", type);
-    }
-
-    private String generateCode() {
-        return String.valueOf(new SecureRandom().nextInt(900_000) + 100_000);
     }
 
     /**
@@ -138,8 +122,8 @@ public void open() {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btndong = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        btndong1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        btnquaylai = new javax.swing.JButton();
         btngui = new javax.swing.JButton();
         btnDoiPass = new javax.swing.JButton();
         txtNewPassword = new javax.swing.JPasswordField();
@@ -170,13 +154,13 @@ public void open() {
             }
         });
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
 
-        btndong1.setBackground(new java.awt.Color(0, 0, 255));
-        btndong1.setIcon(new javax.swing.ImageIcon("D:\\code\\java\\QUANLYNHATRO\\src\\main\\resources\\main\\icon\\return (1).png")); // NOI18N
-        btndong1.addActionListener(new java.awt.event.ActionListener() {
+        btnquaylai.setBackground(new java.awt.Color(0, 0, 255));
+        btnquaylai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/return (1).png"))); // NOI18N
+        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndong1ActionPerformed(evt);
+                btnquaylaiActionPerformed(evt);
             }
         });
 
@@ -185,29 +169,33 @@ public void open() {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel3)
-                .addGap(464, 464, 464)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(361, 361, 361)
-                .addComponent(btndong1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(46, 46, 46)
+                .addComponent(jLabel9)
+                .addGap(444, 444, 444)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
+                .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btndong, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                    .addComponent(btndong1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(9, 9, 9)))
+                    .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 80));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, 80));
 
         btngui.setBackground(new java.awt.Color(102, 204, 255));
         btngui.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -263,20 +251,12 @@ public void open() {
         jLabel8.setText("Mã xác nhận:");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 270, 170, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/nen02.jpg"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1570, 930));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
-        // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn muốn đóng ứng dụng?", "Thoát?", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_btndongActionPerformed
 
     private void btnguiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguiActionPerformed
         // TODO add your handling code here:
@@ -288,11 +268,18 @@ public void open() {
          doiMatKhau();
     }//GEN-LAST:event_btnDoiPassActionPerformed
 
-    private void btndong1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong1ActionPerformed
+    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-//        new TrangChuChung().setVisible(true);
-    }//GEN-LAST:event_btndong1ActionPerformed
+        int choice = JOptionPane.showConfirmDialog(
+            this, "Bạn có chắc muốn thoát ứng dụng?",
+            "Xác nhận thoát", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (choice == JOptionPane.YES_OPTION) System.exit(0);
+    }//GEN-LAST:event_btndongActionPerformed
+
+    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnquaylaiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -340,15 +327,15 @@ public void open() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoiPass;
     private javax.swing.JButton btndong;
-    private javax.swing.JButton btndong1;
     private javax.swing.JButton btngui;
+    private javax.swing.JButton btnquaylai;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField txtNewPassword;
     private javax.swing.JTextField txtma;

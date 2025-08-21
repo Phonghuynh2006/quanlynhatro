@@ -248,7 +248,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="3e" green="2e" red="28" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="H&#x1ee2;P &#x110;&#x1ed2;NG"/>
+                <Property name="text" type="java.lang.String" value="H&#x1ed8;P &#x110;&#x1ed2;NG"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">

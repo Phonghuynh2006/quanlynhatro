@@ -10,8 +10,6 @@ import App.Impl.TaiKhoanDAOImpl;
 import App.Utils.XAuth;
 import App.Utils.XDialog;
 import java.awt.Color;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -22,111 +20,88 @@ import javax.swing.JOptionPane;
  * @author PHONG
  */
 public class dangnhapJdialog extends javax.swing.JDialog implements dangnhapController{
-
     
-private boolean dangNhapThanhCong = false;
-
-    /**
-     * Creates new form dangnhapJdialog
-     */
+    //kiểm tra đăng nhập
+    private boolean dangNhapThanhCong = false; 
+    
     public dangnhapJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-                setUndecorated(true);  // Ẩn viền và nút X
+        setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
         open();
     }
     
-        @Override 
-public void open() { 
-    this.setLocationRelativeTo(null); 
-    
-    // Lấy vùng màn hình usable (trừ taskbar)
-    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    Rectangle usableBounds = env.getMaximumWindowBounds();
-
-    // Thiết lập kích thước không che taskbar
-    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
-
-    // Các thao tác khác nếu có...
-
-
-} 
+    @Override
+    public void open() {
+        //form giữa màn hình
+        this.setLocationRelativeTo(null);
+    }
  
+    @Override
+    public void login() {
+        // Lấy dữ liệu từ ô nhập
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword()).trim();
 
-@Override
-public void login() {
-    String username = txtUsername.getText().trim();
-    String password = new String(txtPassword.getPassword()).trim(); // lấy từ JPasswordField
-
-    if (username.isEmpty() || password.isEmpty()) {
-        XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
-        return;
-    }
-
-    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-    TaiKhoan user;
-    try {
-        user = dao.findByTenTaiKhoanAndMatKhau(username, password);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        XDialog.alert("Lỗi kết nối dữ liệu: " + ex.getMessage());
-        return;
-    }
-
-    if (user == null) {
-        XDialog.alert("Tên đăng nhập hoặc mật khẩu không đúng!");
-        return;
-    }
-
-    // 0 = tạm khóa, 1 = hoạt động (theo Entity bạn đưa)
-    if (user.getTrangThai() != null && user.getTrangThai() == 0) {
-        XDialog.alert("Tài khoản đang bị tạm khóa!");
-        return;
-    }
-
-    // Lưu user đăng nhập toàn cục
-    XAuth.user = user;
-    this.dangNhapThanhCong = true;
-
-    // Đóng dialog đăng nhập
-    this.dispose();
-
-    // (Tuỳ chọn) đóng luôn màn hình TrangChuChung – nếu bạn muốn chuyển hẳn sang main tương ứng
-    java.awt.Window owner = this.getOwner();
-    if (owner != null) owner.dispose();
-
-    // Mở màn hình chính theo vai trò
-    javax.swing.SwingUtilities.invokeLater(() -> {
-        try {
-            if (Integer.valueOf(1).equals(user.getVaiTro())) {
-                // Admin / Chủ trọ
-                new App.Main.ChuTro.Main_ChuTro().setVisible(true);
-            } else {
-                // Người dùng / Người thuê
-                            int userId   = user.getMaNguoiDung(); // <-- dùng getter đúng tên
-            String hoTen = user.getHoTen();       // <-- dùng getter đúng tên
-                new App.Main.NguoiDung.MainNguoiDung().setVisible(true);
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-            XDialog.alert(null, "Không mở được màn hình chính: " + t.getMessage());
+        // Kiểm tra nhập trống
+        if (username.isEmpty() || password.isEmpty()) {
+            XDialog.alert("Tên đăng nhập và mật khẩu không được để trống!");
+            return;
         }
-    });
-}
 
-public boolean isDangNhapThanhCong() {
+        // Tìm tài khoản trong database
+        TaiKhoanDAO dao = new TaiKhoanDAOImpl();
+        TaiKhoan user = null;
+        try {
+            user = dao.findByTenTaiKhoanAndMatKhau(username, password);
+        } catch (Exception ex) {
+            XDialog.alert("Lỗi kết nối dữ liệu: " + ex.getMessage());
+            return;
+        }
 
-    return dangNhapThanhCong;
+        // Nếu không tìm thấy
+        if (user == null) {
+            XDialog.alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+            return;
+        }
 
-}
+        // Kiểm tra trạng thái: 0 = khóa, 1 = hoạt động
+        if (user.getTrangThai() != null && user.getTrangThai() == 0) {
+            XDialog.alert("Tài khoản đang bị tạm khóa!");
+            return;
+        }
 
+        // Nếu qua hết kiểm tra => thành công
+        XAuth.user = user;
+        dangNhapThanhCong = true;
+        XDialog.alert("Đăng nhập thành công! Chào mừng " + user.getHoTen());
 
+        // Đóng form đăng nhập
+        this.dispose();
 
+        // Tạo biến final để dùng trong lambda
+        final TaiKhoan currentUser = user;
 
+        // Mở màn hình chính theo vai trò
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                if (Integer.valueOf(1).equals(currentUser.getVaiTro())) {
+                    // Vai trò = 1: Admin / Chủ trọ
+                    new App.Main.ChuTro.Main_ChuTro().setVisible(true);
+                } else {
+                    // Người dùng / Người thuê
+                    new App.Main.NguoiDung.MainNguoiDung().setVisible(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                XDialog.alert("Không mở được màn hình chính: " + e.getMessage());
+            }
+        });
+    }
 
-
-
-
+    public boolean isDangNhapThanhCong() {
+        return dangNhapThanhCong;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -183,22 +158,25 @@ public boolean isDangNhapThanhCong() {
                 .addComponent(jLabel3)
                 .addGap(444, 444, 444)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 495, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 463, Short.MAX_VALUE)
                 .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 80));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, 80));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 139));
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
@@ -264,7 +242,7 @@ public boolean isDangNhapThanhCong() {
         });
         getContentPane().add(lblQuenMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(794, 360, 180, -1));
 
-        jTShow.setBackground(new java.awt.Color(153, 153, 255));
+        jTShow.setBackground(new java.awt.Color(0, 255, 255));
         jTShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/view.png"))); // NOI18N
         jTShow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -291,29 +269,23 @@ public boolean isDangNhapThanhCong() {
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         // TODO add your handling code here:                                            
-    login();
-
-
-
+        login();
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
         // TODO add your handling code here:
-        // Mở form đăng ký
-        //dangkyJdialog dk = new dangkyJdialog((java.awt.Frame) getParent(), true);
-//        dangkyJdialog dk = new dangkyJdialog((java.awt.Frame) null, true, this);
-//        dk.setVisible(true);
-    this.setVisible(false); // Ẩn form đăng nhập tạm thời
-    java.awt.Window owner = javax.swing.SwingUtilities.getWindowAncestor(this);
-    java.awt.Frame frame = (owner instanceof java.awt.Frame) ? (java.awt.Frame) owner : null;
+        // Ẩn tạm form đăng nhập
+        setVisible(false);
 
-    dangkyJdialog dk = new dangkyJdialog(frame, true); // <-- chỉ 2 tham số
-    // nếu cần tham chiếu về form đăng nhập để callback:
-    // dk.setLoginDialog(this);
-    dk.setVisible(true);
+        // Mở form đăng ký (đơn giản: không truyền owner)
+        dangkyJdialog dk = new dangkyJdialog(null, true);
+        dk.setVisible(true);            // modal: chờ tới khi user đóng
 
-    this.setVisible(true);  // hiện lại sau khi đóng đăng ký
-        
+        // Hiện lại form đăng nhập sau khi đóng đăng ký
+        if (isDisplayable()) {
+            setVisible(true);
+            toFront();
+        } 
     }//GEN-LAST:event_btnDangKyActionPerformed
 
     private void lblQuenMKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblQuenMKMouseClicked
@@ -323,24 +295,27 @@ public boolean isDangNhapThanhCong() {
     }//GEN-LAST:event_lblQuenMKMouseClicked
 
     private void jTShowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTShowMouseClicked
+        // TODO add your handling code here:
+        // Đặt màu nền (giống nhau nên đặt chung)
+        jTShow.setBackground(new Color(0,255,255));
 
         if (jTShow.isSelected()) {
+            // Hiện mật khẩu
             txtPassword.setEchoChar((char) 0);
-            jTShow.setBackground(new Color(255, 205, 31));
 
-            // Sử dụng getClass().getResource() với đường dẫn tương đối
-            URL hideIconURL = getClass().getResource("src/main/resources/main/icon/hide.png");
+            // Đổi icon thành "hide"
+            URL hideIconURL = getClass().getResource("/App/Icon/hide.png");
             if (hideIconURL != null) {
                 jTShow.setIcon(new ImageIcon(hideIconURL));
             } else {
                 System.err.println("Hide icon not found.");
             }
         } else {
-            txtPassword.setEchoChar('\u25cf');
-            jTShow.setBackground(new Color(255, 205, 31));
+            // Ẩn mật khẩu
+            txtPassword.setEchoChar('\u2022'); // ký tự chấm tròn
 
-            // Sử dụng getClass().getResource() với đường dẫn tương đối
-            URL viewIconURL = getClass().getResource("src/main/resources/main/icon/view.png");
+            // Đổi icon thành "view"
+            URL viewIconURL = getClass().getResource("/App/Icon/view.png");
             if (viewIconURL != null) {
                 jTShow.setIcon(new ImageIcon(viewIconURL));
             } else {
@@ -355,7 +330,14 @@ public boolean isDangNhapThanhCong() {
 
     private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
         // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn muốn đóng ứng dụng?", "Thoát?", JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(
+                this,                             // component cha (cứ dùng this cho dialog)
+                "Bạn có chắc muốn thoát ứng dụng?", 
+                "Xác nhận thoát", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE       // icon dấu hỏi ? (nhìn đẹp hơn)
+        );
+
         if (choice == JOptionPane.YES_OPTION) {
             System.exit(0);
         }

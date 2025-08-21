@@ -306,7 +306,7 @@ public class HopDongJDialog extends javax.swing.JDialog implements HopDongContro
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(40, 46, 62));
-        jLabel1.setText("HỢP ĐỒNG");
+        jLabel1.setText("HỘP ĐỒNG");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(40, 46, 62));

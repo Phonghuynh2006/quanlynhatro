@@ -9,5 +9,5 @@ package App.Main;
  * @author PHONG
  */
 public interface xinchaoController {
-        void waiting(); 
+    void waiting(); 
 }

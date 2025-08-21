@@ -7,8 +7,6 @@ package App.Main;
 import App.DAO.TaiKhoanDAO;
 import App.Entity.TaiKhoan;
 import App.Impl.TaiKhoanDAOImpl;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,125 +15,114 @@ import javax.swing.JOptionPane;
  */
 public class dangkyJdialog extends javax.swing.JDialog implements dangkyController{
 
-    /**
-     * Creates new form dangkyJdialog
-     */
+    // Tham chiếu quay lại màn đăng nhập
+    private dangnhapJdialog loginDialog;
+    
     public dangkyJdialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
-                open();
+        // tinh chỉnh kích thước & vị trí
+        pack();                   // lấy kích thước theo preferredSize
+        setResizable(false);      // tránh bị phình to
+        setLocationRelativeTo(parent); // căn giữa theo owner (đúng hơn null)
+        open();
     }
-    
-    
-    
-private dangnhapJdialog loginDialog;
 
 
+    
     @Override
     public void open() {
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-                this.loginDialog = loginDialog;
-        setUndecorated(true);
-    
-    // Lấy vùng màn hình usable (trừ taskbar)
-    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    Rectangle usableBounds = env.getMaximumWindowBounds();
-
-    // Thiết lập kích thước không che taskbar
-    this.setBounds(usableBounds); // hoặc: this.setSize(usableBounds.width, usableBounds.height); this.setLocation(usableBounds.x, usableBounds.y);
-
-    // Các thao tác khác nếu có...
-
-
-
+        // KHÔNG show ở đây. Để caller (nút Đăng ký bên Login) gọi setVisible(true)
+        // Nếu cần giữ method này, chỉ giữ việc set vị trí:
+        setLocationRelativeTo(getOwner());
     }
     
-@Override
-public void dangKy() {
-    // Lấy parent an toàn cho JOptionPane (có thể null)
-    java.awt.Component parent = javax.swing.SwingUtilities.getWindowAncestor(getRootPane());
+    @Override
+    public void dangKy() {
+        // parent an toàn cho JOptionPane
+        java.awt.Component parent = javax.swing.SwingUtilities.getWindowAncestor(getRootPane());
 
-    String username = txtten.getText().trim();
-    String pass     = new String(txtmatkhau.getPassword()).trim();
-    String pass2    = new String(txtnhaplaimatkhau.getPassword()).trim();
+        String username = txtten.getText().trim();
+        String pass     = new String(txtmatkhau.getPassword()).trim();
+        String pass2    = new String(txtnhaplaimatkhau.getPassword()).trim();
 
-    // ===== Validate cơ bản =====
-    if (username.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
-        JOptionPane.showMessageDialog(parent, "Vui lòng nhập đầy đủ thông tin!", "Thông báo",
-                                      JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    // username: 4–32 kí tự, chỉ chữ/số/._-
-    if (!username.matches("^[a-zA-Z0-9_.-]{4,32}$")) {
-        JOptionPane.showMessageDialog(parent,
-            "Tên đăng nhập 4–32 ký tự, chỉ gồm chữ, số, dấu chấm (.), gạch dưới (_) hoặc gạch ngang (-).",
-            "Thông báo", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    // password >= 6 ký tự
-    if (pass.length() < 6) {
-        JOptionPane.showMessageDialog(parent, "Mật khẩu tối thiểu 6 ký tự.", "Thông báo",
-                                      JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    if (!pass.equals(pass2)) {
-        JOptionPane.showMessageDialog(parent, "Mật khẩu nhập lại không khớp!", "Thông báo",
-                                      JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    TaiKhoanDAO dao = new TaiKhoanDAOImpl();
-
-    try {
-        // Kiểm tra tồn tại username
-        boolean existed;
-        try {
-            // nếu bạn có sẵn hàm này thì dùng
-            existed = dao.isTenDangNhapTonTai(username);
-        } catch (Throwable ignore) {
-            // nếu không có, fallback sang findByTenTaiKhoan(...)
-            existed = (dao.findByTenTaiKhoan(username) != null);
+        // ===== Validate cơ bản =====
+        if (username.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
+            JOptionPane.showMessageDialog(parent, "Vui lòng nhập đầy đủ thông tin!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        if (existed) {
-            JOptionPane.showMessageDialog(parent, "Tên đăng nhập đã tồn tại!", "Thông báo",
-                                          JOptionPane.WARNING_MESSAGE);
+        if (!username.matches("^[a-zA-Z0-9_.-]{4,32}$")) {
+            JOptionPane.showMessageDialog(parent,
+                    "Tên đăng nhập 4–32 ký tự, chỉ gồm chữ, số, '.', '_' hoặc '-'.",
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (pass.length() < 6) {
+            JOptionPane.showMessageDialog(parent, "Mật khẩu tối thiểu 6 ký tự.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!pass.equals(pass2)) {
+            JOptionPane.showMessageDialog(parent, "Mật khẩu nhập lại không khớp!", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // ===== Tạo tài khoản mới =====
-        long ts = System.currentTimeMillis(); // dùng tạo dữ liệu unique tạm
-        TaiKhoan tk = new TaiKhoan();
-        tk.setTenTaiKhoan(username);
-        tk.setMatKhau(pass);           // nếu có mã hoá, hãy hash tại đây
-        tk.setVaiTro(2);               // 2 = Người thuê
-        tk.setTrangThai(1);            // 1 = Hoạt động
+        TaiKhoanDAO dao = new TaiKhoanDAOImpl();
 
-        // Các cột có UNIQUE -> gán tạm để không lỗi ràng buộc
-        tk.setHoTen("Người dùng mới");
-        tk.setNgaySinh(null);
-        tk.setGioiTinh("Nam");
-        tk.setCccd("TMP" + ts);
-        tk.setDienThoai("0");
-        tk.setEmail("user" + ts + "@dummy.com");
-        tk.setDiaChi("");
-        tk.setHinhAnh(null);
+        try {
+            // Kiểm tra trùng tên đăng nhập
+            boolean existed;
+            try {
+                existed = dao.isTenDangNhapTonTai(username);
+            } catch (Throwable ignore) {
+                existed = (dao.findByTenTaiKhoan(username) != null);
+            }
+            if (existed) {
+                JOptionPane.showMessageDialog(parent, "Tên đăng nhập đã tồn tại!", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-        dao.create(tk);
+            // ===== Tạo tài khoản mới =====
+            long ts = System.currentTimeMillis(); // tạo dữ liệu tạm để tránh trùng
+            TaiKhoan tk = new TaiKhoan();
+            tk.setTenTaiKhoan(username);
+            tk.setMatKhau(pass);    // thực tế nên mã hoá
+            tk.setVaiTro(2);        // 2 = Người thuê
+            tk.setTrangThai(1);     // 1 = Hoạt động
 
-        JOptionPane.showMessageDialog(parent, "Đăng ký thành công! Vui lòng đăng nhập.",
-                                      "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // Tuỳ ràng buộc DB của bạn (UNIQUE/NOT NULL) mà set thêm:
+            tk.setHoTen("Người dùng mới");
+            tk.setNgaySinh(null);
+            tk.setGioiTinh("Nam");
+            tk.setCccd("TMP" + ts);
+            tk.setDienThoai("0");
+            tk.setEmail("user" + ts + "@dummy.com");
+            tk.setDiaChi("");
+            tk.setHinhAnh(null);
 
-        // Đóng form đăng ký và mở form đăng nhập
-        dispose();
-        new dangnhapJdialog((java.awt.Frame) null, true).setVisible(true);
+            dao.create(tk);
 
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(parent, "Không thể đăng ký: " + ex.getMessage(),
-                                      "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(parent, "Đăng ký thành công! Vui lòng đăng nhập.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            // Đóng form đăng ký và mở form đăng nhập (nếu có truyền vào)
+            dispose();
+            if (loginDialog != null) {
+                loginDialog.setVisible(true);
+            } else {
+                new dangnhapJdialog((java.awt.Frame) null, true).setVisible(true);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(parent, "Không thể đăng ký: " + ex.getMessage(),
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -146,199 +133,137 @@ public void dangKy() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel103 = new javax.swing.JPanel();
-        jLabel112 = new javax.swing.JLabel();
-        btndong102 = new javax.swing.JButton();
-        jLabel113 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btndong = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btnquaylai = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btndangky = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtten = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        btnquaylai = new javax.swing.JButton();
         txtmatkhau = new javax.swing.JPasswordField();
         txtnhaplaimatkhau = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel103.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(102, 204, 255));
 
-        jLabel112.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
-        jLabel112.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel112.setText("NHÀ TRỌ FPOLY");
+        jLabel2.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("NHÀ TRỌ FPOLY");
 
-        btndong102.setBackground(new java.awt.Color(0, 0, 255));
-        btndong102.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btndong102.setForeground(new java.awt.Color(255, 255, 255));
-        btndong102.setText("X");
-        btndong102.addActionListener(new java.awt.event.ActionListener() {
+        btndong.setBackground(new java.awt.Color(0, 0, 255));
+        btndong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btndong.setForeground(new java.awt.Color(255, 255, 255));
+        btndong.setText("X");
+        btndong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndong102ActionPerformed(evt);
+                btndongActionPerformed(evt);
             }
         });
 
-        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel103Layout = new javax.swing.GroupLayout(jPanel103);
-        jPanel103.setLayout(jPanel103Layout);
-        jPanel103Layout.setHorizontalGroup(
-            jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel103Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel113)
-                .addGap(441, 441, 441)
-                .addComponent(jLabel112)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 554, Short.MAX_VALUE)
-                .addComponent(btndong102, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-        );
-        jPanel103Layout.setVerticalGroup(
-            jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel103Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addGroup(jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btndong102, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel112))
-                    .addGroup(jPanel103Layout.createSequentialGroup()
-                        .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setText("ĐĂNG KÝ");
-
-        jLabel4.setText("Mật Khẩu");
-
-        btndangky.setBackground(new java.awt.Color(102, 204, 255));
-        btndangky.setText("Đăng Ký");
-        btndangky.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndangkyActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Nhập Tên Đăng Nhập");
-
-        jLabel5.setText("Nhập lại Mật Khẩu");
-
-        btnquaylai.setBackground(new java.awt.Color(102, 204, 255));
-        btnquaylai.setText("Quay lại");
+        btnquaylai.setBackground(new java.awt.Color(0, 0, 255));
+        btnquaylai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/return (1).png"))); // NOI18N
         btnquaylai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnquaylaiActionPerformed(evt);
             }
         });
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel6)
+                .addGap(444, 444, 444)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
+                .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(btndong, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(9, 9, 9)))
+                    .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, 80));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        jLabel1.setText("ĐĂNG KÝ");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 130, -1, 60));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setText("Mật Khẩu:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 310, -1, 40));
+
+        btndangky.setBackground(new java.awt.Color(102, 204, 255));
+        btndangky.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btndangky.setText("Đăng Ký");
+        btndangky.setMaximumSize(new java.awt.Dimension(99, 27));
+        btndangky.setMinimumSize(new java.awt.Dimension(99, 27));
+        btndangky.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndangkyActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btndangky, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 430, 180, 70));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setText("Nhập Tên Đăng Nhập:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 250, -1, 40));
+        getContentPane().add(txtten, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 250, 230, 40));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("Nhập lại Mật Khẩu");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 370, 250, 40));
+        getContentPane().add(txtmatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 310, 230, 40));
+        getContentPane().add(txtnhaplaimatkhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 370, 230, 40));
+
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
         jLabel7.setMaximumSize(new java.awt.Dimension(3000, 168));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 1800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(654, 654, 654)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(774, 774, 774)
-                            .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(txtmatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(txtnhaplaimatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(jLabel4))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(btndangky, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(664, 664, 664)
-                            .addComponent(jLabel3))
-                        .addComponent(jPanel103, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 256, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(97, 97, 97)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(377, 377, 377)
-                            .addComponent(btnquaylai, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(287, 287, 287)
-                            .addComponent(txtmatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(317, 317, 317)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(337, 337, 337)
-                            .addComponent(txtnhaplaimatkhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(267, 267, 267)
-                            .addComponent(jLabel4))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(377, 377, 377)
-                            .addComponent(btndangky, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(237, 237, 237)
-                            .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(217, 217, 217)
-                            .addComponent(jLabel3))
-                        .addComponent(jPanel103, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 577, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1800, 990));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btndong102ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong102ActionPerformed
-        // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn muốn đóng ứng dụng?", "Thoát?", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_btndong102ActionPerformed
 
     private void btndangkyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangkyActionPerformed
         // TODO add your handling code here:
         dangKy();
     }//GEN-LAST:event_btndangkyActionPerformed
 
+    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
+        // TODO add your handling code here:
+        int choice = JOptionPane.showConfirmDialog(
+                this, "Bạn có chắc muốn thoát ứng dụng?",
+                "Xác nhận thoát", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (choice == JOptionPane.YES_OPTION) System.exit(0);
+    }//GEN-LAST:event_btndongActionPerformed
+
     private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
-        if (loginDialog != null) {
-            loginDialog.setVisible(true);  // Hiển thị lại form đăng nhập
-        }
-        this.dispose(); // Đóng form đăng ký sau khi form đăng nhập hiện ra
+        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnquaylaiActionPerformed
 
     /**
@@ -385,16 +310,16 @@ public void dangKy() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btndangky;
-    private javax.swing.JButton btndong102;
+    private javax.swing.JButton btndong;
     private javax.swing.JButton btnquaylai;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel112;
-    private javax.swing.JLabel jLabel113;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel103;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField txtmatkhau;
     private javax.swing.JPasswordField txtnhaplaimatkhau;
     private javax.swing.JTextField txtten;

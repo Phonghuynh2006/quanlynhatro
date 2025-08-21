@@ -187,16 +187,18 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 77, 971, 400));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 205, 31));
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
         jLabel2.setText("DANH SÁCH PHÒNG TRỐNG");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 27, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 530));
 
-        jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
+        jMenuBar1.setBackground(new java.awt.Color(204, 255, 255));
+        jMenuBar1.setBorder(null);
         jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
+        jMenuBar1.setName(""); // NOI18N
+        jMenuBar1.setOpaque(true);
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
         jMenuTrangChu.setBackground(new java.awt.Color(204, 255, 255));
