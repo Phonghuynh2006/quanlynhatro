@@ -33,7 +33,7 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
     }
 
 
-    // ==== Khởi tạo sau khi giao diện xong ====
+    // ==== tạo table
     private void afterInit() {
         model = (DefaultTableModel) tblLichSuHD.getModel();
         model.setColumnIdentifiers(new Object[]{"Mã LS", "Mã người dùng", "Hành động", "Thời gian"});
@@ -47,7 +47,7 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
         }
     }
 
-    // ==== Load toàn bộ lịch sử (không dùng cho user thường) ====
+    // ==== Load toàn bộ lịch sử ====
     @Override
     public void loadTable() {
         model.setRowCount(0);

@@ -17,22 +17,22 @@ import java.util.List;
  */
 public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungController{
     // ===== DAO & STATE =====
-    private final PhongDAO phongDAO = new PhongDAOImpl(); // DAO để lấy dữ liệu phòng
-    private DefaultTableModel model; // Model bảng để hiển thị dữ liệu
+    private final PhongDAO phongDAO = new PhongDAOImpl(); 
+    private DefaultTableModel model; 
 
-    // Hàm khởi tạo form Trang Chủ
+
     public TrangChuChung() {
         initComponents(); 
-        init();           // Gọi hàm khởi tạo
-        initTable();                 // Tạo bảng phòng trống
-        loadPhongTrong(); // Tải dữ liệu phòng trống từ CSDL
+        init();           
+        initTable();       // Tạo bảng phòng trống
+        loadPhongTrong(); // phòng trống từ CSDL
     }
 
     // Hàm khởi tạo ban đầu
     @Override
     public void init() {
-        setLocationRelativeTo(null); // Căn giữa cửa sổ
-        // Hiện hộp thoại "Xin chào"
+        setLocationRelativeTo(null); 
+        // Hiện Xin chào
         new xinchaoJdialog(this, true).setVisible(true);
         java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
         java.awt.Rectangle usableBounds = ge.getMaximumWindowBounds();
@@ -43,11 +43,11 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
 
     // tạo bảng
     private void initTable() {
-        model = (DefaultTableModel) tblPhongTrong.getModel(); // Lấy model của bảng
+        model = (DefaultTableModel) tblPhongTrong.getModel(); 
         model.setColumnIdentifiers(new Object[]{
             "Mã phòng", "Diện tích (m²)", "Giá phòng", "Địa chỉ", "Mô tả", "Liên hệ"
         });
-        tblPhongTrong.setRowHeight(28); // Đặt chiều cao dòng
+        tblPhongTrong.setRowHeight(28); // chiều cao dòng
     }
 
     // ===== Tải dữ liệu phòng trống từ CSDL =====
@@ -62,9 +62,9 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
                 if (trangThai == null) trangThai = "";
                 trangThai = trangThai.trim();
 
-                // Kiểm tra nếu phòng trống ("Trống" hoặc "0")
+                // Kiểm tra nếu phòng trống 
                 boolean isTrong = trangThai.equalsIgnoreCase("trống") || trangThai.equals("0");
-                if (!isTrong) continue; // Bỏ qua nếu không phải phòng trống
+                if (!isTrong) continue; // Bỏ qua không phải phòng trống
 
                 // Thêm dòng vào bảng
                 model.addRow(new Object[]{

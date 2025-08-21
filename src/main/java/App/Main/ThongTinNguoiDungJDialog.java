@@ -24,17 +24,17 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
     private TaiKhoan current;
     private final String loggedUsername; // tên tài khoản đang đăng nhập
 
-    // Ctor tiện lợi (không truyền username)
+    // không truyền username
     public ThongTinNguoiDungJDialog(java.awt.Frame parent, boolean modal) {
         this(parent, modal, null);
     }
 
-    // Ctor chính: truyền username để tự nạp form
+    // chính truyền username để tự nạp form
     public ThongTinNguoiDungJDialog(java.awt.Frame parent, boolean modal, String username) {
         super(parent, modal);
         setUndecorated(true); 
         this.loggedUsername = username;
-        initComponents();  // do NetBeans sinh
+        initComponents(); 
         afterInit();
         setLocationRelativeTo(null);
     }
@@ -45,21 +45,18 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         buttonGroup1.add(rdnu);
         txtMaNguoiDung.setEditable(false);
         txttentaikhoan.setEditable(false);
-        txtMatKhau.setEditable(false); // nếu cho đổi mật khẩu thì bỏ dòng này
 
-        // Click vào ảnh để chọn file
         lblanh.setToolTipText("Nhấn để chọn ảnh");
         lblanh.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override public void mouseClicked(java.awt.event.MouseEvent e) { chooseImage(); }
         });
 
-        // Tự nạp dữ liệu nếu có username
+        // dữ liệu nếu có username
         if (loggedUsername != null && !loggedUsername.isBlank()) {
             loadByUsername(loggedUsername);
         }
     }
 
-    // ================= Controller impl =================
     @Override
     public void loadByUsername(String username) {
         try {
@@ -96,7 +93,6 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
 
     @Override
     public TaiKhoan getForm() {
-        // Validate ngắn gọn
         if (txtHoTen.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Họ tên không được trống");
             return null;
@@ -123,7 +119,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
 
         // Gán dữ liệu
         tk.setTenTaiKhoan(txttentaikhoan.getText().trim());
-        tk.setMatKhau(new String(txtMatKhau.getPassword())); // nếu không đổi pass thì để giá trị cũ
+        tk.setMatKhau(new String(txtMatKhau.getPassword()));
         tk.setHoTen(txtHoTen.getText().trim());
         tk.setDienThoai(phone);
         tk.setEmail(email);
@@ -149,7 +145,6 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         }
     }
 
-    // ================= Helpers =================
     private void clearForm() {
         txtMaNguoiDung.setText("");
         txttentaikhoan.setText("");
