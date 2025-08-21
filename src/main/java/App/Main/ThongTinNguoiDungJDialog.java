@@ -223,6 +223,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         lblanh = new javax.swing.JLabel();
         rdnu = new javax.swing.JRadioButton();
         rdnam = new javax.swing.JRadioButton();
+        dcsngaysinh = new com.toedter.calendar.JDateChooser();
         btnCapNhat = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
@@ -357,6 +358,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
         buttonGroup1.add(rdnam);
         rdnam.setText("Nam");
         jPanel2.add(rdnam, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 213, 98, -1));
+        jPanel2.add(dcsngaysinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 160, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 622, 268));
 
@@ -458,6 +460,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
     private javax.swing.JButton btnCapNhat;
     private javax.swing.JButton btndong102;
     private javax.swing.ButtonGroup buttonGroup1;
+    private com.toedter.calendar.JDateChooser dcsngaysinh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

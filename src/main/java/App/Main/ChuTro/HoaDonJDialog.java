@@ -353,6 +353,8 @@ private String fmtQty(BigDecimal v) {
         lblTongCong = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         txttienphong = new javax.swing.JTextField();
+        jdcNgaythanhtoan = new com.toedter.calendar.JDateChooser();
+        jdcNgayTao = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -441,7 +443,7 @@ private String fmtQty(BigDecimal v) {
 
         txtIDHopDong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtIDHopDong.setForeground(new java.awt.Color(40, 46, 62));
-        jPanel3.add(txtIDHopDong, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 33, 140, -1));
+        jPanel3.add(txtIDHopDong, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 140, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(40, 46, 62));
@@ -546,6 +548,8 @@ private String fmtQty(BigDecimal v) {
             }
         });
         jPanel3.add(txttienphong, new org.netbeans.lib.awtextra.AbsoluteConstraints(163, 157, 140, -1));
+        jPanel3.add(jdcNgaythanhtoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 140, -1));
+        jPanel3.add(jdcNgayTao, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 140, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 102, 550, 260));
 
@@ -804,6 +808,8 @@ private String fmtQty(BigDecimal v) {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdcNgayTao;
+    private com.toedter.calendar.JDateChooser jdcNgaythanhtoan;
     private javax.swing.JLabel lblIDHoaDon;
     private javax.swing.JLabel lblTongCong;
     private javax.swing.JRadioButton rbChuaThanhToan;
