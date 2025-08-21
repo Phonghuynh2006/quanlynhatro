@@ -17,14 +17,10 @@ import javax.swing.JFrame;
  * @author PHONG
  */
 public interface MainChuTroController {
-//    void loadDashboard();
-//    void openPhong();
-//    void openHopDong();
-//    void openHoaDon();
-//    void openTaiKhoan();
-//    
-//    
-        default void exit(){
+    
+    void init();
+
+    default void exit(){
         if(XDialog.confirm("Bạn muốn kết thúc?")){
             System.exit(0);
         }

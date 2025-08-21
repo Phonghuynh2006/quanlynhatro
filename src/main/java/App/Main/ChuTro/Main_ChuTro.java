@@ -4,132 +4,108 @@
  */
 package App.Main.ChuTro;
 
-
-// ở đầu file Main_ChuTro.java
 import App.DAO.PhongDAO;
-import App.Impl.PhongDAOImpl;
+import App.DAO.ThongKeDAO;
 import App.Entity.Phong;
+import App.Impl.PhongDAOImpl;
+import App.Impl.ThongKeDAOImpl;
+import App.Main.LichSuNguoiDungJDialog;
+import App.Main.ThongTinNguoiDungJDialog;
 import App.Main.TrangChuChung;
-
+import App.Utils.XAuth;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-// thêm import
-import App.DAO.ThongKeDAO;
-import App.Impl.ThongKeDAOImpl;
-
-//implements MainChuTroController
 /**
  *
  * @author WINDOWS
  */
 public class Main_ChuTro extends javax.swing.JFrame implements MainChuTroController{
-// trong class Main_ChuTro
-private final PhongDAO phongDAO = new PhongDAOImpl();
-private DefaultTableModel phongModel;
 
-    /**
-     * Creates new form TrangChu
-     */
-    
-    
+    private final PhongDAO phongDAO = new PhongDAOImpl();
+    private final ThongKeDAO thongKeDAO = new ThongKeDAOImpl();
+    private DefaultTableModel phongModel;
+
     public Main_ChuTro() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
-//        setupActions();
-//        buildTable();
-//        loadDashboard();
-    buildPhongTable();
-    loadAllPhong();   // <== nạp tất cả phòng, không lọc trạng thái
-        loadDashboard(); // <— thêm dòng này
+        buildPhongTable();
+        loadAllPhong();
+        loadDashboard();
+        init();
 
     }
-
-private void buildPhongTable() {
-    phongModel = (DefaultTableModel) tblphongtro.getModel();
-    phongModel.setColumnIdentifiers(new Object[]{
-        "Mã phòng", "Diện tích (m²)", "Giá phòng", "Trạng thái", "Địa chỉ", "Mô tả", "Liên hệ"
-    });
-    tblphongtro.setRowHeight(26);
-}
-
-private void loadAllPhong() {
-    phongModel.setRowCount(0);
-    try {
-        List<Phong> list = phongDAO.findAll();    // KHÔNG lọc, lấy hết
-        for (Phong p : list) {
-            phongModel.addRow(new Object[]{
-                nvl(p.getMaPhong()),
-                fmtQty(p.getDienTich()),
-                fmtMoney(p.getGiaTien()),
-                nvl(p.getTrangThai()),            // ví dụ: "Trống" / "Đang thuê" / "0" / "1"
-                nvl(p.getDiaChi()),
-                nvl(p.getMoTa()),
-                nvl(p.getLienHe())
-            });
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        javax.swing.JOptionPane.showMessageDialog(this, "Lỗi tải danh sách phòng: " + ex.getMessage());
-    }
-}
-private static String nvl(Object o) { return o == null ? "" : String.valueOf(o); }
-
-private static String fmtQty(BigDecimal v) {
-    if (v == null) return "";
-    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi","VN"));
-    nf.setMaximumFractionDigits(2);  // diện tích có thể lẻ .5
-    nf.setMinimumFractionDigits(0);
-    return nf.format(v);
-}
-
-private static String fmtMoney(BigDecimal v) {
-    if (v == null) return "";
-    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi","VN"));
-    nf.setMaximumFractionDigits(0);  // VND không lấy lẻ
-    return nf.format(v);
-}
-
-
-
-// trong class Main_ChuTro
-private final ThongKeDAO thongKeDAO = new ThongKeDAOImpl();
-
-private void loadDashboard() {
-    try {
-        // 1) Tổng doanh thu (tất cả thời gian)
-        var doanhThu = thongKeDAO.getTongDoanhThu();
-        lblDoanhSo.setText(fmtMoney(doanhThu));      // bạn đã có fmtMoney(BigDecimal)
-
-        // 2) Số khách (phòng) đang thuê
-        int soKhach = thongKeDAO.getSoKhachDangThue();
-        lblSoKhach.setText(String.valueOf(soKhach));
-
-        // 3) Hợp đồng sắp hết hạn (30 ngày tới)
-        int sapHetHan = thongKeDAO.getSoHopDongSapHetHan(30);
-        lblHopDong.setText(String.valueOf(sapHetHan));
-
-        // 4) Hóa đơn chưa thanh toán
-        int chuaTT = thongKeDAO.getSoHoaDonChuaThanhToan();
-        lblHoaDon.setText(String.valueOf(chuaTT));
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Lỗi tải dashboard: " + e.getMessage());
-    }
-}
-
     
+    @Override
+    public void init() {
+        java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
+        java.awt.Rectangle usableBounds = ge.getMaximumWindowBounds();
+        setBounds(usableBounds);
+    
+    }
 
+    private void buildPhongTable() {
+        phongModel = (DefaultTableModel) tblphongtro.getModel();
+        phongModel.setColumnIdentifiers(new Object[]{
+                "Mã phòng", "Diện tích (m²)", "Giá phòng", "Trạng thái", "Địa chỉ", "Mô tả", "Liên hệ"
+        });
+        tblphongtro.setRowHeight(26);
+    }
+
+    private void loadAllPhong() {
+        phongModel.setRowCount(0);
+        try {
+            List<Phong> list = phongDAO.findAll();
+            for (Phong p : list) {
+                String maPhong   = (p.getMaPhong() == null) ? "" : p.getMaPhong();
+                String dienTich  = (p.getDienTich() == null) ? "" :
+                        NumberFormat.getNumberInstance(new Locale("vi", "VN")).format(p.getDienTich());
+                String giaTien   = (p.getGiaTien() == null) ? "" :
+                        NumberFormat.getNumberInstance(new Locale("vi", "VN")).format(p.getGiaTien());
+                String trangThai = (p.getTrangThai() == null) ? "" : p.getTrangThai();
+                String diaChi    = (p.getDiaChi() == null) ? "" : p.getDiaChi();
+                String moTa      = (p.getMoTa() == null) ? "" : p.getMoTa();
+                String lienHe    = (p.getLienHe() == null) ? "" : p.getLienHe();
+
+                phongModel.addRow(new Object[]{maPhong, dienTich, giaTien, trangThai, diaChi, moTa, lienHe});
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi tải danh sách phòng: " + ex.getMessage());
+        }
+    }
+    
+    private void loadDashboard() {
+        try {
+            // Tổng doanh thu
+            BigDecimal doanhThu = thongKeDAO.getTongDoanhThu();
+            String doanhThuStr = (doanhThu == null) ? "" :
+            NumberFormat.getNumberInstance(new Locale("vi", "VN")).format(doanhThu);
+            lblDoanhSo.setText(doanhThuStr);
+
+            // Số khách
+            int soKhach = thongKeDAO.getSoKhachDangThue();
+            lblSoKhach.setText(String.valueOf(soKhach));
+
+            // HĐ sắp hết hạn
+            int sapHetHan = thongKeDAO.getSoHopDongSapHetHan(30);
+            lblHopDong.setText(String.valueOf(sapHetHan));
+
+            // Hóa đơn chưa thanh toán
+            int chuaTT = thongKeDAO.getSoHoaDonChuaThanhToan();
+            lblHoaDon.setText(String.valueOf(chuaTT));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,11 +117,11 @@ private void loadDashboard() {
     private void initComponents() {
 
         jpnView = new javax.swing.JPanel();
-        lblNull = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblThangDoanhSo = new javax.swing.JLabel();
         lblDoanhSo = new javax.swing.JLabel();
+        lblDoanhSo1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         lblHopDong = new javax.swing.JLabel();
@@ -173,16 +149,16 @@ private void loadDashboard() {
         btnThoat = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         btnDangXuat = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
         jpnView.setBackground(new java.awt.Color(40, 46, 62));
-        jpnView.setPreferredSize(new java.awt.Dimension(1100, 630));
+        jpnView.setPreferredSize(new java.awt.Dimension(1560, 630));
         jpnView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jpnView.add(lblNull, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 161, 140, 81));
 
-        jPanel1.setBackground(new java.awt.Color(46, 56, 86));
+        jPanel1.setBackground(new java.awt.Color(102, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -195,7 +171,11 @@ private void loadDashboard() {
 
         lblDoanhSo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblDoanhSo.setForeground(new java.awt.Color(255, 205, 31));
-        lblDoanhSo.setText("100,000,000 VND");
+        lblDoanhSo.setText("100,000,000");
+
+        lblDoanhSo1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblDoanhSo1.setForeground(new java.awt.Color(255, 205, 31));
+        lblDoanhSo1.setText("VND");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -204,14 +184,16 @@ private void loadDashboard() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblThangDoanhSo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(lblDoanhSo)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
+                        .addComponent(lblDoanhSo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDoanhSo1)))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,13 +203,15 @@ private void loadDashboard() {
                     .addComponent(jLabel1)
                     .addComponent(lblThangDoanhSo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblDoanhSo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDoanhSo)
+                    .addComponent(lblDoanhSo1))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 34, -1, -1));
+        jpnView.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, -1));
 
-        jPanel5.setBackground(new java.awt.Color(46, 56, 86));
+        jPanel5.setBackground(new java.awt.Color(102, 204, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -261,9 +245,9 @@ private void loadDashboard() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 34, -1, 109));
+        jpnView.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, -1, 120));
 
-        jPanel4.setBackground(new java.awt.Color(46, 56, 86));
+        jPanel4.setBackground(new java.awt.Color(102, 204, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -283,14 +267,14 @@ private void loadDashboard() {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(lblSoKhach)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(15, 15, 15))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(lblSoKhach)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,9 +286,9 @@ private void loadDashboard() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 34, -1, 109));
+        jpnView.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 40, -1, 120));
 
-        jPanel6.setBackground(new java.awt.Color(46, 56, 86));
+        jPanel6.setBackground(new java.awt.Color(102, 204, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -325,14 +309,13 @@ private void loadDashboard() {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel14))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(lblHoaDon)))
+                .addGap(16, 16, 16)
+                .addComponent(jLabel14)
                 .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblHoaDon)
+                .addGap(107, 107, 107))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,7 +327,7 @@ private void loadDashboard() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 34, -1, 109));
+        jpnView.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 40, -1, 120));
 
         tblphongtro.setBackground(new java.awt.Color(207, 243, 243));
         tblphongtro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -362,29 +345,39 @@ private void loadDashboard() {
         ));
         tblphongtro.setGridColor(new java.awt.Color(255, 255, 255));
         tblphongtro.setSelectionBackground(new java.awt.Color(46, 56, 86));
-        tblphongtro.setSelectionForeground(new java.awt.Color(255, 205, 31));
+        tblphongtro.setSelectionForeground(new java.awt.Color(255, 255, 0));
         jScrollPane1.setViewportView(tblphongtro);
 
-        jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 166, 1012, 310));
+        jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 1010, 310));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen03.jpg"))); // NOI18N
-        jpnView.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 530));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
+        jpnView.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 760));
 
         jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
         jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
+        jMenuBar1.setName(""); // NOI18N
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
+        jMenuTrangChu.setBackground(new java.awt.Color(153, 153, 153));
         jMenuTrangChu.setForeground(new java.awt.Color(255, 255, 255));
         jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home (1).png"))); // NOI18N
         jMenuTrangChu.setText("Trang chủ");
         jMenuTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuTrangChu.setOpaque(true);
+        jMenuTrangChu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuTrangChuMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenuTrangChu);
 
+        jMenuPhongTro.setBackground(new java.awt.Color(153, 153, 153));
         jMenuPhongTro.setForeground(new java.awt.Color(255, 255, 255));
         jMenuPhongTro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home-page.png"))); // NOI18N
         jMenuPhongTro.setText("Phòng trọ");
         jMenuPhongTro.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuPhongTro.setOpaque(true);
         jMenuPhongTro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuPhongTroMouseClicked(evt);
@@ -392,10 +385,12 @@ private void loadDashboard() {
         });
         jMenuBar1.add(jMenuPhongTro);
 
+        jMenuHopDong.setBackground(new java.awt.Color(153, 153, 153));
         jMenuHopDong.setForeground(new java.awt.Color(255, 255, 255));
         jMenuHopDong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/rent (1).png"))); // NOI18N
         jMenuHopDong.setText("Hợp đồng");
         jMenuHopDong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuHopDong.setOpaque(true);
         jMenuHopDong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuHopDongMouseClicked(evt);
@@ -403,10 +398,12 @@ private void loadDashboard() {
         });
         jMenuBar1.add(jMenuHopDong);
 
+        jMenuHoaDon.setBackground(new java.awt.Color(153, 153, 153));
         jMenuHoaDon.setForeground(new java.awt.Color(255, 255, 255));
         jMenuHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/bill (1).png"))); // NOI18N
         jMenuHoaDon.setText("Hóa đơn");
         jMenuHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuHoaDon.setOpaque(true);
         jMenuHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuHoaDonMouseClicked(evt);
@@ -414,10 +411,12 @@ private void loadDashboard() {
         });
         jMenuBar1.add(jMenuHoaDon);
 
+        jMtaikhoan.setBackground(new java.awt.Color(153, 153, 153));
         jMtaikhoan.setForeground(new java.awt.Color(255, 255, 255));
         jMtaikhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/Clien list.png"))); // NOI18N
         jMtaikhoan.setText("Tài khoản");
         jMtaikhoan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMtaikhoan.setOpaque(true);
         jMtaikhoan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMtaikhoanMouseClicked(evt);
@@ -425,10 +424,12 @@ private void loadDashboard() {
         });
         jMenuBar1.add(jMtaikhoan);
 
+        jMenuAbout.setBackground(new java.awt.Color(153, 153, 153));
         jMenuAbout.setForeground(new java.awt.Color(255, 255, 255));
         jMenuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/Gear.png"))); // NOI18N
         jMenuAbout.setText("About");
         jMenuAbout.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuAbout.setOpaque(true);
 
         jMenuNguoiDung.setForeground(new java.awt.Color(40, 46, 62));
         jMenuNguoiDung.setText("Người dùng");
@@ -483,18 +484,25 @@ private void loadDashboard() {
 
         jMenuBar1.add(jMenuAbout);
 
+        jMenu2.setBackground(new java.awt.Color(153, 153, 153));
+        jMenu2.setOpaque(true);
+        jMenu2.setPreferredSize(new java.awt.Dimension(1200, 6));
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 1068, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 1560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -503,46 +511,35 @@ private void loadDashboard() {
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
         // TODO add your handling code here:
-    if (JOptionPane.showConfirmDialog(
-            this,
-            "Bạn có chắc muốn thoát?",
-            "Xác nhận thoát",
-            JOptionPane.YES_NO_OPTION
-        ) == JOptionPane.YES_OPTION) {
-        System.exit(0);
-    }
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Bạn muốn đóng ứng dụng?",
+                "Thoát",
+                JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) System.exit(0);
     }//GEN-LAST:event_btnThoatActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         // TODO add your handling code here:
-    // Đóng form hiện tại
-    this.dispose();
-
-    // Mở lại form TrangChuChung
-    try {
-        // Ép lại Look & Feel để giữ màu/kiểu như ban đầu (tránh thanh progress đổi màu)
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (Exception ignored) {}
-
-    TrangChuChung home = new TrangChuChung();
-    SwingUtilities.updateComponentTreeUI(home); // áp LAF cho form mới
-    home.setLocationRelativeTo(null);
-    home.setVisible(true);
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Bạn muốn đăng xuất?",
+                "Đăng xuất",
+                JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+        // Đóng cửa sổ hiện tại
+        this.dispose();
+        // Mở lại màn hình TrangChuChung
+        TrangChuChung home = new TrangChuChung();
+        home.setLocationRelativeTo(null); // canh giữa màn hình
+        home.setVisible(true);
+        }
     }//GEN-LAST:event_btnDangXuatActionPerformed
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-//        NguoiThue1 tr = new NguoiThue1();
-//        tr.setVisible(true);        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-//        try {
-//            HoaDonCtt ctt = new HoaDonCtt();
-//            ctt.setVisible(true);
-//
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_jLabel14MouseClicked
 
     private void jMenuPhongTroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuPhongTroMouseClicked
@@ -552,29 +549,51 @@ private void loadDashboard() {
 
     private void jMenuHopDongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuHopDongMouseClicked
         // TODO add your handling code here:
-                this.showHopDongJDialog(this); 
+        this.showHopDongJDialog(this); 
     }//GEN-LAST:event_jMenuHopDongMouseClicked
 
     private void jMenuHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuHoaDonMouseClicked
         // TODO add your handling code here:
-                this.showHoaDonJDialog(this); 
+        this.showHoaDonJDialog(this); 
     }//GEN-LAST:event_jMenuHoaDonMouseClicked
 
     private void jMtaikhoanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMtaikhoanMouseClicked
         // TODO add your handling code here:
-                this.showTaiKhoanJDialog(this); 
+        this.showTaiKhoanJDialog(this); 
     }//GEN-LAST:event_jMtaikhoanMouseClicked
 
     private void jMenuThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuThongTinMouseClicked
         // TODO add your handling code here:
-String username = (App.Utils.XAuth.user != null) ? App.Utils.XAuth.user.getTenTaiKhoan() : null;
-new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
+    // Lấy tên tài khoản nếu có đăng nhập
+    String username = null;
+    if (App.Utils.XAuth.user != null) {
+        username = App.Utils.XAuth.user.getTenTaiKhoan();
+    }
+
+    // Mở dialog thông tin người dùng
+    ThongTinNguoiDungJDialog dlg = new ThongTinNguoiDungJDialog(this, true, username);
+    dlg.setLocationRelativeTo(this); // hiển thị giữa cửa sổ cha
+    dlg.setVisible(true);
     }//GEN-LAST:event_jMenuThongTinMouseClicked
 
     private void jMenuLichSuHDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuLichSuHDMouseClicked
         // TODO add your handling code here:
-                this.showLichSuNguoiDungJDialog(this); 
+    // Lấy tên tài khoản nếu có đăng nhập
+    if (XAuth.user == null) {
+        JOptionPane.showMessageDialog(this, "Bạn chưa đăng nhập!");
+        return;
+    }
+    int maNguoiDung = XAuth.user.getMaNguoiDung(); 
+    LichSuNguoiDungJDialog dlg = new LichSuNguoiDungJDialog(this, true);
+    dlg.setLocationRelativeTo(this);
+    dlg.setVisible(true);
     }//GEN-LAST:event_jMenuLichSuHDMouseClicked
+
+    private void jMenuTrangChuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuTrangChuMouseClicked
+        // TODO add your handling code here:
+        loadDashboard();
+        loadAllPhong();
+    }//GEN-LAST:event_jMenuTrangChuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -587,7 +606,8 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("FlatLaf Light".equals(info.getName())) {
+                // có màu FlatLaf Light - ko màu Nimbus
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -601,9 +621,6 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main_ChuTro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -626,6 +643,7 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenuAbout;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuHoaDon;
@@ -646,9 +664,9 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPanel jpnView;
     private javax.swing.JLabel lblDoanhSo;
+    private javax.swing.JLabel lblDoanhSo1;
     private javax.swing.JLabel lblHoaDon;
     private javax.swing.JLabel lblHopDong;
-    private javax.swing.JLabel lblNull;
     private javax.swing.JLabel lblSoKhach;
     private javax.swing.JLabel lblThangDoanhSo;
     private javax.swing.JTable tblphongtro;

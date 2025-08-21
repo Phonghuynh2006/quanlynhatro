@@ -29,13 +29,11 @@ public class xinchaoJdialog extends javax.swing.JDialog implements xinchaoContro
         @Override 
     public void waiting() { 
         this.setLocationRelativeTo(null); 
-
         // Nếu bạn dùng Nimbus Look and Feel, override màu cam mặc định
         UIManager.put("nimbusOrange", new Color(51,204,255)); // Màu xanh dương
         SwingUtilities.updateComponentTreeUI(this); // Cập nhật giao diện
-
         // Hoặc set màu trực tiếp cho progressBar (nếu không dùng Nimbus)
-        progressBar.setForeground(new Color(51,204,255)); // Màu xanh dương
+        progressBar.setForeground(new Color(0,0,0)); // Màu xanh dương
         progressBar.setBackground(Color.LIGHT_GRAY);       // Màu nền
 
         new Thread(() -> { 

@@ -32,6 +32,7 @@ public class ThongTinNguoiDungJDialog extends javax.swing.JDialog implements Tho
     // Ctor chính: truyền username để tự nạp form
     public ThongTinNguoiDungJDialog(java.awt.Frame parent, boolean modal, String username) {
         super(parent, modal);
+        setUndecorated(true); 
         this.loggedUsername = username;
         initComponents();  // do NetBeans sinh
         afterInit();

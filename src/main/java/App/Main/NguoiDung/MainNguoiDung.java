@@ -4,16 +4,11 @@
  */
 package App.Main.NguoiDung;
 
-// ====== thêm vào đầu class ======
-import App.Utils.XJdbc;
-import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
-import java.sql.Connection;
+import App.Main.ThongTinNguoiDungJDialog;
+import App.Main.TrangChuChung;
 import java.sql.ResultSet;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,135 +17,186 @@ import javax.swing.table.DefaultTableModel;
  * @author WINDOWS
  */
 public class MainNguoiDung extends javax.swing.JFrame implements MainNguoiDungController{
-// 
-//        public MainNguoiDung() {
-//                initComponents();
-//
-//            }
-//        
-private static final java.math.BigDecimal DON_GIA_DIEN = new java.math.BigDecimal("3500");
-private static final java.math.BigDecimal DON_GIA_NUOC = new java.math.BigDecimal("10000");
+    // mặt định điện nước
+    private static final java.math.BigDecimal DON_GIA_DIEN = new java.math.BigDecimal("3500");  // giá 1 kWh
+    private static final java.math.BigDecimal DON_GIA_NUOC = new java.math.BigDecimal("10000"); // giá 1 m³ nước
 
-    
-    // ===== user hiện tại (truyền từ màn đăng nhập) =====
-    private final int currentUserId;
-    private final String currentUserName;
+    // ===== THÔNG TIN USER =====
+    private final int currentUserId;      // ID người dùng hiện tại
+    private final String currentUserName; // Tên người dùng hiện tại
 
-    // ===== model cho bảng =====
+    // ===== MODEL CHO JTABLE =====
     private DefaultTableModel model;
 
-public MainNguoiDung() { this(0, "Họ tên"); }
-public MainNguoiDung(int userId, String hoTen) {
-    this.currentUserId = userId;
-    this.currentUserName = (hoTen != null ? hoTen : "Họ tên");
-    initComponents();
-    afterInit();
-}
-
-    // ===== khởi tạo sau initComponents() =====
-    private void afterInit() {
-
-model = (javax.swing.table.DefaultTableModel) tblPhongTrong.getModel();
-model.setColumnIdentifiers(new Object[]{"ID Phòng","Tên phòng","Diện tích (m²)","Giá phòng","Địa chỉ","Mô tả"});
-btnDangKy.addActionListener(e -> dangKyPhong());
-tblPhongTrong.getSelectionModel().addListSelectionListener(e -> {
-    if (!e.getValueIsAdjusting()) tableRowClick(tblPhongTrong.getSelectedRow());
-});
-loadPhongTrong();
-showHeaderInfo();
-
+    // ===== CONSTRUCTOR =====
+    public MainNguoiDung() { 
+        this(0, "Họ tên"); 
     }
 
-    private void onDangKy(ActionEvent e) {
-        dangKyPhong();
-    }
+    // Constructor có tham số (id + tên người dùng)
+    public MainNguoiDung(int userId, String hoTen) {
+        initComponents(); // Khởi tạo giao diện (NetBeans sinh)
+        setLocationRelativeTo(null);
+        this.currentUserId  = userId;
+        this.currentUserName = (hoTen != null ? hoTen : "Họ tên");
+        // ===== KHỞI TẠO BẢNG PHÒNG TRỐNG =====
+        model = (DefaultTableModel) tblPhongTrong.getModel();
+        model.setColumnIdentifiers(new Object[]{"ID Phòng","Tên phòng","Diện tích (m²)","Giá phòng","Địa chỉ","Mô tả"});
 
-    // ===== helper format =====
-    private static String fmtMoney(BigDecimal v) {
-        if (v == null) return "0";
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-        nf.setMaximumFractionDigits(0);
-        return nf.format(v);
-    }
+        // ===== GÁN SỰ KIỆN =====
+        // Nút Đăng ký
+        btnDangKy.addActionListener(e -> dangKyPhong());
 
-    private static String fmtArea(BigDecimal v) {
-        if (v == null) return "";
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-        nf.setMaximumFractionDigits(2);
-        nf.setMinimumFractionDigits(0);
-        return nf.format(v);
-    }
+        // Click chọn dòng trong bảng -> đổ ID phòng sang ô nhập
+        tblPhongTrong.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int row = tblPhongTrong.getSelectedRow();
+                if (row >= 0) {
+                    Object v = model.getValueAt(row, 0);
+                    txtIDPhong.setText(v == null ? "" : v.toString());
+                }
+            }
+        });
 
-@Override
-public void loadPhongTrong() {
-    model.setRowCount(0);
-    var sql = """
-        SELECT maPhong, dienTich, giaTien, diaChi, moTa
-        FROM Phong WHERE trangThai = N'Trống' ORDER BY giaTien ASC
-    """;
-    try (var rs = App.Utils.XJdbc.executeQuery(sql)) {
-        while (rs.next()) {
-            var mp  = rs.getString("maPhong");
-            var dt  = (java.math.BigDecimal) rs.getObject("dienTich");
-            var gia = (java.math.BigDecimal) rs.getObject("giaTien");
-            model.addRow(new Object[]{ mp, "Phòng "+mp, fmtArea(dt), fmtMoney(gia), rs.getString("diaChi"), rs.getString("moTa")});
+        // ===== NẠP DỮ LIỆU BAN ĐẦU =====
+        loadPhongTrong();
+        showHeaderInfo();
+        init();
+    }
+    @Override
+    public void init() {
+            java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
+        java.awt.Rectangle usableBounds = ge.getMaximumWindowBounds();
+        setBounds(usableBounds);
+    }
+    // ========================================================
+    // ===== TRIỂN KHAI CÁC HÀM TRONG CONTROLLER ==============
+    // ========================================================
+
+    // Nạp danh sách phòng trống từ DB vào bảng
+    @Override
+    public void loadPhongTrong() {
+        model.setRowCount(0); // xóa dữ liệu cũ
+
+        String sql = "SELECT maPhong, dienTich, giaTien, diaChi, moTa "
+                   + "FROM Phong WHERE trangThai = N'Trống' ORDER BY giaTien ASC";
+        try {
+            ResultSet rs = App.Utils.XJdbc.executeQuery(sql);
+            while (rs.next()) {
+                String mp = rs.getString("maPhong");
+                java.math.BigDecimal dt = rs.getBigDecimal("dienTich");
+                java.math.BigDecimal gia = rs.getBigDecimal("giaTien");
+
+                // Định dạng số tiền theo kiểu VN
+                NumberFormat nfMoney = NumberFormat.getNumberInstance(new Locale("vi","VN"));
+                nfMoney.setMaximumFractionDigits(0);
+
+                String dienTich = (dt == null) ? "" : dt.toPlainString();
+                String giaTien  = (gia == null) ? "0" : nfMoney.format(gia);
+
+                // Thêm 1 dòng vào bảng
+                model.addRow(new Object[]{
+                    mp, "Phòng " + mp, dienTich, giaTien, rs.getString("diaChi"), rs.getString("moTa")
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi tải phòng trống: " + ex.getMessage());
         }
-    } catch (Exception ex) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Lỗi tải phòng trống: " + ex.getMessage());
     }
-}
 
+    // Hiển thị thông tin header: tên, ID phòng, tháng hiện tại
+    @Override
+    public void showHeaderInfo() {
+        // Tên người thuê
+        lblTenNguoiThue.setText(currentUserName);
 
-@Override
-public void showHeaderInfo() {
-    lblTenNguoiThue.setText(currentUserName);
-    var sqlHD = """
-        SELECT TOP 1 maPhong FROM HopDong
-        WHERE maNguoiDung=? AND CONVERT(date,GETDATE()) BETWEEN CONVERT(date,ngayBatDau) AND CONVERT(date,ngayKetThuc)
-        ORDER BY ngayBatDau DESC
-    """;
-    try (var rs = App.Utils.XJdbc.executeQuery(sqlHD, currentUserId)) {
-        lblIDPhong.setText(rs.next() ? rs.getString("maPhong") : "XX");
-    } catch (Exception ex) { lblIDPhong.setText("XX"); }
-    var now = java.time.LocalDate.now();
-    lblThang.setText(String.format("THÁNG %02d/%d", now.getMonthValue(), now.getYear()));
-}
+        // Tìm phòng đang thuê
+        try {
+            String sqlHD = "SELECT TOP 1 maPhong FROM HopDong "
+                         + "WHERE maNguoiDung=? AND CONVERT(date,GETDATE()) "
+                         + "BETWEEN CONVERT(date,ngayBatDau) AND CONVERT(date,ngayKetThuc) "
+                         + "ORDER BY ngayBatDau DESC";
+            ResultSet rs = App.Utils.XJdbc.executeQuery(sqlHD, currentUserId);
+            if (rs.next()) lblIDPhong.setText(rs.getString("maPhong"));
+            else lblIDPhong.setText("XX"); // chưa thuê phòng nào
+        } catch (Exception ex) {
+            lblIDPhong.setText("XX");
+        }
 
-@Override
-public void tableRowClick(int row) {
-    if (row < 0) return;
-    txtIDPhong.setText(String.valueOf(model.getValueAt(row, 0)));
-}
+        // Hiển thị tháng/năm hiện tại
+        java.time.LocalDate now = java.time.LocalDate.now();
+        lblThang.setText(String.format("THÁNG %02d/%d", now.getMonthValue(), now.getYear()));
+    }
 
+    // Khi chọn 1 dòng trong bảng -> điền ID phòng vào ô nhập
+    @Override
+    public void tableRowClick(int row) {
+        if (row >= 0) {
+            Object v = model.getValueAt(row, 0);
+            txtIDPhong.setText(v == null ? "" : v.toString());
+        }
+    }
 
-@Override
-public void dangKyPhong() {
-    var maPhong = txtIDPhong.getText().trim();
-    if (maPhong.isEmpty()) { javax.swing.JOptionPane.showMessageDialog(this,"Hãy nhập/chọn ID phòng."); return; }
+    // Xử lý đăng ký phòng
+    @Override
+    public void dangKyPhong() {
+        String maPhong = txtIDPhong.getText().trim();
+        if (maPhong.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập/chọn ID phòng.");
+            return;
+        }
 
-    java.math.BigDecimal giaPhong = null; String trangThai = null;
-    try (var rs = App.Utils.XJdbc.executeQuery("SELECT giaTien,trangThai FROM Phong WHERE maPhong=?", maPhong)) {
-        if (rs.next()) { giaPhong = (java.math.BigDecimal) rs.getObject("giaTien"); trangThai = rs.getString("trangThai"); }
-    } catch (Exception ex) { javax.swing.JOptionPane.showMessageDialog(this, "Lỗi lấy phòng: "+ex.getMessage()); return; }
-    if (giaPhong == null) { javax.swing.JOptionPane.showMessageDialog(this,"Không tìm thấy phòng "+maPhong); return; }
-    if (!"Trống".equalsIgnoreCase(trangThai)) { javax.swing.JOptionPane.showMessageDialog(this,"Phòng không còn trống."); return; }
+        java.math.BigDecimal giaPhong = null;
+        String trangThai = null;
 
-    var dlg = new App.Main.NguoiDung.DangKyPhongJDialog(this, true, maPhong, giaPhong,
-            DON_GIA_DIEN, DON_GIA_NUOC, currentUserId, currentUserName);
-    dlg.setLocationRelativeTo(this);
-    dlg.setVisible(true);
-    if (dlg.isAccepted()) { resetMiniForm(); loadPhongTrong(); showHeaderInfo(); }
-}
+        // Kiểm tra thông tin phòng trong DB
+        try {
+            ResultSet rs = App.Utils.XJdbc.executeQuery(
+                    "SELECT giaTien, trangThai FROM Phong WHERE maPhong=?", maPhong);
+            if (rs.next()) {
+                giaPhong = rs.getBigDecimal("giaTien");
+                trangThai = rs.getString("trangThai");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi lấy phòng: " + ex.getMessage());
+            return;
+        }
 
+        // Nếu không tìm thấy
+        if (giaPhong == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy phòng " + maPhong);
+            return;
+        }
+
+        // Nếu không còn trống
+        if (trangThai == null || !"Trống".equalsIgnoreCase(trangThai)) {
+            JOptionPane.showMessageDialog(this, "Phòng không còn trống.");
+            return;
+        }
+
+        // Mở dialog đăng ký phòng
+        App.Main.NguoiDung.DangKyPhongJDialog dlg =
+            new App.Main.NguoiDung.DangKyPhongJDialog(
+                this, true, maPhong, giaPhong, 
+                DON_GIA_DIEN, DON_GIA_NUOC, currentUserId, currentUserName
+            );
+        dlg.setLocationRelativeTo(this);
+        dlg.setVisible(true);
+
+        // Sau khi đăng ký thành công -> refresh giao diện
+        if (dlg.isAccepted()) {
+            resetMiniForm();
+            loadPhongTrong();
+            showHeaderInfo();
+        }
+    }
+
+    // Reset form mini (xóa ô nhập, bỏ chọn bảng)
     @Override
     public void resetMiniForm() {
         txtIDPhong.setText("");
         tblPhongTrong.clearSelection();
     }
-
-
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -192,6 +238,7 @@ public void dangKyPhong() {
         btnThoat = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         btnDangXuat = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -200,6 +247,8 @@ public void dangKyPhong() {
         jpnView.setPreferredSize(new java.awt.Dimension(1100, 630));
         jpnView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jpnView.add(lblNull, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         tblPhongTrong.setBackground(new java.awt.Color(207, 243, 243));
         tblPhongTrong.setModel(new javax.swing.table.DefaultTableModel(
@@ -223,7 +272,7 @@ public void dangKyPhong() {
         });
         jScrollPane1.setViewportView(tblPhongTrong);
 
-        jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 206, 971, 400));
+        jpnView.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 971, 400));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -243,7 +292,7 @@ public void dangKyPhong() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblThang)
@@ -265,7 +314,7 @@ public void dangKyPhong() {
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(721, 23, -1, -1));
+        jpnView.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 20, 300, -1));
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -309,52 +358,58 @@ public void dangKyPhong() {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jpnView.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 23, -1, -1));
+        jpnView.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("ID phòng:");
-        jpnView.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 97, -1, -1));
+        jpnView.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, -1, -1));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Tên người thuê:");
-        jpnView.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 123, -1, -1));
+        jpnView.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
 
         lblIDPhong.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblIDPhong.setForeground(new java.awt.Color(255, 51, 0));
         lblIDPhong.setText("XX");
-        jpnView.add(lblIDPhong, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 97, -1, -1));
+        jpnView.add(lblIDPhong, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, -1, -1));
 
         lblTenNguoiThue.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTenNguoiThue.setForeground(new java.awt.Color(255, 51, 0));
         lblTenNguoiThue.setText("Họ tên");
-        jpnView.add(lblTenNguoiThue, new org.netbeans.lib.awtextra.AbsoluteConstraints(197, 123, -1, -1));
+        jpnView.add(lblTenNguoiThue, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, -1, -1));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("DANH SÁCH PHÒNG TRỐNG");
-        jpnView.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 180, -1, -1));
+        jpnView.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, -1, -1));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
-        jpnView.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 630));
+        jpnView.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 760));
 
         jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31), 2));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
         jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
+        jMenuTrangChu.setBackground(new java.awt.Color(153, 153, 153));
         jMenuTrangChu.setForeground(new java.awt.Color(255, 255, 255));
         jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/home (1).png"))); // NOI18N
         jMenuTrangChu.setText("Trang chủ");
         jMenuTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuTrangChu.setMinimumSize(new java.awt.Dimension(200, 38));
+        jMenuTrangChu.setOpaque(true);
         jMenuBar1.add(jMenuTrangChu);
 
+        jMenuHopDong.setBackground(new java.awt.Color(153, 153, 153));
         jMenuHopDong.setForeground(new java.awt.Color(255, 255, 255));
         jMenuHopDong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/rent (1).png"))); // NOI18N
         jMenuHopDong.setText("Hợp đồng");
         jMenuHopDong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuHopDong.setMinimumSize(new java.awt.Dimension(200, 38));
+        jMenuHopDong.setOpaque(true);
         jMenuHopDong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuHopDongMouseClicked(evt);
@@ -362,10 +417,13 @@ public void dangKyPhong() {
         });
         jMenuBar1.add(jMenuHopDong);
 
+        jMenuHoaDon.setBackground(new java.awt.Color(153, 153, 153));
         jMenuHoaDon.setForeground(new java.awt.Color(255, 255, 255));
         jMenuHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/bill (1).png"))); // NOI18N
         jMenuHoaDon.setText("Hóa đơn");
         jMenuHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuHoaDon.setMinimumSize(new java.awt.Dimension(200, 38));
+        jMenuHoaDon.setOpaque(true);
         jMenuHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuHoaDonMouseClicked(evt);
@@ -373,10 +431,13 @@ public void dangKyPhong() {
         });
         jMenuBar1.add(jMenuHoaDon);
 
+        jMenuAbout.setBackground(new java.awt.Color(153, 153, 153));
         jMenuAbout.setForeground(new java.awt.Color(255, 255, 255));
         jMenuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/info (1).png"))); // NOI18N
         jMenuAbout.setText("About");
         jMenuAbout.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuAbout.setMinimumSize(new java.awt.Dimension(200, 38));
+        jMenuAbout.setOpaque(true);
 
         jMenuNguoiDung.setForeground(new java.awt.Color(40, 46, 62));
         jMenuNguoiDung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/TroViet/Icon/user (1).png"))); // NOI18N
@@ -436,6 +497,11 @@ public void dangKyPhong() {
 
         jMenuBar1.add(jMenuAbout);
 
+        jMenu2.setBackground(new java.awt.Color(153, 153, 153));
+        jMenu2.setOpaque(true);
+        jMenu2.setPreferredSize(new java.awt.Dimension(1200, 6));
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -468,9 +534,12 @@ public void dangKyPhong() {
                 "Đăng xuất",
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
-            this.dispose();
-            // TODO: mở màn hình đăng nhập
-            // new DangNhapJFrame().setVisible(true);
+        // Đóng cửa sổ hiện tại
+        this.dispose();
+        // Mở lại màn hình TrangChuChung
+        TrangChuChung home = new TrangChuChung();
+        home.setLocationRelativeTo(null); // canh giữa màn hình
+        home.setVisible(true);
         }
     }//GEN-LAST:event_btnDangXuatActionPerformed
 
@@ -487,27 +556,32 @@ public void dangKyPhong() {
 
     private void jMenuHopDongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuHopDongMouseClicked
         // TODO add your handling code here:
-                        this.showHopDongJDialog(this); 
+        this.showHopDongJDialog(this); 
     }//GEN-LAST:event_jMenuHopDongMouseClicked
 
     private void jMenuHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuHoaDonMouseClicked
         // TODO add your handling code here:
-                        this.showHoaDonJDialog(this); 
-//                            new App.Main.NguoiDung.HoaDonJDialog(this, true).setVisible(true);
+        this.showHoaDonJDialog(this); 
     }//GEN-LAST:event_jMenuHoaDonMouseClicked
 
     private void jMenuThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuThongTinMouseClicked
         // TODO add your handling code here:
-//                        this.showThongTinNguoiDungJDialog(this); 
-                        // cần import App.Utils.XAuth;
-String username = (App.Utils.XAuth.user != null) ? App.Utils.XAuth.user.getTenTaiKhoan() : null;
-new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
+    // Lấy tên tài khoản nếu có đăng nhập
+    String username = null;
+    if (App.Utils.XAuth.user != null) {
+        username = App.Utils.XAuth.user.getTenTaiKhoan();
+    }
+
+    // Mở dialog thông tin người dùng
+    ThongTinNguoiDungJDialog dlg = new ThongTinNguoiDungJDialog(this, true, username);
+    dlg.setLocationRelativeTo(this); // hiển thị giữa cửa sổ cha
+    dlg.setVisible(true);
 
     }//GEN-LAST:event_jMenuThongTinMouseClicked
 
     private void jMenuLichSuHDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuLichSuHDMouseClicked
         // TODO add your handling code here:
-                        this.showLichSuNguoiDungJDialog(this); 
+        this.showLichSuNguoiDungJDialog(this); 
     }//GEN-LAST:event_jMenuLichSuHDMouseClicked
 
     /**
@@ -521,7 +595,8 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("FlatLaf Light".equals(info.getName())) {
+                // có màu FlatLaf Light - ko màu Nimbus
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -535,7 +610,6 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainNguoiDung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -556,6 +630,7 @@ new App.Main.ThongTinNguoiDungJDialog(this, true, username).setVisible(true);
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenuAbout;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuHoaDon;

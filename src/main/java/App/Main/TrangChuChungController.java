@@ -13,7 +13,6 @@ import javax.swing.JFrame;
  * @author PHONG
  */
 public interface TrangChuChungController {
-
     /**
      * Hiển thị cửa sổ chào
      * Hiển thị cửa sổ đăng nhập
@@ -21,7 +20,6 @@ public interface TrangChuChungController {
      * Disable/Enable các thành phần tùy thuộc vào vai trò đăng nhập
      */
     void init();
-    
     default void exit(){
         if(XDialog.confirm("Bạn muốn kết thúc?")){
             System.exit(0);
@@ -31,7 +29,6 @@ public interface TrangChuChungController {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-
     default void showdangkyJDialog(JFrame frame){
         this.showJDialog(new dangkyJdialog(frame, true));
     }

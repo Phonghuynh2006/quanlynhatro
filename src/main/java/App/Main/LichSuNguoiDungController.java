@@ -11,5 +11,4 @@ package App.Main;
 public interface LichSuNguoiDungController {
     void loadTable();                 // load toàn bộ lịch sử
     void loadByUser(Integer userId);  // load theo mã người dùng
-    void search(String keyword);      // lọc tạm trên client (không bắt buộc dùng)
 }

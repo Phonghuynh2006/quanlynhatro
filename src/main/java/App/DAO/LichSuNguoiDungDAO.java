@@ -15,4 +15,3 @@ public interface LichSuNguoiDungDAO extends CrudDAO<LichSuNguoiDung, Integer> {
     void log(Integer maNguoiDung, String hanhDong);     // ghi nhanh lịch sử
     List<LichSuNguoiDung> findByMaNguoiDung(Integer maNguoiDung);
 }
-// líchu

@@ -16,4 +16,4 @@ public class LichSuNguoiDung {
     private Date thoiGian;     // DATETIME
     private String hanhDong;
 }
-// líchu
+

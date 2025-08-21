@@ -7,131 +7,79 @@ package App.Main;
 import App.DAO.PhongDAO;
 import App.Entity.Phong;
 import App.Impl.PhongDAOImpl;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 /**
  *
  * @author WINDOWS
  */
 public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungController{
-
     // ===== DAO & STATE =====
-    private final PhongDAO phongDAO = new PhongDAOImpl();
-    private DefaultTableModel model;
+    private final PhongDAO phongDAO = new PhongDAOImpl(); // DAO để lấy dữ liệu phòng
+    private DefaultTableModel model; // Model bảng để hiển thị dữ liệu
 
+    // Hàm khởi tạo form Trang Chủ
     public TrangChuChung() {
-        initComponents();
-        this.init(); 
+        initComponents(); 
+        init();           // Gọi hàm khởi tạo
+        initTable();                 // Tạo bảng phòng trống
+        loadPhongTrong(); // Tải dữ liệu phòng trống từ CSDL
     }
-    
-  @Override  
-        public void init() {
-        setLocationRelativeTo(null);
-        wireMenus();
-        initTable();
 
-        // 1) Splash (xin chào)
+    // Hàm khởi tạo ban đầu
+    @Override
+    public void init() {
+        setLocationRelativeTo(null); // Căn giữa cửa sổ
+        // Hiện hộp thoại "Xin chào"
         new xinchaoJdialog(this, true).setVisible(true);
+        java.awt.GraphicsEnvironment ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment();
+        java.awt.Rectangle usableBounds = ge.getMaximumWindowBounds();
+        setBounds(usableBounds);
 
-
-        // 4) Tải dữ liệu phòng trống
-        loadPhongTrong();
     }
 
-    // ===== Menu click =====
-    private void wireMenus() {
-        jMenuTrangChu.addMouseListener(new MouseAdapter() {
-            @Override public void mouseClicked(MouseEvent e) { loadPhongTrong(); }
-        });
-        jMenuThoat.addMouseListener(new MouseAdapter() {
-            @Override public void mouseClicked(MouseEvent e) { thoat(); }
-        });
-    }
 
-    // ===== Table =====
+    // tạo bảng
     private void initTable() {
-        model = (DefaultTableModel) tblPhongTrong.getModel();
+        model = (DefaultTableModel) tblPhongTrong.getModel(); // Lấy model của bảng
         model.setColumnIdentifiers(new Object[]{
-                "Mã phòng", "Diện tích (m²)", "Giá phòng", "Địa chỉ", "Mô tả", "Liên hệ"
+            "Mã phòng", "Diện tích (m²)", "Giá phòng", "Địa chỉ", "Mô tả", "Liên hệ"
         });
-        tblPhongTrong.setRowHeight(28);
+        tblPhongTrong.setRowHeight(28); // Đặt chiều cao dòng
     }
 
+    // ===== Tải dữ liệu phòng trống từ CSDL =====
     private void loadPhongTrong() {
-        model.setRowCount(0);
+        model.setRowCount(0); // Xóa hết dữ liệu cũ trong bảng
+
         try {
-            List<Phong> list = phongDAO.findAll(); // nếu có findPhongTrong() thì gọi thẳng hàm đó
+            List<Phong> list = phongDAO.findAll(); // Lấy danh sách tất cả phòng
 
             for (Phong p : list) {
-                // Chấp nhận 2 kiểu lưu trạng thái: "Trống" hoặc "0"
-                String tt = nvl(p.getTrangThai()).trim();
-                boolean isTrong = "trống".equalsIgnoreCase(tt) || "0".equals(tt);
-                if (!isTrong) continue;
+                String trangThai = p.getTrangThai();
+                if (trangThai == null) trangThai = "";
+                trangThai = trangThai.trim();
 
+                // Kiểm tra nếu phòng trống ("Trống" hoặc "0")
+                boolean isTrong = trangThai.equalsIgnoreCase("trống") || trangThai.equals("0");
+                if (!isTrong) continue; // Bỏ qua nếu không phải phòng trống
+
+                // Thêm dòng vào bảng
                 model.addRow(new Object[]{
-                        nvl(p.getMaPhong()),
-                        fmtQty(p.getDienTich()),     // 21,5  |  20
-                        fmtMoney(p.getGiaTien()),    // 2.500.000
-                        nvl(p.getDiaChi()),
-                        nvl(p.getMoTa()),
-                        nvl(p.getLienHe())
+                    p.getMaPhong() != null ? p.getMaPhong() : "",
+                    p.getDienTich() != null ? p.getDienTich().toString() : "",
+                    p.getGiaTien() != null ? p.getGiaTien().toString() : "",
+                    p.getDiaChi() != null ? p.getDiaChi() : "",
+                    p.getMoTa() != null ? p.getMoTa() : "",
+                    p.getLienHe() != null ? p.getLienHe() : ""
                 });
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(); // In lỗi ra console
             JOptionPane.showMessageDialog(this, "Lỗi tải dữ liệu: " + ex.getMessage());
         }
-    }
-
-//    // ===== Menu actions =====
-//    private void openDangNhap() {
-//        try {
-//            new dangnhapJdialog(this, true).setVisible(true); // đúng tên class bạn đang có
-//        } catch (Throwable t) {
-//            t.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "Không mở được Đăng nhập: " + t.getMessage());
-//        }
-//    }
-//
-//    private void openDangKy() {
-//        try {
-//            new dangkyJdialog(this, true).setVisible(true);
-//        } catch (Throwable t) {
-//            t.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "Không mở được Đăng ký: " + t.getMessage());
-//        }
-//    }
-
-    private void thoat() {
-        int c = JOptionPane.showConfirmDialog(this, "Bạn muốn thoát ứng dụng?", "Thoát",
-                JOptionPane.YES_NO_OPTION);
-        if (c == JOptionPane.YES_OPTION) System.exit(0);
-    }
-
-    // ===== Helpers =====
-    private static String nvl(Object o) { return o == null ? "" : String.valueOf(o); }
-
-    private static String fmtQty(BigDecimal v) {
-        if (v == null) return "";
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-        nf.setMaximumFractionDigits(2);   // diện tích có thể có .5, .25...
-        nf.setMinimumFractionDigits(0);
-        return nf.format(v);
-    }
-
-    private static String fmtMoney(BigDecimal v) {
-        if (v == null) return "";
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-        nf.setMaximumFractionDigits(0);   // tiền VND thường không lấy lẻ
-        return nf.format(v);
     }
 
     /**
@@ -143,6 +91,7 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhongTrong = new javax.swing.JTable();
@@ -153,6 +102,9 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         jMenuDangnhap = new javax.swing.JMenu();
         jMenuDangky = new javax.swing.JMenu();
         jMenuThoat = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -184,33 +136,36 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jScrollPane1.setViewportView(tblPhongTrong);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 77, 971, 400));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 1190, 450));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 0, 0));
         jLabel2.setText("DANH SÁCH PHÒNG TRỐNG");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 27, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen02.jpg"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 530));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 760));
 
-        jMenuBar1.setBackground(new java.awt.Color(204, 255, 255));
-        jMenuBar1.setBorder(null);
-        jMenuBar1.setForeground(new java.awt.Color(40, 46, 62));
-        jMenuBar1.setName(""); // NOI18N
-        jMenuBar1.setOpaque(true);
+        jMenuBar1.setBackground(new java.awt.Color(46, 56, 86));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 255), 2));
+        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuBar1.setName("      "); // NOI18N
         jMenuBar1.setPreferredSize(new java.awt.Dimension(615, 70));
 
-        jMenuTrangChu.setBackground(new java.awt.Color(204, 255, 255));
-        jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home.png"))); // NOI18N
+        jMenuTrangChu.setBackground(new java.awt.Color(153, 153, 153));
+        jMenuTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/home (1).png"))); // NOI18N
         jMenuTrangChu.setText("Trang chủ");
         jMenuTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuTrangChu.setOpaque(true);
+        jMenuTrangChu.setPreferredSize(new java.awt.Dimension(200, 38));
         jMenuBar1.add(jMenuTrangChu);
 
-        jMenuDangnhap.setBackground(new java.awt.Color(204, 255, 255));
+        jMenuDangnhap.setBackground(new java.awt.Color(153, 153, 153));
         jMenuDangnhap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/Unknown person.png"))); // NOI18N
         jMenuDangnhap.setText("Đăng nhập");
         jMenuDangnhap.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuDangnhap.setOpaque(true);
+        jMenuDangnhap.setPreferredSize(new java.awt.Dimension(200, 38));
         jMenuDangnhap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuDangnhapMouseClicked(evt);
@@ -218,10 +173,12 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jMenuBar1.add(jMenuDangnhap);
 
-        jMenuDangky.setBackground(new java.awt.Color(204, 255, 255));
-        jMenuDangky.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/edit.png"))); // NOI18N
+        jMenuDangky.setBackground(new java.awt.Color(153, 153, 153));
+        jMenuDangky.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/user.png"))); // NOI18N
         jMenuDangky.setText("Đăng ký");
         jMenuDangky.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuDangky.setOpaque(true);
+        jMenuDangky.setPreferredSize(new java.awt.Dimension(200, 38));
         jMenuDangky.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuDangkyMouseClicked(evt);
@@ -229,11 +186,13 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jMenuBar1.add(jMenuDangky);
 
-        jMenuThoat.setBackground(new java.awt.Color(204, 255, 255));
+        jMenuThoat.setBackground(new java.awt.Color(153, 153, 153));
         jMenuThoat.setBorder(null);
-        jMenuThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logout (1).png"))); // NOI18N
+        jMenuThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logout.png"))); // NOI18N
         jMenuThoat.setText("Thoát");
         jMenuThoat.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jMenuThoat.setOpaque(true);
+        jMenuThoat.setPreferredSize(new java.awt.Dimension(200, 32));
         jMenuThoat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuThoatMouseClicked(evt);
@@ -241,17 +200,24 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
         });
         jMenuBar1.add(jMenuThoat);
 
+        jMenu2.setBackground(new java.awt.Color(153, 153, 153));
+        jMenu2.setOpaque(true);
+        jMenu2.setPreferredSize(new java.awt.Dimension(900, 6));
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1560, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -259,16 +225,19 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
 
     private void jMenuThoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuThoatMouseClicked
         // TODO add your handling code here:
-
+        int c = JOptionPane.showConfirmDialog(this, "Bạn muốn thoát ứng dụng?", "Thoát",
+                JOptionPane.YES_NO_OPTION);
+        if (c == JOptionPane.YES_OPTION) System.exit(0);
     }//GEN-LAST:event_jMenuThoatMouseClicked
 
     private void tblPhongTrongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhongTrongMouseClicked
         // TODO add your handling code here:
-
     }//GEN-LAST:event_tblPhongTrongMouseClicked
 
     private void jMenuDangnhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuDangnhapMouseClicked
         // TODO add your handling code here: 
+        // Đóng cửa sổ hiện tại
+        this.dispose();
         this.showdangnhapJDialog(this); 
     }//GEN-LAST:event_jMenuDangnhapMouseClicked
 
@@ -280,33 +249,45 @@ public class TrangChuChung extends javax.swing.JFrame implements TrangChuChungCo
     /**
      * @param args the command line arguments
      */
-public static void main(String[] args) {
-    // Thử Nimbus, nếu không có thì giữ LAF mặc định
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (Exception ignore) { /* dùng LAF mặc định */ }
-
-    java.awt.EventQueue.invokeLater(() -> {
+    public static void main(String[] args) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
-            new TrangChuChung().setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace(); // để thấy lỗi thật trong Output
-            javax.swing.JOptionPane.showMessageDialog(
-                null, "Lỗi khởi động: " + ex.getClass().getSimpleName() + " - " + ex.getMessage()
-            );
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                // có màu FlatLaf Light - ko màu Nimbus
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            } 
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TrangChuChung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TrangChuChung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TrangChuChung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TrangChuChung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    });
-}
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TrangChuChung().setVisible(true);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDangky;
     private javax.swing.JMenu jMenuDangnhap;

@@ -16,6 +16,8 @@ import javax.swing.JFrame;
  * @author PHONG
  */
 public interface MainNguoiDungController {
+    
+    void init();
 
     /** Nạp danh sách phòng TRỐNG vào bảng. */
     void loadPhongTrong();

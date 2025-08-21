@@ -7,133 +7,79 @@ package App.Main;
 import App.DAO.LichSuNguoiDungDAO;
 import App.Entity.LichSuNguoiDung;
 import App.Impl.LichSuNguoiDungDAOImpl;
+import App.Utils.XAuth;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author PHONG
  */
 public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichSuNguoiDungController{
 
-
-    private final LichSuNguoiDungDAO dao = new LichSuNguoiDungDAOImpl(); // DAO thao tác DB
+    // ==== DAO, định dạng, model ====
+    private final LichSuNguoiDungDAO dao = new LichSuNguoiDungDAOImpl();
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
     private DefaultTableModel model;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm"); // format ngày giờ
-    private Integer filterUserId = null; // nếu mở theo user cụ thể
 
-    // constructor bình thường
-    public LichSuNguoiDungJDialog(java.awt.Frame parent, boolean modal) {
+    public LichSuNguoiDungJDialog(Frame parent, boolean modal) {
         super(parent, modal);
+        setUndecorated(true); 
         initComponents();
         afterInit();
-        setLocationRelativeTo(null); // căn giữa
+        setLocationRelativeTo(parent);
     }
 
-    // constructor mở và lọc theo user
-    public LichSuNguoiDungJDialog(java.awt.Frame parent, boolean modal, Integer maNguoiDung) {
-        super(parent, modal);
-        this.filterUserId = maNguoiDung;
-        initComponents();
-        afterInit();
-    }
 
-    // ====== setup bảng sau khi build UI ======
+    // ==== Khởi tạo sau khi giao diện xong ====
     private void afterInit() {
         model = (DefaultTableModel) tblLichSuHD.getModel();
         model.setColumnIdentifiers(new Object[]{"Mã LS", "Mã người dùng", "Hành động", "Thời gian"});
         tblLichSuHD.setAutoCreateRowSorter(true);
 
-        if (filterUserId != null) {
-            loadByUser(filterUserId); // nếu có user thì lọc theo user
+        if (XAuth.user != null) {
+            loadByUser(XAuth.user.getMaNguoiDung()); // chỉ load của người đăng nhập
         } else {
-            loadTable(); // ngược lại load toàn bộ
+            JOptionPane.showMessageDialog(this, "Bạn chưa đăng nhập!");
+            dispose();
         }
     }
 
-    // ====== load toàn bộ lịch sử ======
+    // ==== Load toàn bộ lịch sử (không dùng cho user thường) ====
+    @Override
     public void loadTable() {
-        model.setRowCount(0); // xóa dữ liệu cũ
-        List<LichSuNguoiDung> list = dao.findAll(); // lấy từ DB
+        model.setRowCount(0);
+        List<LichSuNguoiDung> list = dao.findAll();
 
-        if (list != null) {
-            for (LichSuNguoiDung ls : list) {
-                String hanhDong = (ls.getHanhDong() == null) ? "" : ls.getHanhDong();
-                String thoiGian = (ls.getThoiGian() == null) ? "" : sdf.format(ls.getThoiGian());
-
-                model.addRow(new Object[]{
+        for (LichSuNguoiDung ls : list) {
+            model.addRow(new Object[]{
                     ls.getId(),
                     ls.getMaNguoiDung(),
-                    hanhDong,
-                    thoiGian
-                });
-            }
+                    ls.getHanhDong() != null ? ls.getHanhDong() : "",
+                    ls.getThoiGian() != null ? sdf.format(ls.getThoiGian()) : ""
+            });
         }
     }
 
-    // ====== load theo 1 user cụ thể ======
+    // ==== Load lịch sử theo người dùng ====
+    @Override
     public void loadByUser(Integer userId) {
         model.setRowCount(0);
         List<LichSuNguoiDung> list = dao.findByMaNguoiDung(userId);
 
-        if (list != null) {
-            for (LichSuNguoiDung ls : list) {
-                String hanhDong = (ls.getHanhDong() == null) ? "" : ls.getHanhDong();
-                String thoiGian = (ls.getThoiGian() == null) ? "" : sdf.format(ls.getThoiGian());
-
-                model.addRow(new Object[]{
+        for (LichSuNguoiDung ls : list) {
+            model.addRow(new Object[]{
                     ls.getId(),
                     ls.getMaNguoiDung(),
-                    hanhDong,
-                    thoiGian
-                });
-            }
+                    ls.getHanhDong() != null ? ls.getHanhDong() : "",
+                    ls.getThoiGian() != null ? sdf.format(ls.getThoiGian()) : ""
+            });
         }
     }
 
-    // ====== tìm kiếm theo từ khóa ======
-    public void search(String keyword) {
-        String kw = (keyword == null) ? "" : keyword.trim().toLowerCase();
 
-        if (kw.isEmpty()) { 
-            if (filterUserId != null) {
-                loadByUser(filterUserId);
-            } else {
-                loadTable();
-            }
-            return;
-        }
-
-        model.setRowCount(0);
-
-        // lấy dữ liệu gốc
-        List<LichSuNguoiDung> src;
-        if (filterUserId != null) {
-            src = dao.findByMaNguoiDung(filterUserId);
-        } else {
-            src = dao.findAll();
-        }
-
-        if (src != null) {
-            for (LichSuNguoiDung ls : src) {
-                String hanhDong = (ls.getHanhDong() == null) ? "" : ls.getHanhDong();
-                String thoiGian = (ls.getThoiGian() == null) ? "" : sdf.format(ls.getThoiGian());
-
-                // gộp dữ liệu để tìm
-                String gop = (ls.getMaNguoiDung() + " " + hanhDong + " " + thoiGian).toLowerCase();
-
-                if (gop.contains(kw)) {
-                    model.addRow(new Object[]{
-                        ls.getId(),
-                        ls.getMaNguoiDung(),
-                        hanhDong,
-                        thoiGian
-                    });
-                }
-            }
-        }
-    }
 
 
     /**
@@ -148,7 +94,7 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
         jPanel1 = new javax.swing.JPanel();
         jPanel103 = new javax.swing.JPanel();
         jLabel112 = new javax.swing.JLabel();
-        btndong102 = new javax.swing.JButton();
+        btndong = new javax.swing.JButton();
         jLabel113 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -169,16 +115,16 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
         jLabel112.setText("NHÀ TRỌ FPOLY");
         jPanel103.add(jLabel112, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, -1));
 
-        btndong102.setBackground(new java.awt.Color(0, 0, 255));
-        btndong102.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btndong102.setForeground(new java.awt.Color(255, 255, 255));
-        btndong102.setText("X");
-        btndong102.addActionListener(new java.awt.event.ActionListener() {
+        btndong.setBackground(new java.awt.Color(0, 0, 255));
+        btndong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btndong.setForeground(new java.awt.Color(255, 255, 255));
+        btndong.setText("X");
+        btndong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndong102ActionPerformed(evt);
+                btndongActionPerformed(evt);
             }
         });
-        jPanel103.add(btndong102, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 9, 55, 50));
+        jPanel103.add(btndong, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 9, 55, 50));
 
         jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/logo1.png"))); // NOI18N
         jPanel103.add(jLabel113, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 3, -1, 62));
@@ -229,18 +175,10 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btndong102ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndong102ActionPerformed
+    private void btndongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongActionPerformed
         // TODO add your handling code here:
-        int choice = JOptionPane.showConfirmDialog(
-                this,
-                "Bạn muốn đóng cửa sổ này?",
-                "Đóng",
-                JOptionPane.YES_NO_OPTION
-        );
-        if (choice == JOptionPane.YES_OPTION) {
-            this.dispose(); // chỉ đóng JDialog hiện tại
-        }
-    }//GEN-LAST:event_btndong102ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btndongActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,7 +223,7 @@ public class LichSuNguoiDungJDialog extends javax.swing.JDialog implements LichS
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btndong102;
+    private javax.swing.JButton btndong;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel112;
     private javax.swing.JLabel jLabel113;

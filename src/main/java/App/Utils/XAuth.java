@@ -14,6 +14,7 @@ import App.Entity.TaiKhoan;
  */
 public class XAuth {
     public static TaiKhoan user;
+    public static Integer maNguoiDung = null;
 
     // Gán tạm giá trị test (có thể xóa đi khi có login thực tế)
 //    static {

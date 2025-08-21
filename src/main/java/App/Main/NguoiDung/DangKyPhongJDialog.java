@@ -7,46 +7,38 @@ package App.Main.NguoiDung;
 import App.Utils.XAuth;
 import App.Utils.XJdbc;
 import App.Utils.XMail;
-
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author PHONG
  */
 public class DangKyPhongJDialog extends javax.swing.JDialog {
-    // ====== dữ liệu truyền vào ======
+
+    // ====== DỮ LIỆU TRUYỀN VÀO ======
     private String maPhong;
     private BigDecimal giaPhong;
     private BigDecimal donGiaDien;
     private BigDecimal donGiaNuoc;
     private int userId;
     private String userName;
-
-    // ====== trạng thái kết quả ======
+    // ====== KẾT QUẢ ======
     private boolean accepted = false;
-
     public boolean isAccepted() { return accepted; }
-
-    /**
-     * Creates new form DangKyPhongJDialog
-     */
+    
     public DangKyPhongJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setUndecorated(true);  // Ẩn viền và nút X
         initComponents();
-                afterInit();
-                        setLocationRelativeTo(null);
+        afterInit();          // Sau khi khởi tạo
+        setLocationRelativeTo(null);                   
     }
-
-    /** Constructor dùng trong flow: truyền đầy đủ dữ liệu */
+    
     public DangKyPhongJDialog(java.awt.Frame parent, boolean modal,
                               String maPhong, BigDecimal giaPhong,
                               BigDecimal donGiaDien, BigDecimal donGiaNuoc,
@@ -63,38 +55,120 @@ public class DangKyPhongJDialog extends javax.swing.JDialog {
         bindDataToUI();
     }
 
-    // ====== helper format ======
+    // ====== FORMAT TIỀN VIỆT NAM ======
     private static String fmtMoney(BigDecimal v) {
         if (v == null) return "0";
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi","VN"));
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
         nf.setMaximumFractionDigits(0);
         return nf.format(v);
     }
 
+    // ====== SAU KHI INIT ======
     private void afterInit() {
         setLocationRelativeTo(getOwner());
-        // mặc định nút tắt
-        btnDatPhong.setEnabled(false);
+        btnDatPhong.setEnabled(false); // Tắt nút khi chưa chọn
         ckbDongY.addActionListener(e -> btnDatPhong.setEnabled(ckbDongY.isSelected()));
     }
 
+    // ====== GÁN DỮ LIỆU VÀO LABEL ======
     private void bindDataToUI() {
         lblMaPhong.setText(maPhong != null ? maPhong : "X");
         lblGiaPhong.setText(giaPhong != null ? fmtMoney(giaPhong) + " VND" : "X, XXX, XXX VND");
         lblGiaDien.setText(donGiaDien != null ? fmtMoney(donGiaDien) + " /kWh" : "X, XXX, XXX VND");
         lblGiaNuoc.setText(donGiaNuoc != null ? fmtMoney(donGiaNuoc) + " /m³"  : "X, XXX, XXX VND");
     }
-    
-    // ==== THÊM 2 HÀM NÀY VÀO TRONG CLASS ====
-private int effectiveUserId() {
-    return (userId > 0) ? userId : (XAuth.user != null ? XAuth.user.getMaNguoiDung() : 0);
-}
 
-private String effectiveUserName() {
-    return (userName != null && !userName.isBlank())
-            ? userName
-            : (XAuth.user != null ? XAuth.user.getHoTen() : "");
-}
+    // ====== LẤY THÔNG TIN NGƯỜI DÙNG HIỆN TẠI ======
+    private int effectiveUserId() {
+        return (userId > 0) ? userId : (XAuth.user != null ? XAuth.user.getMaNguoiDung() : 0);
+    }
+
+    private String effectiveUserName() {
+        return (userName != null && !userName.isBlank())
+                ? userName
+                : (XAuth.user != null ? XAuth.user.getHoTen() : "");
+    }
+    
+    // ====== HÀM XỬ LÝ ĐẶT PHÒNG ======
+    private void xuLyDatPhong() {
+        if (!ckbDongY.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng tích vào 'Tôi đồng ý' trước khi đặt.");
+            return;
+        }
+
+        int uid = effectiveUserId();
+        String uname = effectiveUserName();
+
+        if (uid <= 0) {
+            JOptionPane.showMessageDialog(this, "Tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
+            return;
+        }
+
+        Connection con = null;
+        try {
+            // Kiểm tra tài khoản hợp lệ
+            Integer okUser = XJdbc.getValue(
+                "SELECT COUNT(*) FROM TaiKhoan WHERE MaNguoiDung = ? AND TrangThai = 1", uid);
+            if (okUser == null || okUser == 0) {
+                JOptionPane.showMessageDialog(this, "Tài khoản không hợp lệ.");
+                return;
+            }
+
+            // Kiểm tra phòng còn trống
+            Integer okRoom = XJdbc.getValue(
+                "SELECT COUNT(*) FROM Phong WHERE maPhong = ? AND trangThai = N'Trống'", maPhong);
+            if (okRoom == null || okRoom == 0) {
+                JOptionPane.showMessageDialog(this, "Phòng không còn trống.");
+                return;
+            }
+
+            // Bắt đầu giao dịch
+            con = XJdbc.openConnection();
+            con.setAutoCommit(false);
+
+            String maHD = "HD" + java.time.LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            LocalDate start = LocalDate.now();
+            LocalDate end = start.plusMonths(6);
+
+            // Thêm hợp đồng
+            XJdbc.executeUpdate("""
+                INSERT INTO HopDong(maHopDong, maNguoiDung, maPhong, ngayBatDau, ngayKetThuc)
+                VALUES (?, ?, ?, ?, ?)
+            """, maHD, uid, maPhong, java.sql.Date.valueOf(start), java.sql.Date.valueOf(end));
+
+            // Cập nhật trạng thái phòng
+            XJdbc.executeUpdate("UPDATE Phong SET trangThai = N'Đang thuê' WHERE maPhong = ?", maPhong);
+
+            con.commit();
+
+            accepted = true;
+            JOptionPane.showMessageDialog(this, "Đặt phòng thành công!");
+
+            // Gửi email cho admin
+            try {
+                String subject = "[NHÀ TRỌ] Đặt phòng mới: " + lblMaPhong.getText();
+                String body = "Người dùng: " + uname + " (ID " + uid + ")\n"
+                        + "Phòng: " + lblMaPhong.getText() + "\n"
+                        + "Giá phòng: " + lblGiaPhong.getText() + "\n"
+                        + "Giá điện: " + lblGiaDien.getText() + "\n"
+                        + "Giá nước: " + lblGiaNuoc.getText() + "\n"
+                        + "Thời hạn hợp đồng: " + start + " → " + end;
+
+                XMail.sendMail("phonghuynh031226@gmail.com", subject, body);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            dispose();
+
+        } catch (Exception ex) {
+            try { if (con != null) con.rollback(); } catch (Exception ignore) {}
+            JOptionPane.showMessageDialog(this, "Lỗi đặt phòng: " + ex.getMessage());
+        } finally {
+            try { if (con != null) con.setAutoCommit(true); } catch (Exception ignore) {}
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -172,7 +246,9 @@ private String effectiveUserName() {
         ckbDongY.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ckbDongY.setForeground(new java.awt.Color(255, 255, 255));
         ckbDongY.setText("Tôi đồng ý");
-        jPanel1.add(ckbDongY, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
+        ckbDongY.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        ckbDongY.setOpaque(true);
+        jPanel1.add(ckbDongY, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 120, -1));
 
         btnDatPhong.setBackground(new java.awt.Color(255, 205, 31));
         btnDatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -194,7 +270,7 @@ private String effectiveUserName() {
         lblMaPhong.setText("X");
         jPanel1.add(lblMaPhong, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 104, -1, -1));
 
-        jPanel2.setBackground(new java.awt.Color(46, 56, 86));
+        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 205, 31)));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/vit.gif"))); // NOI18N
@@ -215,9 +291,9 @@ private String effectiveUserName() {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
                 .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
@@ -225,24 +301,22 @@ private String effectiveUserName() {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel16))
-                    .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnThoat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, 530, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, 540, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/App/Icon/nen03.jpg"))); // NOI18N
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 400));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,92 +328,12 @@ private String effectiveUserName() {
 
     private void btnDatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatPhongActionPerformed
         // TODO add your handling code here:
-    if (!ckbDongY.isSelected()) {
-        JOptionPane.showMessageDialog(this, "Vui lòng tích vào 'Tôi đồng ý' trước khi đặt.");
-        return;
-    }
-
-    int uid = effectiveUserId();           // <--- DÙNG uid
-    String uname = effectiveUserName();    // <--- DÙNG uname
-    if (uid <= 0) {
-        JOptionPane.showMessageDialog(this, "Tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
-        return;
-    }
-
-    Connection con = null;
-    try {
-        // kiểm tra user hoạt động
-        Integer okUser = XJdbc.getValue(
-                "SELECT COUNT(*) FROM TaiKhoan WHERE MaNguoiDung = ? AND TrangThai = 1",
-                uid); // <--- DÙNG uid
-        if (okUser == null || okUser == 0) {
-            JOptionPane.showMessageDialog(this, "Tài khoản không hợp lệ. Vui lòng đăng nhập lại.");
-            return;
-        }
-
-        // kiểm tra phòng còn trống
-        Integer okPhong = XJdbc.getValue(
-                "SELECT COUNT(*) FROM Phong WHERE maPhong = ? AND trangThai = N'Trống'",
-                maPhong);
-        if (okPhong == null || okPhong == 0) {
-            JOptionPane.showMessageDialog(this, "Phòng không còn trống.");
-            return;
-        }
-
-        con = XJdbc.openConnection();
-        con.setAutoCommit(false);
-
-        String maHD = "HD" + java.time.LocalDateTime.now()
-                .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        java.time.LocalDate start = java.time.LocalDate.now();
-        java.time.LocalDate end   = start.plusMonths(6);
-
-        // INSERT hợp đồng
-        String sqlIns = """
-            INSERT INTO HopDong(maHopDong, maNguoiDung, maPhong, ngayBatDau, ngayKetThuc)
-            VALUES (?, ?, ?, ?, ?)
-        """;
-        XJdbc.executeUpdate(sqlIns, maHD, uid, maPhong, // <--- DÙNG uid
-                java.sql.Date.valueOf(start), java.sql.Date.valueOf(end));
-
-        // UPDATE phòng
-        XJdbc.executeUpdate("UPDATE Phong SET trangThai = N'Đang thuê' WHERE maPhong = ?", maPhong);
-
-        con.commit();
-
-        accepted = true;
-        JOptionPane.showMessageDialog(this, "Đặt phòng thành công!");
-
-        // Gửi email (không làm fail giao dịch)
-        try {
-            final String ADMIN_EMAIL = "phonghuynh031226@gmail.com";
-            String subject = "[NHÀ TRỌ] Đặt phòng mới: " + lblMaPhong.getText();
-            String body =
-                "Người dùng: " + uname + " (ID " + uid + ")\n" +
-                "Phòng: " + lblMaPhong.getText() + "\n" +
-                "Giá phòng: " + lblGiaPhong.getText() + "\n" +
-                "Giá điện: " + lblGiaDien.getText() + "\n" +
-                "Giá nước: " + lblGiaNuoc.getText() + "\n" +
-                "Thời hạn hợp đồng: " + start + " → " + end;
-
-            XMail.sendMail(ADMIN_EMAIL, subject, body); // dùng overload mới ở bước 1
-        } catch (Exception mailEx) {
-            mailEx.printStackTrace();
-        }
-
-        dispose();
-
-    } catch (Exception ex) {
-        try { if (con != null) con.rollback(); } catch (Exception ignore) {}
-        JOptionPane.showMessageDialog(this, "Lỗi đặt phòng: " + ex.getMessage());
-    } finally {
-        try { if (con != null) con.setAutoCommit(true); } catch (Exception ignore) {}
-    }
+        xuLyDatPhong(); // Gọi hàm xử lý riêng
     }//GEN-LAST:event_btnDatPhongActionPerformed
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.dispose(); 
     }//GEN-LAST:event_btnThoatActionPerformed
 
     /**
